@@ -37,7 +37,7 @@ const ForbiddenRoute = ForbiddenImport.update({
   path: '/forbidden',
   getParentRoute: () => rootRoute,
 } as any)
-
+  
 const AuthRoute = AuthImport.update({
   id: '/auth',
   path: '/auth',

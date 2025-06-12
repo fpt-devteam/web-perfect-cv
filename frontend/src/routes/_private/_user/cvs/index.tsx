@@ -1,10 +1,8 @@
 import { getAllCvByUserId } from '@/modules/cv/services/cv.services';
 import type { CV } from '@/modules/cv/types/cv.types';
-import { CvPreview } from '@/shared/components/cv/thumbnail';
-import { SpinnerPage } from '@/shared/components/spinnerPage/SpinnerPage';
+import { CreateCard, CvPreview } from '@/shared/components/cv/thumbnail';
 import { useGetMe } from '@/shared/hooks/useGetMe';
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { Plus } from 'lucide-react';
+import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/_private/_user/cvs/')({
@@ -39,7 +37,7 @@ export function CVDashboard() {
   }, [user]);
 
   if (isPending || !user) {
-    return <SpinnerPage />;
+    return <h1>Loading...</h1>
   }
 
   return (
@@ -58,25 +56,3 @@ export function CVDashboard() {
   );
 }
 
-export function CreateCard() {
-  return (
-    <Link
-      to='/cvs/create'
-      className="
-        flex flex-col items-center justify-center
-        border border-gray-300
-        rounded-lg
-        overflow-hidden
-        bg-white
-        shadow
-        hover:shadow-lg
-        transition duration-200 ease-in-out transform hover:scale-[1.02]
-        w-[200px]
-        h-[300px]
-      "
-    >
-      <Plus className="text-gray-400 w-10 h-10" />
-      <span className="text-gray-500 mt-2">Create new resume</span>
-    </Link>
-  );
-}

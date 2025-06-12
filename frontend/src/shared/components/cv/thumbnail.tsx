@@ -3,6 +3,7 @@ import { Document, Page } from "react-pdf";
 import { pdfjs } from 'react-pdf';
 import workerSrc from 'react-pdf/node_modules/pdfjs-dist/build/pdf.worker.min?url';
 import { Link } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
@@ -13,7 +14,7 @@ interface PdfThumbnailProps {
   cvId: string;
 }
 
-export const CvPreview: React.FC<PdfThumbnailProps> = ({ file, width = 200, height = 300, cvId }) => {
+export const CvPreview: React.FC<PdfThumbnailProps> = ({ file, width = 250, height = 350, cvId }) => {
   const [error, setError] = useState<string | null>(null);
 
   const fileUrl = file;
@@ -25,12 +26,9 @@ export const CvPreview: React.FC<PdfThumbnailProps> = ({ file, width = 200, heig
     >
       <div
         className="
-        w-[200px]
-        h-[300px]
         border border-gray-300
         rounded-lg
         overflow-hidden
-        bg-white
         shadow
         hover:shadow-lg
         transition
@@ -44,13 +42,14 @@ export const CvPreview: React.FC<PdfThumbnailProps> = ({ file, width = 200, heig
         <Document
           file={fileUrl}
           onLoadError={(err) => setError(err.message)}
-          loading={<div className="flex justify-center items-center h-full text-gray-400 text-sm">Loading PDF...</div>}
+          loading={<div className="flex justify-center items-center h-full">
+            <div className="w-full h-full bg-gray-200 animate-pulse rounded" />
+          </div>}
           error={<div className="flex justify-center items-center h-full text-red-500 text-sm">Failed to load PDF</div>}
         >
           <Page
             pageNumber={1}
             width={width}
-            height={height}
             renderAnnotationLayer={false}
             renderTextLayer={false}
           />
@@ -65,3 +64,25 @@ export const CvPreview: React.FC<PdfThumbnailProps> = ({ file, width = 200, heig
     </Link >
   );
 };
+
+export function CreateCard() {
+  return (
+    <Link
+      to='/cvs/create'
+      className="
+        flex flex-col items-center justify-center
+        border border-gray-300
+        rounded-lg
+        overflow-hidden
+        shadow
+        hover:shadow-lg
+        transition duration-200 ease-in-out transform hover:scale-[1.02]
+        w-[250px]
+        h-[350px]
+      "
+    >
+      <Plus className="text-gray-400 w-10 h-10" />
+      <span className="text-gray-500 mt-2">Create new resume</span>
+    </Link>
+  );
+} 
