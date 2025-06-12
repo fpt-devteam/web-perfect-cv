@@ -1,7 +1,7 @@
 import type { LoginRequest, AuthenResponse, AccessTokenData, LogoutResponse, LogoutRequest } from "@/modules/auth/types/auth.type";
 import { privateApi } from "@/shared/lib/api-client";
 import { STORAGE_KEY } from "@/shared/constants/base.constants";
-import { mockLoginApiCall } from "@/mock/user";
+import { mockLoginApiCall } from "@/mock/data";
 
 const logout = async (req: LogoutRequest): Promise<LogoutResponse | null> => {
     // const res = await privateApi.post<LogoutResponse>('/auth/logout', req, {

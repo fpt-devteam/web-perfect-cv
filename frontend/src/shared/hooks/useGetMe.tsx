@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { mockGetMeApiCall } from "@/mock/user";
+import { mockGetMeApiCall } from "@/mock/data";
 import type { User } from "../types/base.type";
 
 
@@ -14,7 +14,7 @@ export const useGetMe = () => {
                 // const response: User = await privateApi.get('/profile');
                 const response = await mockGetMeApiCall();
 
-                if (!response) {
+                if (!response.data) {
                     return null;
                 }
 

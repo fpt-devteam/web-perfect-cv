@@ -14,6 +14,7 @@ type CV = {
   cvId: string;
   title: string;
   createdAt: string;
+  url: string;
 }
 
 export type { CvRequest, CvResponse, CV }

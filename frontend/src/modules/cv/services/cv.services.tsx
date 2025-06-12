@@ -1,6 +1,6 @@
 // cv.services.tsx
 
-import { mockCvApiCall, mockCvByIdApiCall } from "@/mock/user";
+import { mockCvApiCall, mockCvByIdApiCall } from "@/mock/data";
 import type { CV } from "../types/cv.types";
 
 export const getAllCvByUserId = async (userId: string): Promise<CV[]> => {

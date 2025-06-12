@@ -2,10 +2,10 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "@/routeTree.gen";
 import { AuthProvider } from "@/modules/auth/stores/auth.stores";
 import { useAuth } from "@/modules/auth/hooks/useAuth";
-import { PendingSpinner } from "@/shared/components/feedback/PendingSpinner";
 import { NotFound } from "@/shared/components/feedback/NotFound";
 import { InternalServerError } from "@/shared/components/feedback/InternalServerError";
 import { Toaster } from "react-hot-toast";
+import { SpinnerPage } from "@/shared/components/spinnerPage/SpinnerPage";
 
 const router = createRouter({
   routeTree,
@@ -13,7 +13,7 @@ const router = createRouter({
     auth: undefined!,
   },
   defaultErrorComponent: () => <InternalServerError />,
-  defaultPendingComponent: () => <PendingSpinner />,
+  defaultPendingComponent: () => <SpinnerPage />,
   defaultNotFoundComponent: () => <NotFound />,
 });
 

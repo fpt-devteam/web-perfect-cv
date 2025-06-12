@@ -1,71 +1,82 @@
 import { getAllCvByUserId } from '@/modules/cv/services/cv.services';
 import type { CV } from '@/modules/cv/types/cv.types';
+import { CvPreview } from '@/shared/components/cv/thumbnail';
+import { SpinnerPage } from '@/shared/components/spinnerPage/SpinnerPage';
+import { useGetMe } from '@/shared/hooks/useGetMe';
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { MoreVertical, Plus } from 'lucide-react';
-// import { formatDistanceToNow } from 'date-fns';
+import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute('/_private/_user/cvs/')({
   component: CVDashboard,
 })
 
-function CVDashboard() {
+export function CVDashboard() {
   const [cvList, setCvList] = useState<CV[]>([]);
+
+  const { mutate, isPending, user } = useGetMe();
+
+  useEffect(() => {
+    if (!user) {
+      mutate();
+    }
+  }, [user, mutate]);
 
   useEffect(() => {
     document.title = 'CV Dashboard';
+  }, []);
+
+  useEffect(() => {
+
     async function fetchData() {
-      const res = await getAllCvByUserId("1");
+      if (!user) return;
+      const res = await getAllCvByUserId(user.id!);
+      console.log(res);
       setCvList(res);
     }
+
     fetchData();
-  }, []);
+  }, [user]);
+
+  if (isPending || !user) {
+    return <SpinnerPage />;
+  }
 
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <div className="flex flex-wrap gap-4">
         <CreateCard />
         {cvList.map((cv) => (
-          <CvCard key={cv.cvId} cv={cv} />
+          <CvPreview file={cv.url} key={cv.cvId} cvId={cv.cvId} />
         ))}
       </div>
 
       {cvList.length === 0 && (
-        <p className='text-sm text-gray-500 mt-4'>No resumes found.</p>
+        <p className="text-sm text-gray-500 mt-4">No resumes found.</p>
       )}
     </>
   );
 }
 
-function CreateCard() {
+export function CreateCard() {
   return (
     <Link
       to='/cvs/create'
-      className='flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg min-h-[250px] hover:border-blue-600 transition-colors'
+      className="
+        flex flex-col items-center justify-center
+        border border-gray-300
+        rounded-lg
+        overflow-hidden
+        bg-white
+        shadow
+        hover:shadow-lg
+        transition duration-200 ease-in-out transform hover:scale-[1.02]
+        w-[200px]
+        h-[300px]
+      "
     >
-      <Plus className='text-gray-400 w-10 h-10' />
-      <span className='text-gray-500 mt-2'>Create new resume</span>
-    </Link>
-  );
-}
-
-function CvCard({ cv }: { cv: CV }) {
-  return (
-    <Link
-      to="/cvs/$cvId"
-      params={{ cvId: cv.cvId }}
-      className='relative border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow'
-    >
-      <div className='h-[210px] bg-gray-50 flex items-center justify-center text-xs text-gray-400'>
-        Resume preview
-      </div>
-      <div className='p-3'>
-        <h3 className='font-medium text-sm truncate'>{cv.title}</h3>
-        {/* <p className='text-xs text-gray-500'>
-          Edited {formatDistanceToNow(new Date(cv.createdAt), { addSuffix: true })}
-        </p> */}
-      </div>
-      <MoreVertical className='absolute top-2 right-2 text-gray-400 w-4 h-4' />
+      <Plus className="text-gray-400 w-10 h-10" />
+      <span className="text-gray-500 mt-2">Create new resume</span>
     </Link>
   );
 }

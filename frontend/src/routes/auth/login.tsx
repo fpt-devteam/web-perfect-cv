@@ -50,28 +50,30 @@ export function LoginComponent() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-            <div className="w-full max-w-md space-y-6 bg-white shadow-md rounded-lg p-6">
-                <div className="text-center">
-                    <h3 className="text-2xl font-semibold text-gray-800">Login Page</h3>
-                    <p className="text-sm text-gray-500 mt-2">
-                        Login to see all the cool content in here.
-                    </p>
-                </div>
+        <>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+                <div className="w-full max-w-md space-y-6 bg-white shadow-md rounded-lg p-6">
+                    <div className="text-center">
+                        <h3 className="text-2xl font-semibold text-gray-800">Login Page</h3>
+                        <p className="text-sm text-gray-500 mt-2">
+                            Login to see all the cool content in here.
+                        </p>
+                    </div>
 
-                <form onSubmit={onFormSubmit}>
-                    <fieldset disabled={isPending} className="space-y-4">
-                        <Input label="Username" type="text" />
-                        <Input label="Password" type="password" />
-                        <button
-                            type="submit"
-                            className="w-full py-2 px-4 text-white font-semibold bg-blue-600 rounded-md hover:bg-blue-700 transition-colors duration-200 disabled:bg-gray-300 disabled:text-gray-600"
-                        >
-                            {isPending ? 'Loading...' : 'Login'}
-                        </button>
-                    </fieldset>
-                </form>
+                    <form onSubmit={onFormSubmit}>
+                        <fieldset disabled={isPending} className="space-y-4">
+                            <Input label="Username" type="text" />
+                            <Input label="Password" type="password" />
+                            <button
+                                type="submit"
+                                className="w-full py-2 px-4 text-white font-semibold bg-blue-600 rounded-md hover:bg-blue-700 transition-colors duration-200 disabled:bg-gray-300 disabled:text-gray-600"
+                            >
+                                {isPending ? 'Loading...' : 'Login'}
+                            </button>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
