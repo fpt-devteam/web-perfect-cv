@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+build
+dist
+*.md
+*.json
+*.yaml
+*.yml
+*.html
+package-lock.json
+package.json
+
+# IDE specific files
+.vscode/*
+.idea/*
+*.sublime-*
