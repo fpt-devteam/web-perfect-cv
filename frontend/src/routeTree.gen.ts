@@ -10,25 +10,25 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as ForbiddenImport } from './routes/forbidden'
-import { Route as AuthImport } from './routes/auth'
-import { Route as IndexImport } from './routes/index'
-import { Route as AuthRegisterImport } from './routes/auth/register'
-import { Route as AuthLoginImport } from './routes/auth/login'
-import { Route as AuthForgotPasswordImport } from './routes/auth/forgot-password'
-import { Route as PublicPublicPageImport } from './routes/_public/public-page'
-import { Route as PrivateMeImport } from './routes/_private/me'
-import { Route as PrivateUserImport } from './routes/_private/_user'
-import { Route as PrivatePrivateImport } from './routes/_private/_private'
-import { Route as PrivateAdminImport } from './routes/_private/_admin'
-import { Route as PrivateAdminUserManagementImport } from './routes/_private/_admin/user-management'
-import { Route as PrivateAdminDashboardImport } from './routes/_private/_admin/dashboard'
-import { Route as PrivateUserResignationLetterIndexImport } from './routes/_private/_user/resignation-letter/index'
-import { Route as PrivateUserCvsIndexImport } from './routes/_private/_user/cvs/index'
-import { Route as PrivateUserCoverLetterIndexImport } from './routes/_private/_user/cover-letter/index'
-import { Route as PrivateUserCvsCreateImport } from './routes/_private/_user/cvs/create'
-import { Route as PrivateUserCvsCvIdImport } from './routes/_private/_user/cvs/$cvId'
+import { Route as rootRoute } from './routes/__root';
+import { Route as ForbiddenImport } from './routes/forbidden';
+import { Route as AuthImport } from './routes/auth';
+import { Route as IndexImport } from './routes/index';
+import { Route as AuthRegisterImport } from './routes/auth/register';
+import { Route as AuthLoginImport } from './routes/auth/login';
+import { Route as AuthForgotPasswordImport } from './routes/auth/forgot-password';
+import { Route as PublicPublicPageImport } from './routes/_public/public-page';
+import { Route as PrivateMeImport } from './routes/_private/me';
+import { Route as PrivateUserImport } from './routes/_private/_user';
+import { Route as PrivatePrivateImport } from './routes/_private/_private';
+import { Route as PrivateAdminImport } from './routes/_private/_admin';
+import { Route as PrivateAdminUserManagementImport } from './routes/_private/_admin/user-management';
+import { Route as PrivateAdminDashboardImport } from './routes/_private/_admin/dashboard';
+import { Route as PrivateUserResignationLetterIndexImport } from './routes/_private/_user/resignation-letter/index';
+import { Route as PrivateUserCvsIndexImport } from './routes/_private/_user/cvs/index';
+import { Route as PrivateUserCoverLetterIndexImport } from './routes/_private/_user/cover-letter/index';
+import { Route as PrivateUserCvsCreateImport } from './routes/_private/_user/cvs/create';
+import { Route as PrivateUserCvsCvIdImport } from './routes/_private/_user/cvs/$cvId';
 
 // Create/Update Routes
 
@@ -36,280 +36,274 @@ const ForbiddenRoute = ForbiddenImport.update({
   id: '/forbidden',
   path: '/forbidden',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const AuthRoute = AuthImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const AuthRegisterRoute = AuthRegisterImport.update({
   id: '/register',
   path: '/register',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 
 const AuthLoginRoute = AuthLoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 
 const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 
 const PublicPublicPageRoute = PublicPublicPageImport.update({
   id: '/_public/public-page',
   path: '/public-page',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const PrivateMeRoute = PrivateMeImport.update({
   id: '/_private/me',
   path: '/me',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const PrivateUserRoute = PrivateUserImport.update({
   id: '/_private/_user',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const PrivatePrivateRoute = PrivatePrivateImport.update({
   id: '/_private/_private',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const PrivateAdminRoute = PrivateAdminImport.update({
   id: '/_private/_admin',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
-const PrivateAdminUserManagementRoute = PrivateAdminUserManagementImport.update(
-  {
-    id: '/user-management',
-    path: '/user-management',
-    getParentRoute: () => PrivateAdminRoute,
-  } as any,
-)
+const PrivateAdminUserManagementRoute = PrivateAdminUserManagementImport.update({
+  id: '/user-management',
+  path: '/user-management',
+  getParentRoute: () => PrivateAdminRoute,
+} as any);
 
 const PrivateAdminDashboardRoute = PrivateAdminDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => PrivateAdminRoute,
-} as any)
+} as any);
 
-const PrivateUserResignationLetterIndexRoute =
-  PrivateUserResignationLetterIndexImport.update({
-    id: '/resignation-letter/',
-    path: '/resignation-letter/',
-    getParentRoute: () => PrivateUserRoute,
-  } as any)
+const PrivateUserResignationLetterIndexRoute = PrivateUserResignationLetterIndexImport.update({
+  id: '/resignation-letter/',
+  path: '/resignation-letter/',
+  getParentRoute: () => PrivateUserRoute,
+} as any);
 
 const PrivateUserCvsIndexRoute = PrivateUserCvsIndexImport.update({
   id: '/cvs/',
   path: '/cvs/',
   getParentRoute: () => PrivateUserRoute,
-} as any)
+} as any);
 
-const PrivateUserCoverLetterIndexRoute =
-  PrivateUserCoverLetterIndexImport.update({
-    id: '/cover-letter/',
-    path: '/cover-letter/',
-    getParentRoute: () => PrivateUserRoute,
-  } as any)
+const PrivateUserCoverLetterIndexRoute = PrivateUserCoverLetterIndexImport.update({
+  id: '/cover-letter/',
+  path: '/cover-letter/',
+  getParentRoute: () => PrivateUserRoute,
+} as any);
 
 const PrivateUserCvsCreateRoute = PrivateUserCvsCreateImport.update({
   id: '/cvs/create',
   path: '/cvs/create',
   getParentRoute: () => PrivateUserRoute,
-} as any)
+} as any);
 
 const PrivateUserCvsCvIdRoute = PrivateUserCvsCvIdImport.update({
   id: '/cvs/$cvId',
   path: '/cvs/$cvId',
   getParentRoute: () => PrivateUserRoute,
-} as any)
+} as any);
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
     '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/auth';
+      path: '/auth';
+      fullPath: '/auth';
+      preLoaderRoute: typeof AuthImport;
+      parentRoute: typeof rootRoute;
+    };
     '/forbidden': {
-      id: '/forbidden'
-      path: '/forbidden'
-      fullPath: '/forbidden'
-      preLoaderRoute: typeof ForbiddenImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/forbidden';
+      path: '/forbidden';
+      fullPath: '/forbidden';
+      preLoaderRoute: typeof ForbiddenImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_private/_admin': {
-      id: '/_private/_admin'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PrivateAdminImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_private/_admin';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof PrivateAdminImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_private/_private': {
-      id: '/_private/_private'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PrivatePrivateImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_private/_private';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof PrivatePrivateImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_private/_user': {
-      id: '/_private/_user'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PrivateUserImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_private/_user';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof PrivateUserImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_private/me': {
-      id: '/_private/me'
-      path: '/me'
-      fullPath: '/me'
-      preLoaderRoute: typeof PrivateMeImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_private/me';
+      path: '/me';
+      fullPath: '/me';
+      preLoaderRoute: typeof PrivateMeImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_public/public-page': {
-      id: '/_public/public-page'
-      path: '/public-page'
-      fullPath: '/public-page'
-      preLoaderRoute: typeof PublicPublicPageImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_public/public-page';
+      path: '/public-page';
+      fullPath: '/public-page';
+      preLoaderRoute: typeof PublicPublicPageImport;
+      parentRoute: typeof rootRoute;
+    };
     '/auth/forgot-password': {
-      id: '/auth/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/auth/forgot-password'
-      preLoaderRoute: typeof AuthForgotPasswordImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/auth/forgot-password';
+      path: '/forgot-password';
+      fullPath: '/auth/forgot-password';
+      preLoaderRoute: typeof AuthForgotPasswordImport;
+      parentRoute: typeof AuthImport;
+    };
     '/auth/login': {
-      id: '/auth/login'
-      path: '/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/auth/login';
+      path: '/login';
+      fullPath: '/auth/login';
+      preLoaderRoute: typeof AuthLoginImport;
+      parentRoute: typeof AuthImport;
+    };
     '/auth/register': {
-      id: '/auth/register'
-      path: '/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthRegisterImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/auth/register';
+      path: '/register';
+      fullPath: '/auth/register';
+      preLoaderRoute: typeof AuthRegisterImport;
+      parentRoute: typeof AuthImport;
+    };
     '/_private/_admin/dashboard': {
-      id: '/_private/_admin/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof PrivateAdminDashboardImport
-      parentRoute: typeof PrivateAdminImport
-    }
+      id: '/_private/_admin/dashboard';
+      path: '/dashboard';
+      fullPath: '/dashboard';
+      preLoaderRoute: typeof PrivateAdminDashboardImport;
+      parentRoute: typeof PrivateAdminImport;
+    };
     '/_private/_admin/user-management': {
-      id: '/_private/_admin/user-management'
-      path: '/user-management'
-      fullPath: '/user-management'
-      preLoaderRoute: typeof PrivateAdminUserManagementImport
-      parentRoute: typeof PrivateAdminImport
-    }
+      id: '/_private/_admin/user-management';
+      path: '/user-management';
+      fullPath: '/user-management';
+      preLoaderRoute: typeof PrivateAdminUserManagementImport;
+      parentRoute: typeof PrivateAdminImport;
+    };
     '/_private/_user/cvs/$cvId': {
-      id: '/_private/_user/cvs/$cvId'
-      path: '/cvs/$cvId'
-      fullPath: '/cvs/$cvId'
-      preLoaderRoute: typeof PrivateUserCvsCvIdImport
-      parentRoute: typeof PrivateUserImport
-    }
+      id: '/_private/_user/cvs/$cvId';
+      path: '/cvs/$cvId';
+      fullPath: '/cvs/$cvId';
+      preLoaderRoute: typeof PrivateUserCvsCvIdImport;
+      parentRoute: typeof PrivateUserImport;
+    };
     '/_private/_user/cvs/create': {
-      id: '/_private/_user/cvs/create'
-      path: '/cvs/create'
-      fullPath: '/cvs/create'
-      preLoaderRoute: typeof PrivateUserCvsCreateImport
-      parentRoute: typeof PrivateUserImport
-    }
+      id: '/_private/_user/cvs/create';
+      path: '/cvs/create';
+      fullPath: '/cvs/create';
+      preLoaderRoute: typeof PrivateUserCvsCreateImport;
+      parentRoute: typeof PrivateUserImport;
+    };
     '/_private/_user/cover-letter/': {
-      id: '/_private/_user/cover-letter/'
-      path: '/cover-letter'
-      fullPath: '/cover-letter'
-      preLoaderRoute: typeof PrivateUserCoverLetterIndexImport
-      parentRoute: typeof PrivateUserImport
-    }
+      id: '/_private/_user/cover-letter/';
+      path: '/cover-letter';
+      fullPath: '/cover-letter';
+      preLoaderRoute: typeof PrivateUserCoverLetterIndexImport;
+      parentRoute: typeof PrivateUserImport;
+    };
     '/_private/_user/cvs/': {
-      id: '/_private/_user/cvs/'
-      path: '/cvs'
-      fullPath: '/cvs'
-      preLoaderRoute: typeof PrivateUserCvsIndexImport
-      parentRoute: typeof PrivateUserImport
-    }
+      id: '/_private/_user/cvs/';
+      path: '/cvs';
+      fullPath: '/cvs';
+      preLoaderRoute: typeof PrivateUserCvsIndexImport;
+      parentRoute: typeof PrivateUserImport;
+    };
     '/_private/_user/resignation-letter/': {
-      id: '/_private/_user/resignation-letter/'
-      path: '/resignation-letter'
-      fullPath: '/resignation-letter'
-      preLoaderRoute: typeof PrivateUserResignationLetterIndexImport
-      parentRoute: typeof PrivateUserImport
-    }
+      id: '/_private/_user/resignation-letter/';
+      path: '/resignation-letter';
+      fullPath: '/resignation-letter';
+      preLoaderRoute: typeof PrivateUserResignationLetterIndexImport;
+      parentRoute: typeof PrivateUserImport;
+    };
   }
 }
 
 // Create and export the route tree
 
 interface AuthRouteChildren {
-  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
-  AuthLoginRoute: typeof AuthLoginRoute
-  AuthRegisterRoute: typeof AuthRegisterRoute
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute;
+  AuthLoginRoute: typeof AuthLoginRoute;
+  AuthRegisterRoute: typeof AuthRegisterRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
-}
+};
 
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 
 interface PrivateAdminRouteChildren {
-  PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRoute
-  PrivateAdminUserManagementRoute: typeof PrivateAdminUserManagementRoute
+  PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRoute;
+  PrivateAdminUserManagementRoute: typeof PrivateAdminUserManagementRoute;
 }
 
 const PrivateAdminRouteChildren: PrivateAdminRouteChildren = {
   PrivateAdminDashboardRoute: PrivateAdminDashboardRoute,
   PrivateAdminUserManagementRoute: PrivateAdminUserManagementRoute,
-}
+};
 
-const PrivateAdminRouteWithChildren = PrivateAdminRoute._addFileChildren(
-  PrivateAdminRouteChildren,
-)
+const PrivateAdminRouteWithChildren = PrivateAdminRoute._addFileChildren(PrivateAdminRouteChildren);
 
 interface PrivateUserRouteChildren {
-  PrivateUserCvsCvIdRoute: typeof PrivateUserCvsCvIdRoute
-  PrivateUserCvsCreateRoute: typeof PrivateUserCvsCreateRoute
-  PrivateUserCoverLetterIndexRoute: typeof PrivateUserCoverLetterIndexRoute
-  PrivateUserCvsIndexRoute: typeof PrivateUserCvsIndexRoute
-  PrivateUserResignationLetterIndexRoute: typeof PrivateUserResignationLetterIndexRoute
+  PrivateUserCvsCvIdRoute: typeof PrivateUserCvsCvIdRoute;
+  PrivateUserCvsCreateRoute: typeof PrivateUserCvsCreateRoute;
+  PrivateUserCoverLetterIndexRoute: typeof PrivateUserCoverLetterIndexRoute;
+  PrivateUserCvsIndexRoute: typeof PrivateUserCvsIndexRoute;
+  PrivateUserResignationLetterIndexRoute: typeof PrivateUserResignationLetterIndexRoute;
 }
 
 const PrivateUserRouteChildren: PrivateUserRouteChildren = {
@@ -317,143 +311,140 @@ const PrivateUserRouteChildren: PrivateUserRouteChildren = {
   PrivateUserCvsCreateRoute: PrivateUserCvsCreateRoute,
   PrivateUserCoverLetterIndexRoute: PrivateUserCoverLetterIndexRoute,
   PrivateUserCvsIndexRoute: PrivateUserCvsIndexRoute,
-  PrivateUserResignationLetterIndexRoute:
-    PrivateUserResignationLetterIndexRoute,
-}
+  PrivateUserResignationLetterIndexRoute: PrivateUserResignationLetterIndexRoute,
+};
 
-const PrivateUserRouteWithChildren = PrivateUserRoute._addFileChildren(
-  PrivateUserRouteChildren,
-)
+const PrivateUserRouteWithChildren = PrivateUserRoute._addFileChildren(PrivateUserRouteChildren);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/forbidden': typeof ForbiddenRoute
-  '': typeof PrivateUserRouteWithChildren
-  '/me': typeof PrivateMeRoute
-  '/public-page': typeof PublicPublicPageRoute
-  '/auth/forgot-password': typeof AuthForgotPasswordRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/dashboard': typeof PrivateAdminDashboardRoute
-  '/user-management': typeof PrivateAdminUserManagementRoute
-  '/cvs/$cvId': typeof PrivateUserCvsCvIdRoute
-  '/cvs/create': typeof PrivateUserCvsCreateRoute
-  '/cover-letter': typeof PrivateUserCoverLetterIndexRoute
-  '/cvs': typeof PrivateUserCvsIndexRoute
-  '/resignation-letter': typeof PrivateUserResignationLetterIndexRoute
+  '/': typeof IndexRoute;
+  '/auth': typeof AuthRouteWithChildren;
+  '/forbidden': typeof ForbiddenRoute;
+  '': typeof PrivateUserRouteWithChildren;
+  '/me': typeof PrivateMeRoute;
+  '/public-page': typeof PublicPublicPageRoute;
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute;
+  '/auth/login': typeof AuthLoginRoute;
+  '/auth/register': typeof AuthRegisterRoute;
+  '/dashboard': typeof PrivateAdminDashboardRoute;
+  '/user-management': typeof PrivateAdminUserManagementRoute;
+  '/cvs/$cvId': typeof PrivateUserCvsCvIdRoute;
+  '/cvs/create': typeof PrivateUserCvsCreateRoute;
+  '/cover-letter': typeof PrivateUserCoverLetterIndexRoute;
+  '/cvs': typeof PrivateUserCvsIndexRoute;
+  '/resignation-letter': typeof PrivateUserResignationLetterIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/forbidden': typeof ForbiddenRoute
-  '': typeof PrivateUserRouteWithChildren
-  '/me': typeof PrivateMeRoute
-  '/public-page': typeof PublicPublicPageRoute
-  '/auth/forgot-password': typeof AuthForgotPasswordRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/dashboard': typeof PrivateAdminDashboardRoute
-  '/user-management': typeof PrivateAdminUserManagementRoute
-  '/cvs/$cvId': typeof PrivateUserCvsCvIdRoute
-  '/cvs/create': typeof PrivateUserCvsCreateRoute
-  '/cover-letter': typeof PrivateUserCoverLetterIndexRoute
-  '/cvs': typeof PrivateUserCvsIndexRoute
-  '/resignation-letter': typeof PrivateUserResignationLetterIndexRoute
+  '/': typeof IndexRoute;
+  '/auth': typeof AuthRouteWithChildren;
+  '/forbidden': typeof ForbiddenRoute;
+  '': typeof PrivateUserRouteWithChildren;
+  '/me': typeof PrivateMeRoute;
+  '/public-page': typeof PublicPublicPageRoute;
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute;
+  '/auth/login': typeof AuthLoginRoute;
+  '/auth/register': typeof AuthRegisterRoute;
+  '/dashboard': typeof PrivateAdminDashboardRoute;
+  '/user-management': typeof PrivateAdminUserManagementRoute;
+  '/cvs/$cvId': typeof PrivateUserCvsCvIdRoute;
+  '/cvs/create': typeof PrivateUserCvsCreateRoute;
+  '/cover-letter': typeof PrivateUserCoverLetterIndexRoute;
+  '/cvs': typeof PrivateUserCvsIndexRoute;
+  '/resignation-letter': typeof PrivateUserResignationLetterIndexRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/auth': typeof AuthRouteWithChildren
-  '/forbidden': typeof ForbiddenRoute
-  '/_private/_admin': typeof PrivateAdminRouteWithChildren
-  '/_private/_private': typeof PrivatePrivateRoute
-  '/_private/_user': typeof PrivateUserRouteWithChildren
-  '/_private/me': typeof PrivateMeRoute
-  '/_public/public-page': typeof PublicPublicPageRoute
-  '/auth/forgot-password': typeof AuthForgotPasswordRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/_private/_admin/dashboard': typeof PrivateAdminDashboardRoute
-  '/_private/_admin/user-management': typeof PrivateAdminUserManagementRoute
-  '/_private/_user/cvs/$cvId': typeof PrivateUserCvsCvIdRoute
-  '/_private/_user/cvs/create': typeof PrivateUserCvsCreateRoute
-  '/_private/_user/cover-letter/': typeof PrivateUserCoverLetterIndexRoute
-  '/_private/_user/cvs/': typeof PrivateUserCvsIndexRoute
-  '/_private/_user/resignation-letter/': typeof PrivateUserResignationLetterIndexRoute
+  __root__: typeof rootRoute;
+  '/': typeof IndexRoute;
+  '/auth': typeof AuthRouteWithChildren;
+  '/forbidden': typeof ForbiddenRoute;
+  '/_private/_admin': typeof PrivateAdminRouteWithChildren;
+  '/_private/_private': typeof PrivatePrivateRoute;
+  '/_private/_user': typeof PrivateUserRouteWithChildren;
+  '/_private/me': typeof PrivateMeRoute;
+  '/_public/public-page': typeof PublicPublicPageRoute;
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute;
+  '/auth/login': typeof AuthLoginRoute;
+  '/auth/register': typeof AuthRegisterRoute;
+  '/_private/_admin/dashboard': typeof PrivateAdminDashboardRoute;
+  '/_private/_admin/user-management': typeof PrivateAdminUserManagementRoute;
+  '/_private/_user/cvs/$cvId': typeof PrivateUserCvsCvIdRoute;
+  '/_private/_user/cvs/create': typeof PrivateUserCvsCreateRoute;
+  '/_private/_user/cover-letter/': typeof PrivateUserCoverLetterIndexRoute;
+  '/_private/_user/cvs/': typeof PrivateUserCvsIndexRoute;
+  '/_private/_user/resignation-letter/': typeof PrivateUserResignationLetterIndexRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-  | '/'
-  | '/auth'
-  | '/forbidden'
-  | ''
-  | '/me'
-  | '/public-page'
-  | '/auth/forgot-password'
-  | '/auth/login'
-  | '/auth/register'
-  | '/dashboard'
-  | '/user-management'
-  | '/cvs/$cvId'
-  | '/cvs/create'
-  | '/cover-letter'
-  | '/cvs'
-  | '/resignation-letter'
-  fileRoutesByTo: FileRoutesByTo
+    | '/'
+    | '/auth'
+    | '/forbidden'
+    | ''
+    | '/me'
+    | '/public-page'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/dashboard'
+    | '/user-management'
+    | '/cvs/$cvId'
+    | '/cvs/create'
+    | '/cover-letter'
+    | '/cvs'
+    | '/resignation-letter';
+  fileRoutesByTo: FileRoutesByTo;
   to:
-  | '/'
-  | '/auth'
-  | '/forbidden'
-  | ''
-  | '/me'
-  | '/public-page'
-  | '/auth/forgot-password'
-  | '/auth/login'
-  | '/auth/register'
-  | '/dashboard'
-  | '/user-management'
-  | '/cvs/$cvId'
-  | '/cvs/create'
-  | '/cover-letter'
-  | '/cvs'
-  | '/resignation-letter'
+    | '/'
+    | '/auth'
+    | '/forbidden'
+    | ''
+    | '/me'
+    | '/public-page'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/dashboard'
+    | '/user-management'
+    | '/cvs/$cvId'
+    | '/cvs/create'
+    | '/cover-letter'
+    | '/cvs'
+    | '/resignation-letter';
   id:
-  | '__root__'
-  | '/'
-  | '/auth'
-  | '/forbidden'
-  | '/_private/_admin'
-  | '/_private/_private'
-  | '/_private/_user'
-  | '/_private/me'
-  | '/_public/public-page'
-  | '/auth/forgot-password'
-  | '/auth/login'
-  | '/auth/register'
-  | '/_private/_admin/dashboard'
-  | '/_private/_admin/user-management'
-  | '/_private/_user/cvs/$cvId'
-  | '/_private/_user/cvs/create'
-  | '/_private/_user/cover-letter/'
-  | '/_private/_user/cvs/'
-  | '/_private/_user/resignation-letter/'
-  fileRoutesById: FileRoutesById
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/forbidden'
+    | '/_private/_admin'
+    | '/_private/_private'
+    | '/_private/_user'
+    | '/_private/me'
+    | '/_public/public-page'
+    | '/auth/forgot-password'
+    | '/auth/login'
+    | '/auth/register'
+    | '/_private/_admin/dashboard'
+    | '/_private/_admin/user-management'
+    | '/_private/_user/cvs/$cvId'
+    | '/_private/_user/cvs/create'
+    | '/_private/_user/cover-letter/'
+    | '/_private/_user/cvs/'
+    | '/_private/_user/resignation-letter/';
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
-  ForbiddenRoute: typeof ForbiddenRoute
-  PrivateAdminRoute: typeof PrivateAdminRouteWithChildren
-  PrivatePrivateRoute: typeof PrivatePrivateRoute
-  PrivateUserRoute: typeof PrivateUserRouteWithChildren
-  PrivateMeRoute: typeof PrivateMeRoute
-  PublicPublicPageRoute: typeof PublicPublicPageRoute
+  IndexRoute: typeof IndexRoute;
+  AuthRoute: typeof AuthRouteWithChildren;
+  ForbiddenRoute: typeof ForbiddenRoute;
+  PrivateAdminRoute: typeof PrivateAdminRouteWithChildren;
+  PrivatePrivateRoute: typeof PrivatePrivateRoute;
+  PrivateUserRoute: typeof PrivateUserRouteWithChildren;
+  PrivateMeRoute: typeof PrivateMeRoute;
+  PublicPublicPageRoute: typeof PublicPublicPageRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -465,11 +456,11 @@ const rootRouteChildren: RootRouteChildren = {
   PrivateUserRoute: PrivateUserRouteWithChildren,
   PrivateMeRoute: PrivateMeRoute,
   PublicPublicPageRoute: PublicPublicPageRoute,
-}
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

@@ -7,11 +7,7 @@ interface AppIconProps {
   height?: number;
 }
 
-const AppIcon: React.FC<AppIconProps> = ({
-  alt = 'App Icon',
-  width = '100%',
-  height = '100%',
-}) => {
+const AppIcon: React.FC<AppIconProps> = ({ alt = 'App Icon', width = '100%', height = '100%' }) => {
   return <img src={iconImage} alt={alt} width={width} height={height} />;
 };
 

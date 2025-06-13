@@ -1,7 +1,7 @@
 enum ROLE {
-    ADMIN,
-    USER,
-    GUEST,
-};
+  ADMIN,
+  USER,
+  GUEST,
+}
 
 export { ROLE };

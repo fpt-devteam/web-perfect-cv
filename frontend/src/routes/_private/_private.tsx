@@ -7,10 +7,7 @@ export const Route = createFileRoute('/_private/_private')({
     redirect: z.string().optional().catch(''),
   }),
   component: () => (
-    <AuthGuard
-      allowedRoles={[]}
-      fallbackRoute="/auth/login"
-    >
+    <AuthGuard allowedRoles={[]} fallbackRoute="/auth/login">
       <Outlet />
     </AuthGuard>
   ),

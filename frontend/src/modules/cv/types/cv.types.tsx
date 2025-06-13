@@ -1,20 +1,20 @@
 type CvRequest = {
-  cvId: string
-  userId: string
-}
+  cvId: string;
+  userId: string;
+};
 
 type CvResponse = {
-  status: string,
-  message: string,
-  data: CV
-}
+  status: string;
+  message: string;
+  data: CV;
+};
 
 type CV = {
-  userId: string,
+  userId: string;
   cvId: string;
   title: string;
   createdAt: string;
   url: string;
-}
+};
 
-export type { CvRequest, CvResponse, CV }
+export type { CvRequest, CvResponse, CV };

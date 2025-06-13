@@ -6,7 +6,12 @@ import type { LoginRequest } from '../types/auth.type';
 export const useLogin = () => {
   const [error, setError] = useState<string | null>(null);
 
-  const { mutate, isPending, data, error: mutationError } = useMutation({
+  const {
+    mutate,
+    isPending,
+    data,
+    error: mutationError,
+  } = useMutation({
     mutationKey: ['login'],
     mutationFn: async (loginReq: LoginRequest) => {
       try {

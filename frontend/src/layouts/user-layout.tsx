@@ -4,7 +4,18 @@ type UserLayoutProps = {
   readonly children: ReactNode;
 };
 
-import { Inbox, Settings, User2, CreditCard, LogOut, Sparkle, Newspaper, Book, ChevronsUpDown, Bell } from "lucide-react"
+import {
+  Inbox,
+  Settings,
+  User2,
+  CreditCard,
+  LogOut,
+  Sparkle,
+  Newspaper,
+  Book,
+  ChevronsUpDown,
+  Bell,
+} from 'lucide-react';
 
 import {
   Sidebar,
@@ -18,8 +29,14 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/shared/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shared/components/ui/dropdown-menu';
+} from '@/shared/components/ui/sidebar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/shared/components/ui/dropdown-menu';
 import AppIcon from '@/shared/components/ui/app-icon';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import { Separator } from '@/shared/components/ui/separator';
@@ -34,21 +51,21 @@ import { SpinnerPage } from '@/shared/components/spinnerPage/SpinnerPage';
 
 const items = [
   {
-    title: "My Dashboard",
-    url: "/cvs",
+    title: 'My Dashboard',
+    url: '/cvs',
     icon: Newspaper,
   },
   {
-    title: "Review CV",
-    url: "/review-cv",
+    title: 'Review CV',
+    url: '/review-cv',
     icon: Inbox,
   },
   {
-    title: "Sample Library",
-    url: "/sample-library",
+    title: 'Sample Library',
+    url: '/sample-library',
     icon: Book,
   },
-]
+];
 
 function UserSidebar() {
   const { mutate, isPending, user } = useGetMe();
@@ -64,19 +81,19 @@ function UserSidebar() {
   }
 
   return (
-    <Sidebar collapsible="icon" side="left" >
+    <Sidebar collapsible="icon" side="left">
       <SidebarHeader>
         <AppIcon />
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup >
+        <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {items.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="group-data-[collapsible=icon]:p-2!" >
+                    <a href={item.url} className="group-data-[collapsible=icon]:p-2!">
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
@@ -98,14 +115,14 @@ function UserSidebar() {
                     <AvatarImage src={user?.avatarUrl} alt={user?.name} />
                     <AvatarFallback>PL</AvatarFallback>
                   </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight"><span className="truncate font-medium">{user?.name}</span><span className="truncate text-xs">{user?.email}</span></div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{user?.name}</span>
+                    <span className="truncate text-xs">{user?.email}</span>
+                  </div>
                   <ChevronsUpDown className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="right"
-                className="w-[--radix-popper-anchor-width]"
-              >
+              <DropdownMenuContent side="right" className="w-[--radix-popper-anchor-width]">
                 <DropdownMenuItem>
                   <User2 />
                   <span>Account</span>
@@ -137,8 +154,8 @@ function UserSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-    </Sidebar >
-  )
+    </Sidebar>
+  );
 }
 
 function LogoutButton() {
@@ -149,16 +166,16 @@ function LogoutButton() {
   useEffect(() => {
     if (isClick) {
       const logoutReq: LogoutRequest = {
-        accessToken: authService.getData()!.accessToken
+        accessToken: authService.getData()!.accessToken,
       };
 
       mutate(logoutReq, {
         onSuccess: () => {
-          toast.success("Logout successful");
+          toast.success('Logout successful');
           window.location.reload();
         },
-        onError: (error: any) => {
-          toast.error(error.message || "Logout failed");
+        onError: (error: Error) => {
+          toast.error(error.message || 'Logout failed');
         },
       });
     }
@@ -169,25 +186,22 @@ function LogoutButton() {
       <LogOut />
       <span>Sign out</span>
     </Button>
-  )
+  );
 }
 
 function DashboardTabs() {
   return (
-    <Tabs defaultValue='/cvs'>
+    <Tabs defaultValue="/cvs">
       <TabsList>
         <TabsTrigger value="/cvs">CVs</TabsTrigger>
         <TabsTrigger value="/cover-letter">Cover Letters</TabsTrigger>
         <TabsTrigger value="/resignation-letter">Resignation Letters</TabsTrigger>
       </TabsList>
-
     </Tabs>
   );
 }
 
 function UserLayout({ children }: UserLayoutProps) {
-
-
   return (
     <SidebarProvider>
       <UserSidebar />
@@ -197,12 +211,10 @@ function UserLayout({ children }: UserLayoutProps) {
           <Separator orientation="vertical" />
           <DashboardTabs />
         </div>
-        <div className="p-4 flex-grow overflow-y-auto">
-          {children}
-        </div>
+        <div className="p-4 flex-grow overflow-y-auto">{children}</div>
       </main>
     </SidebarProvider>
   );
 }
 
-export default UserLayout; 
+export default UserLayout;

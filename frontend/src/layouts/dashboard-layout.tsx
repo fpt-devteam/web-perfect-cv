@@ -4,7 +4,18 @@ type AdminLayoutProps = {
   readonly children: ReactNode;
 };
 
-import { Inbox, Settings, User2, CreditCard, LogOut, Sparkle, Newspaper, Book, ChevronsUpDown, Bell } from "lucide-react"
+import {
+  Inbox,
+  Settings,
+  User2,
+  CreditCard,
+  LogOut,
+  Sparkle,
+  Newspaper,
+  Book,
+  ChevronsUpDown,
+  Bell,
+} from 'lucide-react';
 
 import {
   Sidebar,
@@ -18,8 +29,14 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/shared/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shared/components/ui/dropdown-menu';
+} from '@/shared/components/ui/sidebar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/shared/components/ui/dropdown-menu';
 import AppIcon from '@/shared/components/ui/app-icon';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import { Separator } from '@/shared/components/ui/separator';
@@ -28,24 +45,23 @@ import { useGetMe } from '@/shared/hooks/useGetMe';
 
 const items = [
   {
-    title: "My Dashboard",
-    url: "/cvs",
+    title: 'My Dashboard',
+    url: '/cvs',
     icon: Newspaper,
   },
   {
-    title: "Review CV",
-    url: "/review-cv",
+    title: 'Review CV',
+    url: '/review-cv',
     icon: Inbox,
   },
   {
-    title: "Sample Library",
-    url: "/sample-library",
+    title: 'Sample Library',
+    url: '/sample-library',
     icon: Book,
   },
-]
+];
 
 function AdminSidebar() {
-
   const { user, isPending } = useGetMe();
 
   if (isPending) {
@@ -57,23 +73,23 @@ function AdminSidebar() {
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
-    )
+    );
   }
 
   return (
-    <Sidebar collapsible="icon" side="left" >
+    <Sidebar collapsible="icon" side="left">
       <SidebarHeader>
         <AppIcon />
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup >
+        <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {items.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="group-data-[collapsible=icon]:p-2!" >
+                    <a href={item.url} className="group-data-[collapsible=icon]:p-2!">
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
@@ -95,14 +111,14 @@ function AdminSidebar() {
                     <AvatarImage src={user?.avatarUrl} alt={user?.name} />
                     <AvatarFallback>PL</AvatarFallback>
                   </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight"><span className="truncate font-medium">{user?.name}</span><span className="truncate text-xs">{user?.email}</span></div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{user?.name}</span>
+                    <span className="truncate text-xs">{user?.email}</span>
+                  </div>
                   <ChevronsUpDown className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="right"
-                className="w-[--radix-popper-anchor-width]"
-              >
+              <DropdownMenuContent side="right" className="w-[--radix-popper-anchor-width]">
                 <DropdownMenuItem>
                   <User2 />
                   <span>Account</span>
@@ -135,19 +151,18 @@ function AdminSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-    </Sidebar >
-  )
+    </Sidebar>
+  );
 }
 
 function DashboardTabs() {
   return (
-    <Tabs defaultValue='/cvs'>
+    <Tabs defaultValue="/cvs">
       <TabsList>
         <TabsTrigger value="/cvs">CVs</TabsTrigger>
         <TabsTrigger value="/cover-letter">Cover Letters</TabsTrigger>
         <TabsTrigger value="/resignation-letter">Resignation Letters</TabsTrigger>
       </TabsList>
-
     </Tabs>
   );
 }
@@ -163,12 +178,10 @@ function AdminLayout({ children }: AdminLayoutProps) {
           <DashboardTabs />
         </div>
 
-        <div className="p-4 flex-grow overflow-y-auto">
-          {children}
-        </div>
+        <div className="p-4 flex-grow overflow-y-auto">{children}</div>
       </main>
     </SidebarProvider>
-  )
+  );
 }
 
-export default AdminLayout; 
+export default AdminLayout;

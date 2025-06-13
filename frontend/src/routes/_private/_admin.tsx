@@ -1,10 +1,10 @@
 import { AuthGuard } from '@/shared/components/guard/AuthGuard';
 import { ROLE } from '@/shared/types/base.enum';
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { Toaster } from 'react-hot-toast';
 import { z } from 'zod';
 
-const fallback = '/forbidden'
+const fallback = '/forbidden';
 export const Route = createFileRoute('/_private/_admin')({
   validateSearch: z.object({
     redirect: z.string().optional().catch(''),
@@ -13,8 +13,7 @@ export const Route = createFileRoute('/_private/_admin')({
   component: () => (
     <AuthGuard allowedRoles={[ROLE.ADMIN]} fallbackRoute={fallback}>
       <Outlet />
-      <Toaster position='top-right' />
+      <Toaster position="top-right" />
     </AuthGuard>
   ),
-})
-
+});

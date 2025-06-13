@@ -15,14 +15,14 @@ function UserManagement() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const toastId = toaster.loading("Loading users...");
+      const toastId = toaster.loading('Loading users...');
       try {
-        const ans: User[] = await privateApi.get("/users");
+        const ans: User[] = await privateApi.get('/users');
         setUsers(ans);
-        toaster.success("Users loaded!", { id: toastId });
+        toaster.success('Users loaded!', { id: toastId });
       } catch (error) {
-        console.error("Failed to fetch users:", error);
-        toaster.error("Failed to fetch users", { id: toastId });
+        console.error('Failed to fetch users:', error);
+        toaster.error('Failed to fetch users', { id: toastId });
       } finally {
         setIsLoading(false);
       }
@@ -32,7 +32,7 @@ function UserManagement() {
   }, []);
 
   const notify = () => {
-    toaster.success('Here is your toast.')
+    toaster.success('Here is your toast.');
   };
 
   return (
@@ -42,7 +42,7 @@ function UserManagement() {
         <p>Loading UI...</p>
       ) : (
         <>
-          {users.map((u) => (
+          {users.map(u => (
             <h1 key={u.id}>{u.name}</h1>
           ))}
           <button onClick={notify} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
