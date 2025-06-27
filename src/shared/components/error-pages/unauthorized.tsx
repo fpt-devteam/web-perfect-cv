@@ -36,7 +36,7 @@ export function Unauthorized() {
             </Link>
           </Button>
           <Button asChild>
-            <Link to="/auth/login">
+            <Link to="/login">
               <LogIn className="mr-2 h-4 w-4" />
               Login
             </Link>

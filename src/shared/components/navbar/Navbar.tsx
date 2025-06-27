@@ -1,0 +1,69 @@
+import { Link, useMatches } from '@tanstack/react-router';
+import { useGetMe } from '@/shared/hooks/useGetMe';
+
+export function Navbar() {
+  const { data: user } = useGetMe();
+  const isAuthenticated = !!user;
+  const matches = useMatches();
+
+  const isAuthPage = matches.some(
+    match =>
+      match.routeId === '/_auth/login' ||
+      match.routeId === '/_auth/register' ||
+      match.routeId === '/_auth/forgot-password'
+  );
+
+  return (
+    <header className="fixed top-0 z-50 w-full bg-white shadow-md py-6 px-8">
+      <div className="grid grid-cols-3 items-center">
+        <div className="flex justify-start">
+          <Link to="/" className="font-bold text-xl text-gray-900">
+            PerfectCV
+          </Link>
+        </div>
+
+        <nav className="flex justify-center">
+          <div className="flex space-x-6">
+            <Link to="/" className="text-gray-800 hover:text-gray-900 font-medium">
+              Features
+            </Link>
+            <Link to="/" className="text-gray-800 hover:text-gray-900 font-medium">
+              Pricing
+            </Link>
+            <Link to="/" className="text-gray-800 hover:text-gray-900 font-medium">
+              Contact
+            </Link>
+          </div>
+        </nav>
+
+        <div className="flex justify-end">
+          {isAuthenticated ? (
+            <Link
+              to="/user-dashboard"
+              className="bg-primary text-white py-2 px-5 rounded-md transition-colors font-medium inline-block"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            !isAuthPage && (
+              <div className="flex space-x-4">
+                <Link
+                  to="/register"
+                  className="border border-primary text-primary py-2 px-5 rounded-md transition-colors font-medium inline-block hover:bg-gray-50"
+                >
+                  Register
+                </Link>
+                <Link
+                  to="/login"
+                  className="bg-primary text-white py-2 px-5 rounded-md transition-colors font-medium inline-block"
+                >
+                  Login
+                </Link>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    </header>
+  );
+}

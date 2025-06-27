@@ -28,5 +28,5 @@
     }
   },
   "extends": "./tsconfig.json",
-  "include": ["src"]
+  "include": ["src", "src/routes/_auth/activation-account/index.tsx"]
 }

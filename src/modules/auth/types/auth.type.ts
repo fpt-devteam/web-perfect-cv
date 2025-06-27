@@ -1,40 +1,51 @@
-type AuthContextType = {
-  isAuthenticated: boolean;
-  data: AccessTokenData | null;
-  login(res: AuthenResponse): Promise<void>;
-  logout(): Promise<void>;
-};
+import { AUTH_PROVIDER } from '@/modules/auth/constants/auth.constant';
+import type { UserRole } from '@/shared/constants/role.enum';
 
-type AccessTokenData = {
-  accessToken: string;
-  expiresIn: number;
-};
-
-type AuthenResponse = {
-  status: string;
-  message: string;
-  data: AccessTokenData | null;
-};
-
-type LoginRequest = {
-  username: string;
+export type LoginRequest = {
+  email: string;
   password: string;
 };
 
-type LogoutRequest = {
+export type RegisterRequest = {
+  email: string;
+  password: string;
+};
+
+export type RegisterResponse = {
+  email: string;
+};
+
+export type LoginResponse = {
   accessToken: string;
+  refreshToken: string;
 };
 
-type LogoutResponse = {
-  status: string;
-  message: string;
+export type RefreshTokenRequest = {
+  refreshTokenHash: string;
 };
 
-export type {
-  AuthContextType,
-  AuthenResponse,
-  LoginRequest,
-  AccessTokenData,
-  LogoutRequest,
-  LogoutResponse,
+export type RefreshTokenResponse = {
+  accessToken: string;
+  refreshToken: string;
 };
+
+export type AuthClientState = {
+  refreshToken: Promise<RefreshTokenResponse | null> | null;
+};
+
+export type UserResponse = {
+  id: string;
+  email: string;
+  role: UserRole;
+};
+
+export type LogoutRequest = {
+  refreshToken: string;
+};
+
+export type AuthStore = {
+  user: UserResponse | undefined;
+  isLoaded: boolean;
+};
+
+export type AuthProvider = (typeof AUTH_PROVIDER)[keyof typeof AUTH_PROVIDER];

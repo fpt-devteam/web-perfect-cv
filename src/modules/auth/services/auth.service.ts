@@ -1,85 +1,143 @@
+import {
+  LOGIN_ENDPOINT,
+  REGISTER_ENDPOINT,
+  RESEND_ACTIVATION_EMAIL_ENDPOINT,
+  ACTIVATION_ACCOUNT_ENDPOINT,
+  REFRESH_TOKEN_ENDPOINT,
+  ERROR_NO_REFRESH_TOKEN_FOUND,
+  LOGOUT_ENDPOINT,
+} from '@/modules/auth/constants/auth.constant';
+import { accessTokenStorage } from '@/modules/auth/services/access-token-storage.service';
+import { refreshTokenStorage } from '@/modules/auth/services/refresh-token-storage.service';
 import type {
+  AuthProvider,
   LoginRequest,
-  AuthenResponse,
-  AccessTokenData,
-  LogoutResponse,
+  LoginResponse,
+  RefreshTokenResponse,
+  RefreshTokenRequest,
+  RegisterRequest,
+  RegisterResponse,
   LogoutRequest,
 } from '@/modules/auth/types/auth.type';
-import { privateApi } from '@/shared/lib/api-client';
-import { STORAGE_KEY } from '@/shared/constants/base.constants';
-import { mockLoginApiCall } from '@/mock/data';
+import { baseClient } from '@/shared/utils/api-client.util';
+import { redirect } from '@tanstack/react-router';
+import { authClient } from '@/modules/auth/services/client.service';
 
-const logout = async (req: LogoutRequest): Promise<LogoutResponse | null> => {
-  // const res = await privateApi.post<LogoutResponse>('/auth/logout', req, {
-  //     headers: { 'Content-Type': 'application/json' },
-  // });
+export async function getAuthRedirectUrl(provider: AuthProvider) {
+  const { data } = await baseClient<string>({
+    method: 'GET',
+    url: `/api/auth/sign-in/${provider}`,
+  });
 
-  console.log('req', req);
-  // if (!res.data) {
-  //     return null;
-  // }
+  return { url: data };
+}
 
-  const res = {
-    status: 'success',
-    message: 'Logout successful',
-  };
+export async function loginWithProvider(provider: AuthProvider, code: string) {
+  const { data } = await baseClient<LoginResponse>({
+    method: 'POST',
+    url: `/api/auth/sign-in/${provider}`,
+    data: { code },
+  });
 
-  removeData();
+  accessTokenStorage.set(data.accessToken);
+  refreshTokenStorage.set(data.refreshToken);
 
-  return res;
-};
+  return data;
+}
 
-const login = async (req: LoginRequest): Promise<AuthenResponse | null> => {
-  // const res = await publicApi.post<AuthenResponse>('/api/login', req, {
-  //     headers: { 'Content-Type': 'application/json' },
-  // });
+export async function registerWithCredentials(request: RegisterRequest) {
+  const { data } = await baseClient<RegisterResponse>({
+    method: 'POST',
+    url: REGISTER_ENDPOINT,
+    data: request,
+  });
+  return data;
+}
 
-  const res = (await mockLoginApiCall(req)).data;
+export async function loginWithCredentials(request: LoginRequest) {
+  const { data } = await baseClient<LoginResponse>({
+    method: 'POST',
+    url: LOGIN_ENDPOINT,
+    data: request,
+  });
 
-  if (!res.data) {
-    return null;
-  }
+  accessTokenStorage.set(data.accessToken);
+  refreshTokenStorage.set(data.refreshToken);
 
-  saveData(res.data);
+  return data;
+}
 
-  return res;
-};
-
-const refresh = async (): Promise<string | null> => {
+export async function refreshToken() {
   try {
-    const res = await privateApi.get<AuthenResponse>('/auth/refresh', {
-      withCredentials: true,
+    const refreshToken = refreshTokenStorage.get();
+    if (!refreshToken) {
+      throw new Error(ERROR_NO_REFRESH_TOKEN_FOUND);
+    }
+    const requestData: RefreshTokenRequest = {
+      refreshTokenHash: refreshToken,
+    };
+
+    const { data } = await baseClient<RefreshTokenResponse>({
+      method: 'POST',
+      url: REFRESH_TOKEN_ENDPOINT,
+      data: requestData,
     });
 
-    if (!res?.data.data?.accessToken) {
-      return null;
-    }
+    accessTokenStorage.set(data.accessToken);
+    refreshTokenStorage.set(data.refreshToken);
 
-    return res.data.data.accessToken;
+    return data;
   } catch (error) {
+    handleSessionExpired();
     console.error(error);
-    return null;
+    throw redirect({ to: '/' });
   }
-};
+}
 
-const saveData = (data: AccessTokenData) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-};
+export async function logout() {
+  try {
+    const refreshToken = refreshTokenStorage.get();
+    if (!refreshToken) {
+      throw new Error(ERROR_NO_REFRESH_TOKEN_FOUND);
+    }
+    const requestData: LogoutRequest = { refreshToken };
+    await authClient({
+      method: 'POST',
+      url: LOGOUT_ENDPOINT,
+      headers: { Authorization: `Bearer ${accessTokenStorage.get()}` },
+      data: requestData,
+    });
+  } catch (error) {
+    console.error('Logout failed:', error);
+  } finally {
+    handleSessionExpired();
+    window.location.href = '/';
+  }
+}
 
-const getData = (): AccessTokenData | null => {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? (JSON.parse(data) as AccessTokenData) : null;
-};
+export async function resendActivationEmail(email: string) {
+  const { data } = await baseClient<string>({
+    method: 'POST',
+    url: RESEND_ACTIVATION_EMAIL_ENDPOINT,
+    data: {
+      email,
+    },
+  });
 
-const removeData = () => {
-  localStorage.removeItem(STORAGE_KEY);
-};
+  return data;
+}
 
-export const authService = {
-  login,
-  logout,
-  refresh,
-  saveData,
-  getData,
-  removeData,
-};
+export async function activateAccount(token: string) {
+  const { data } = await baseClient<string>({
+    method: 'PUT',
+    url: `${ACTIVATION_ACCOUNT_ENDPOINT}/${token}`,
+  });
+
+  return data;
+}
+
+export function handleSessionExpired() {
+  sessionStorage.clear();
+  accessTokenStorage.clear();
+  refreshTokenStorage.clear();
+}

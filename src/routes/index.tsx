@@ -1,44 +1,22 @@
-import { useEffect } from 'react';
-import { AdminLayout } from '@/shared/components/layouts/dashboard-layout';
-import { Spinner } from '@/shared/components/loading/spinner';
-import { useGetMe } from '@/shared/hooks/use-get-me';
-import { ROLE } from '@/shared/types/base.enum';
-import { createFileRoute, Outlet, redirect, useNavigate } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
+import { Navbar } from '@/shared/components/navbar/Navbar';
+import { HeroSection } from '@/shared/components/landing/HeroSection';
+import { HowItWorks } from '@/shared/components/landing/HowItWorks';
+import { Features } from '@/shared/components/landing/Features';
+import { Footer } from '@/shared/components/landing/Footer';
 
-export const Route = createFileRoute('/')({
-  beforeLoad: ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      throw redirect({ to: '/auth/login' });
-    }
-  },
-  component: () => <RoleBaseLayoutComponent />,
-});
+export const Route = createFileRoute('/')({ component: LandingPage });
 
-function RoleBaseLayoutComponent() {
-  const { mutate, isPending, user } = useGetMe();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    mutate();
-  }, [mutate]);
-
-  if (isPending) {
-    return <Spinner size="lg" />;
-  }
-
-  if (user?.role === ROLE.USER) {
-    navigate({ to: '/cv' });
-    return null;
-  }
-
-  if (user?.role === ROLE.ADMIN) {
-    return (
-      <AdminLayout>
-        <h1>Admin Layout</h1>
-        <Outlet />
-      </AdminLayout>
-    );
-  }
-
-  return <div>Role not recognized. Please contact support.</div>;
+export function LandingPage() {
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      <Navbar />
+      <main className="flex-grow mt-16">
+        <HeroSection />
+        <HowItWorks />
+        <Features />
+      </main>
+      <Footer />
+    </div>
+  );
 }

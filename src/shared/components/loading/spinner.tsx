@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react';
-import { cn } from '@/shared/lib/utils';
+import { cn } from '@/shared/utils/cn.util';
 
 const sizeClasses = {
   default: 'h-8 w-8',
