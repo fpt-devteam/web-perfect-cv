@@ -10,7 +10,6 @@ import { NotFound } from '@/shared/components/error-pages/NotFound';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { tanstackClient } from '@/config/tanstack-query.config';
 import { ROUTE_PENDING_DELAY } from '@/config/app.config';
-import { Pending } from './shared/components/loading/Pending';
 import { useNotification } from '@/shared/hooks/useNotification';
 import { Toaster } from 'sonner';
 
@@ -47,7 +46,7 @@ export function App() {
       <RouterProvider
         router={router}
         context={{ auth, notification }}
-        defaultPendingComponent={Pending}
+        defaultPendingComponent={Spinner}
         defaultPendingMs={ROUTE_PENDING_DELAY}
       />
       <Toaster position="top-right" />

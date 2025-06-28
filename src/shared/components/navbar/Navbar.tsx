@@ -1,9 +1,10 @@
 import { Link, useMatches } from '@tanstack/react-router';
-import { useGetMe } from '@/shared/hooks/useGetMe';
+import { useAuth } from '@/modules/auth/hooks/useAuth';
+import { useState, useEffect } from 'react';
 
 export function Navbar() {
-  const { data: user } = useGetMe();
-  const isAuthenticated = !!user;
+  const { getCurrentUser } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const matches = useMatches();
 
   const isAuthPage = matches.some(
@@ -12,6 +13,10 @@ export function Navbar() {
       match.routeId === '/_auth/register' ||
       match.routeId === '/_auth/forgot-password'
   );
+
+  useEffect(() => {
+    getCurrentUser().then(user => setIsAuthenticated(!!user));
+  }, [getCurrentUser]);
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white shadow-md py-6 px-8">

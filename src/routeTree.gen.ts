@@ -21,8 +21,8 @@ import { Route as PrivateAdminDashboardImport } from './routes/_private/admin-da
 import { Route as AuthRegisterImport } from './routes/_auth/register'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
-import { Route as PrivateUserDashboardIndexImport } from './routes/_private/user-dashboard/index'
 import { Route as AuthActivationAccountIndexImport } from './routes/_auth/activation-account/index'
+import { Route as Oauth2ProviderCallbackImport } from './routes/oauth2.$provider.callback'
 import { Route as PrivateAdminDashboardDashboardImport } from './routes/_private/admin-dashboard/dashboard'
 import { Route as AuthActivationAccountTokenImport } from './routes/_auth/activation-account/$token'
 import { Route as PrivateUserDashboardResignationLetterIndexImport } from './routes/_private/user-dashboard/resignation-letter/index'
@@ -88,12 +88,6 @@ const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const PrivateUserDashboardIndexRoute = PrivateUserDashboardIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PrivateUserDashboardRoute,
-} as any)
-
 const AuthActivationAccountIndexRoute = AuthActivationAccountIndexImport.update(
   {
     id: '/activation-account/',
@@ -101,6 +95,12 @@ const AuthActivationAccountIndexRoute = AuthActivationAccountIndexImport.update(
     getParentRoute: () => AuthRoute,
   } as any,
 )
+
+const Oauth2ProviderCallbackRoute = Oauth2ProviderCallbackImport.update({
+  id: '/oauth2/$provider/callback',
+  path: '/oauth2/$provider/callback',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PrivateAdminDashboardDashboardRoute =
   PrivateAdminDashboardDashboardImport.update({
@@ -226,19 +226,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateAdminDashboardDashboardImport
       parentRoute: typeof PrivateAdminDashboardImport
     }
+    '/oauth2/$provider/callback': {
+      id: '/oauth2/$provider/callback'
+      path: '/oauth2/$provider/callback'
+      fullPath: '/oauth2/$provider/callback'
+      preLoaderRoute: typeof Oauth2ProviderCallbackImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth/activation-account/': {
       id: '/_auth/activation-account/'
       path: '/activation-account'
       fullPath: '/activation-account'
       preLoaderRoute: typeof AuthActivationAccountIndexImport
       parentRoute: typeof AuthImport
-    }
-    '/_private/user-dashboard/': {
-      id: '/_private/user-dashboard/'
-      path: '/'
-      fullPath: '/user-dashboard/'
-      preLoaderRoute: typeof PrivateUserDashboardIndexImport
-      parentRoute: typeof PrivateUserDashboardImport
     }
     '/_private/user-dashboard/cover-letter/': {
       id: '/_private/user-dashboard/cover-letter/'
@@ -298,14 +298,12 @@ const PrivateAdminDashboardRouteWithChildren =
   )
 
 interface PrivateUserDashboardRouteChildren {
-  PrivateUserDashboardIndexRoute: typeof PrivateUserDashboardIndexRoute
   PrivateUserDashboardCoverLetterIndexRoute: typeof PrivateUserDashboardCoverLetterIndexRoute
   PrivateUserDashboardCvsIndexRoute: typeof PrivateUserDashboardCvsIndexRoute
   PrivateUserDashboardResignationLetterIndexRoute: typeof PrivateUserDashboardResignationLetterIndexRoute
 }
 
 const PrivateUserDashboardRouteChildren: PrivateUserDashboardRouteChildren = {
-  PrivateUserDashboardIndexRoute: PrivateUserDashboardIndexRoute,
   PrivateUserDashboardCoverLetterIndexRoute:
     PrivateUserDashboardCoverLetterIndexRoute,
   PrivateUserDashboardCvsIndexRoute: PrivateUserDashboardCvsIndexRoute,
@@ -351,8 +349,8 @@ export interface FileRoutesByFullPath {
   '/forbidden': typeof PublicForbiddenRoute
   '/activation-account/$token': typeof AuthActivationAccountTokenRoute
   '/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute
+  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
   '/activation-account': typeof AuthActivationAccountIndexRoute
-  '/user-dashboard/': typeof PrivateUserDashboardIndexRoute
   '/user-dashboard/cover-letter': typeof PrivateUserDashboardCoverLetterIndexRoute
   '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
   '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
@@ -365,11 +363,12 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/admin-dashboard': typeof PrivateAdminDashboardRouteWithChildren
+  '/user-dashboard': typeof PrivateUserDashboardRouteWithChildren
   '/forbidden': typeof PublicForbiddenRoute
   '/activation-account/$token': typeof AuthActivationAccountTokenRoute
   '/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute
+  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
   '/activation-account': typeof AuthActivationAccountIndexRoute
-  '/user-dashboard': typeof PrivateUserDashboardIndexRoute
   '/user-dashboard/cover-letter': typeof PrivateUserDashboardCoverLetterIndexRoute
   '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
   '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
@@ -389,8 +388,8 @@ export interface FileRoutesById {
   '/_public/forbidden': typeof PublicForbiddenRoute
   '/_auth/activation-account/$token': typeof AuthActivationAccountTokenRoute
   '/_private/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute
+  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
   '/_auth/activation-account/': typeof AuthActivationAccountIndexRoute
-  '/_private/user-dashboard/': typeof PrivateUserDashboardIndexRoute
   '/_private/user-dashboard/cover-letter/': typeof PrivateUserDashboardCoverLetterIndexRoute
   '/_private/user-dashboard/cvs/': typeof PrivateUserDashboardCvsIndexRoute
   '/_private/user-dashboard/resignation-letter/': typeof PrivateUserDashboardResignationLetterIndexRoute
@@ -409,8 +408,8 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/activation-account/$token'
     | '/admin-dashboard/dashboard'
+    | '/oauth2/$provider/callback'
     | '/activation-account'
-    | '/user-dashboard/'
     | '/user-dashboard/cover-letter'
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
@@ -422,11 +421,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/admin-dashboard'
+    | '/user-dashboard'
     | '/forbidden'
     | '/activation-account/$token'
     | '/admin-dashboard/dashboard'
+    | '/oauth2/$provider/callback'
     | '/activation-account'
-    | '/user-dashboard'
     | '/user-dashboard/cover-letter'
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
@@ -444,8 +444,8 @@ export interface FileRouteTypes {
     | '/_public/forbidden'
     | '/_auth/activation-account/$token'
     | '/_private/admin-dashboard/dashboard'
+    | '/oauth2/$provider/callback'
     | '/_auth/activation-account/'
-    | '/_private/user-dashboard/'
     | '/_private/user-dashboard/cover-letter/'
     | '/_private/user-dashboard/cvs/'
     | '/_private/user-dashboard/resignation-letter/'
@@ -457,6 +457,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   PrivateRoute: typeof PrivateRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
+  Oauth2ProviderCallbackRoute: typeof Oauth2ProviderCallbackRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -464,6 +465,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   PrivateRoute: PrivateRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
+  Oauth2ProviderCallbackRoute: Oauth2ProviderCallbackRoute,
 }
 
 export const routeTree = rootRoute
@@ -479,7 +481,8 @@ export const routeTree = rootRoute
         "/",
         "/_auth",
         "/_private",
-        "/_public"
+        "/_public",
+        "/oauth2/$provider/callback"
       ]
     },
     "/": {
@@ -531,7 +534,6 @@ export const routeTree = rootRoute
       "filePath": "_private/user-dashboard.tsx",
       "parent": "/_private",
       "children": [
-        "/_private/user-dashboard/",
         "/_private/user-dashboard/cover-letter/",
         "/_private/user-dashboard/cvs/",
         "/_private/user-dashboard/resignation-letter/"
@@ -549,13 +551,12 @@ export const routeTree = rootRoute
       "filePath": "_private/admin-dashboard/dashboard.tsx",
       "parent": "/_private/admin-dashboard"
     },
+    "/oauth2/$provider/callback": {
+      "filePath": "oauth2.$provider.callback.tsx"
+    },
     "/_auth/activation-account/": {
       "filePath": "_auth/activation-account/index.tsx",
       "parent": "/_auth"
-    },
-    "/_private/user-dashboard/": {
-      "filePath": "_private/user-dashboard/index.tsx",
-      "parent": "/_private/user-dashboard"
     },
     "/_private/user-dashboard/cover-letter/": {
       "filePath": "_private/user-dashboard/cover-letter/index.tsx",

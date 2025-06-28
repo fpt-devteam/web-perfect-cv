@@ -1,9 +1,8 @@
 import { useNotification } from '@/shared/hooks/useNotification';
-import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/shared/components/ui/form';
 import { Input } from '@/shared/components/ui/input';
 import { AuthProviders } from '@/modules/auth/components/AuthProviders';
@@ -11,6 +10,7 @@ import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
 import { Button } from '@/shared/components/ui/button';
 import { useState } from 'react';
+import { useLoginWithCredential } from '@/modules/auth/hooks/useLoginWithCredential';
 const LoginSchema = zod.object({
   email: zod.string().trim().min(1, 'Email is required').email('Invalid email'),
   password: zod.string().trim(),
@@ -20,7 +20,8 @@ type LoginFormValues = zod.infer<typeof LoginSchema>;
 
 export function LoginForm() {
   const { showSuccess, showError } = useNotification();
-  const { loginWithCredentials } = useAuth();
+  const navigate = useNavigate();
+  const loginWithCredential = useLoginWithCredential();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -32,16 +33,22 @@ export function LoginForm() {
   });
 
   const handleLogin = async (data: LoginFormValues) => {
-    try {
-      setIsLoading(true);
-      await loginWithCredentials({ email: data.email, password: data.password });
-      showSuccess('Login successful');
-      location.href = '/user-dashboard';
-    } catch (error) {
-      showError(error as AxiosError<BaseError>);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    await loginWithCredential.mutateAsync(
+      { email: data.email, password: data.password },
+      {
+        onSuccess: () => {
+          showSuccess('Login successful');
+          navigate({ to: '/user-dashboard/cvs' });
+        },
+        onError: error => {
+          showError(error as AxiosError<BaseError>);
+        },
+        onSettled: () => {
+          setIsLoading(false);
+        },
+      }
+    );
   };
 
   return (
@@ -100,17 +107,17 @@ export function LoginForm() {
             >
               Sign In
             </Button>
-            <AuthProviders type="login" />
-            <div className="text-center text-sm text-gray-500 mt-4">
-              <p>
-                First time here?{' '}
-                <Link to="/register" className="text-purple-600 hover:underline">
-                  Create an account
-                </Link>
-              </p>
-            </div>
           </form>
         </Form>
+      </div>
+      <AuthProviders type="login" />
+      <div className="text-center text-sm text-gray-500 mt-4">
+        <p>
+          First time here?{' '}
+          <Link to="/register" className="text-purple-600 hover:underline">
+            Create an account
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -40,9 +40,8 @@ import { AppIcon } from '@/shared/components/ui/app-icon';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import { Separator } from '@/shared/components/ui/separator';
 import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
-import { useGetMe } from '@/shared/hooks/useGetMe';
-import { Spinner } from '@/shared/components/loading/Spinner';
 import { LogoutButton } from '@/modules/auth/components/LogoutButton';
+import { useAuth } from '@/modules/auth/hooks/useAuth';
 
 const items = [
   {
@@ -63,11 +62,7 @@ const items = [
 ];
 
 function UserSidebar() {
-  const { data: user, isPending } = useGetMe();
-
-  if (isPending || !user) {
-    return <Spinner size="sm" />;
-  }
+  const { user } = useAuth();
 
   return (
     <Sidebar collapsible="icon" side="left">

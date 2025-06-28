@@ -1,7 +1,6 @@
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { useNavigate } from '@tanstack/react-router';
 import { type PropsWithChildren, useEffect } from 'react';
-import { Spinner } from '@/shared/components/loading/Spinner';
 import { UserRole } from '@/shared/constants/role.enum';
 
 type RoleGuardProps = PropsWithChildren<{
@@ -10,27 +9,17 @@ type RoleGuardProps = PropsWithChildren<{
 }>;
 
 export function RoleGuard({ requiredRoles = [], fallbackRoute, children }: RoleGuardProps) {
-  const { user, refetchUserData } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      refetchUserData();
-    }
-  }, [user, refetchUserData]);
-
-  const authorized =
+  const isAuthorized =
     requiredRoles.length === 0 || (user?.role !== undefined && requiredRoles.includes(user.role));
 
   useEffect(() => {
-    if (user && !authorized) {
+    if (!isAuthorized) {
       navigate({ to: fallbackRoute, replace: true });
     }
-  }, [user, authorized, fallbackRoute, navigate]);
-
-  if (!user || !authorized) {
-    return <Spinner size="lg" />;
-  }
+  }, [isAuthorized, navigate, fallbackRoute]);
 
   return <>{children}</>;
 }

@@ -1,14 +1,36 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { useAuth } from '@/modules/auth/hooks/useAuth';
+import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
+import { Spinner } from '@/shared/components/loading/Spinner';
 
 export const Route = createFileRoute('/_private')({
   component: PrivateLayout,
-  beforeLoad: async ({ context }) => {
-    const authTest = await context.auth.isAuthenticated();
-    console.log('authTest', authTest);
-    if (!(await context.auth.isAuthenticated())) throw redirect({ to: '/login' });
-  },
+  // beforeLoad: async ({ context }) => {
+  //   const { getCurrentUser } = context.auth;
+  //   const user = await getCurrentUser();
+  //   if (!user) {
+  //     throw redirect({ to: '/login' });
+  //   }
+  // },
 });
 
 function PrivateLayout() {
+  const navigate = useNavigate();
+  const { getCurrentUser } = useAuth();
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    getCurrentUser().then(user => {
+      if (!user) {
+        return navigate({ to: '/login' });
+      }
+      setReady(true);
+    });
+  }, [getCurrentUser, navigate]);
+
+  if (!ready) {
+    return <Spinner />;
+  }
+
   return <Outlet />;
 }

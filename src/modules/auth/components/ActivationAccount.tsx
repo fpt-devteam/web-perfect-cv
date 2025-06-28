@@ -1,46 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/shared/components/ui/button';
-import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { CheckCircle, AlertCircle, Home } from 'lucide-react';
-import type { AxiosError } from 'axios';
-import type { BaseError } from '@/shared/types/error.type';
-
-type ActivationStatus = 'idle' | 'loading' | 'success' | 'error';
+import { useActivateAccount } from '@/modules/auth/hooks/useActivateAccount';
 
 export function ActivationAccount({ token }: Readonly<{ token: string }>) {
-  const { activateAccount } = useAuth();
-  const [status, setStatus] = useState<ActivationStatus>('idle');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const { mutate: activateAccount, isPending, isSuccess, isError, error } = useActivateAccount();
 
   useEffect(() => {
-    if (!token) {
-      return;
-    }
-    setStatus('loading');
-    activateAccount.mutate(token, {
-      onSuccess: () => {
-        setStatus('success');
-      },
-      onError: error => {
-        setStatus('error');
-        const axiosError = error as AxiosError<BaseError>;
-        setErrorMessage(axiosError.response?.data?.message ?? 'Failed to activate account');
-      },
-    });
-  }, [token]);
+    activateAccount(token);
+  }, [activateAccount, token]);
 
   const renderContent = () => {
-    switch (status) {
-      case 'loading':
-        return <LoadingState />;
-      case 'success':
-        return <SuccessState />;
-      case 'error':
-        return <ErrorState message={errorMessage} />;
-      default:
-        return <LoadingState />;
-    }
+    if (isPending) return <LoadingState />;
+    if (isSuccess) return <SuccessState />;
+    if (isError) return <ErrorState message={error.message} />;
   };
 
   return (

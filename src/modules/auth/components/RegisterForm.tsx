@@ -7,10 +7,11 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/shared/co
 import { Input } from '@/shared/components/ui/input';
 import { AuthProviders } from '@/modules/auth/components/AuthProviders';
 import { useNotification } from '@/shared/hooks/useNotification';
-import { useAuth } from '@/modules/auth/hooks/useAuth';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
 import { Button } from '@/shared/components/ui/button';
+import { useRegister } from '@/modules/auth/hooks/useRegister';
+import { useResendActivationEmail } from '@/modules/auth/hooks/useResendActivationEmail';
 
 const RegisterSchema = zod.object({
   email: zod.string().trim().min(1, 'Email is required').email('Invalid email'),
@@ -33,7 +34,8 @@ type RegisterFormValues = zod.infer<typeof RegisterSchema>;
 
 export function RegisterForm() {
   const { showSuccess, showError } = useNotification();
-  const { registerWithCredentials, resendActivationEmail } = useAuth();
+  const registerWithCredentials = useRegister();
+  const resendActivationEmail = useResendActivationEmail();
   const [registeredEmail, setRegisteredEmail] = useState<string>('');
   const [showResendButton, setShowResendButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -193,18 +195,17 @@ export function RegisterForm() {
                 RESEND ACTIVATION EMAIL
               </Button>
             )}
-            <AuthProviders type="register" />
-
-            <div className="text-center text-sm text-gray-500 mt-4">
-              <p>
-                Already have an account?{' '}
-                <Link to="/login" className="text-purple-600 hover:underline">
-                  Sign in
-                </Link>
-              </p>
-            </div>
           </form>
         </Form>
+        <AuthProviders type="register" />
+        <div className="text-center text-sm text-gray-500 mt-4">
+          <p>
+            Already have an account?{' '}
+            <Link to="/login" className="text-purple-600 hover:underline">
+              Sign in
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
