@@ -8,6 +8,7 @@ import { handleSessionExpired, refreshToken } from '@/modules/auth/services/auth
 import { accessTokenStorage } from '@/modules/auth/services/access-token-storage.service';
 import type { AuthClientState } from '@/modules/auth/types/auth.type';
 import { createBaseClient } from '@/shared/utils/api-client.util';
+import qs from 'qs';
 
 // --------- REQUESTS INTERCEPTORS ---------
 async function ensureRefreshTokenCompleted(
@@ -59,7 +60,9 @@ function handleError401(
 function createAuthClient() {
   const client = createBaseClient();
   const state: AuthClientState = { refreshToken: null };
-
+  client.defaults.paramsSerializer = {
+    serialize: params => qs.stringify(params, { encode: false, allowDots: true }),
+  };
   client.interceptors.request.use(
     async config => {
       await ensureRefreshTokenCompleted(config, state);
@@ -93,7 +96,9 @@ export const authClient = createAuthClient();
 function createPublicClient() {
   const client = createBaseClient();
   const state: AuthClientState = { refreshToken: null };
-
+  client.defaults.paramsSerializer = {
+    serialize: params => qs.stringify(params, { encode: false, allowDots: true }),
+  };
   client.interceptors.response.use(
     response => response,
     error => {

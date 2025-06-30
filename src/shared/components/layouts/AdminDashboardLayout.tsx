@@ -41,7 +41,7 @@ import { AppIcon } from '@/shared/components/ui/app-icon';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import { Separator } from '@/shared/components/ui/separator';
 import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
-import { useGetMe } from '@/shared/hooks/useGetMe';
+import { useGetMe } from '@/modules/auth/hooks/useGetMe';
 
 const items = [
   {

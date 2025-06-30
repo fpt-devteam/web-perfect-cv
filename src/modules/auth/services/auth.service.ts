@@ -63,7 +63,6 @@ export async function getLoginLink(provider: AuthProvider) {
 }
 
 export async function loginWithProvider(provider: AuthProvider, code: string) {
-  console.log('in auth service', provider, code);
   const { data } = await baseClient<LoginResponse>({
     method: 'POST',
     url: `${LOGIN_ENDPOINT}/${provider}`,

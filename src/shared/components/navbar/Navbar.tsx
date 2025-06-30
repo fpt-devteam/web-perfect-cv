@@ -1,6 +1,7 @@
 import { Link, useMatches } from '@tanstack/react-router';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { useState, useEffect } from 'react';
+import { Logo } from '@/shared/components/logo/Logo';
 
 export function Navbar() {
   const { getCurrentUser } = useAuth();
@@ -21,11 +22,9 @@ export function Navbar() {
   return (
     <header className="fixed top-0 z-50 w-full bg-white shadow-md py-6 px-8">
       <div className="grid grid-cols-3 items-center">
-        <div className="flex justify-start">
-          <Link to="/" className="font-bold text-xl text-gray-900">
-            PerfectCV
-          </Link>
-        </div>
+        <Link to="/" className="flex items-center gap-2 font-display">
+          <Logo />
+        </Link>
 
         <nav className="flex justify-center">
           <div className="flex space-x-6">
@@ -44,7 +43,7 @@ export function Navbar() {
         <div className="flex justify-end">
           {isAuthenticated ? (
             <Link
-              to="/user-dashboard"
+              to="/user-dashboard/cvs"
               className="bg-primary text-white py-2 px-5 rounded-md transition-colors font-medium inline-block"
             >
               Dashboard

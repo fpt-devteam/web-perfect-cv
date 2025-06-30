@@ -1,20 +1,33 @@
-type CvRequest = {
-  cvId: string;
-  userId: string;
-};
+import type { SortOrder } from '@/shared/constants/sort-order.enum';
+import type { PaginationQuery } from '@/shared/types/pagination.type';
 
-type CvResponse = {
-  status: string;
-  message: string;
-  data: CV;
-};
-
-type CV = {
-  userId: string;
+export type CVResponse = {
   cvId: string;
   title: string;
-  createdAt: string;
-  url: string;
+  fullContent: string;
+  lastEditedAt: string;
 };
 
-export type { CvRequest, CvResponse, CV };
+export type CVListResponse = {
+  total: number;
+  items: CVResponse[];
+};
+
+export type CVListQuery = PaginationQuery & {
+  sort: CVSort | null;
+};
+
+export type CVSort = {
+  updatedAt: SortOrder | null;
+};
+
+export type JobDetail = {
+  jobTitle: string;
+  description: string;
+  companyName: string;
+};
+
+export type CreateCVRequest = {
+  title: string;
+  jobDetail: JobDetail | null;
+};

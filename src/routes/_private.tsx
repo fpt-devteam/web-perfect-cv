@@ -21,12 +21,13 @@ function PrivateLayout() {
 
   useEffect(() => {
     getCurrentUser().then(user => {
-      if (!user) {
+      console.log('user in _private', user);
+      if (!user && ready) {
         return navigate({ to: '/login' });
       }
       setReady(true);
     });
-  }, [getCurrentUser, navigate]);
+  }, [getCurrentUser, navigate, ready]);
 
   if (!ready) {
     return <Spinner />;

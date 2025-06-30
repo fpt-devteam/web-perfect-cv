@@ -24,7 +24,7 @@ function AuthLayout() {
   useEffect(() => {
     getCurrentUser().then(user => {
       if (user) {
-        return navigate({ to: '/user-dashboard' });
+        return navigate({ to: '/user-dashboard/cvs' });
       }
       setReady(true);
     });
