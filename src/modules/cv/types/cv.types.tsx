@@ -31,3 +31,17 @@ export type CreateCVRequest = {
   title: string;
   jobDetail: JobDetail | null;
 };
+
+export type CVContact = {
+  id: string;
+  cvId: string;
+  phoneNumber: string | null;
+  email: string | null;
+  linkedInUrl: string | null;
+  gitHubUrl: string | null;
+  personalWebsiteUrl: string | null;
+  city: string | null;
+  country: string | null;
+};
+
+export type UpSertContactRequest = Omit<CVContact, 'id'>;
