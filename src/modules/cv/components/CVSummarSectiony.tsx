@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useGetSummary, useUpsertSummary } from "../hooks/useGetSummary";
+import { useGetSummary, useUpsertSummary } from "../hooks/useSummary";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

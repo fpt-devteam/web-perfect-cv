@@ -10,6 +10,9 @@ import type {
   UpdateExperienceRequest,
   CVSummary,
   UpSertSummaryRequest,
+  CVCertificationResponse,
+  CreateCVCertificationRequest,
+  UpdateCVCertificationRequest,
 } from '@/modules/cv/types/cv.types';
 import {
   GET_CVS_ENDPOINT,
@@ -22,6 +25,10 @@ import {
   DELETE_EXPERIENCE_ENDPOINT,
   GET_SUMMARY_ENDPOINT,
   UPSERT_SUMMARY_ENDPOINT,
+  LIST_CERTIFICATIONS_ENDPOINT,
+  CREATE_CERTIFICATION_ENDPOINT,
+  UPDATE_CERTIFICATION_ENDPOINT,
+  DELETE_CERTIFICATION_ENDPOINT,
 } from '@/modules/cv/constants/cv-endpoint.constant';
 import { authClient } from '@/modules/auth/services/client.service';
 
@@ -139,6 +146,60 @@ export const upsertSummary = async ({
     method: 'POST',
     url: UPSERT_SUMMARY_ENDPOINT(cvId),
     data: summaryData,
+  });
+  return data;
+};
+
+export const listCertifications = async ({ cvId }: { readonly cvId: string }) => {
+  const { data } = await authClient<CVCertificationResponse[]>({
+    method: 'GET',
+    url: LIST_CERTIFICATIONS_ENDPOINT(cvId),
+  });
+  return data;
+};
+
+export const createCertification = async ({
+  cvId,
+  certificationData,
+}: {
+  readonly cvId: string;
+  readonly certificationData: CreateCVCertificationRequest;
+}) => {
+  const { data } = await authClient<CVCertificationResponse>({
+    method: 'POST',
+    url: CREATE_CERTIFICATION_ENDPOINT(cvId),
+    data: certificationData,
+  });
+  return data;
+};
+
+export const updateCertification = async ({
+  cvId,
+  certificationId,
+  certificationData,
+}: {
+  readonly cvId: string;
+  readonly certificationId: string;
+  readonly certificationData: UpdateCVCertificationRequest;
+}) => {
+  const { data } = await authClient<CVCertificationResponse>({
+    method: 'PUT',
+    url: UPDATE_CERTIFICATION_ENDPOINT(cvId, certificationId),
+    data: certificationData,
+  });
+  return data;
+};
+
+export const deleteCertification = async ({
+  cvId,
+  certificationId,
+}: {
+  readonly cvId: string;
+  readonly certificationId: string;
+}) => {
+  const { data } = await authClient<void>({
+    method: 'DELETE',
+    url: DELETE_CERTIFICATION_ENDPOINT(cvId, certificationId),
   });
   return data;
 };

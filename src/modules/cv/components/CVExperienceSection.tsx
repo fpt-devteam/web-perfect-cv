@@ -192,7 +192,10 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                                         <FormControl>
                                             <SearchableInput
                                                 value={field.value}
-                                                onChange={field.onChange}
+                                                onChange={(val: string) => {
+                                                    field.onChange(val);
+                                                    form.setValue('organizationId', null);
+                                                }}
                                                 onSearch={searchOrganizations}
                                                 onSelect={item => form.setValue('organizationId', item.id)}
                                                 placeholder="e.g. Google"

@@ -78,10 +78,7 @@ export type SearchableItemResponse = {
   name: string;
 };
 
-export type SearchableItemListResponse = {
-  total: number;
-  items: SearchableItemResponse[];
-};
+export type SearchableItemListResponse = SearchableItemResponse[];
 
 export type OrganizationResponse = SearchableItemResponse;
 
@@ -89,20 +86,14 @@ export type JobTitleResponse = SearchableItemResponse;
 
 export type EmploymentTypeResponse = SearchableItemResponse;
 
-export type OrganizationListResponse = {
-  total: number;
-  items: OrganizationResponse[];
-};
+export type OrganizationListResponse = OrganizationResponse[];
 
 export type EmploymentTypeListResponse = {
   total: number;
   items: EmploymentTypeResponse[];
 };
 
-export type JobTitleListResponse = {
-  total: number;
-  items: JobTitleResponse[];
-};
+export type JobTitleListResponse = JobTitleResponse[];
 
 export type CVSummary = {
   id: string;
@@ -111,3 +102,38 @@ export type CVSummary = {
 };
 
 export type UpSertSummaryRequest = Omit<CVSummary, 'id'>;
+
+// export type CVSkill = {
+//   id: string;
+//   cvId: string;
+//   description: string | null;
+// };
+
+// export type UpSertSkillRequest = Omit<CVSkill, 'id'>;
+
+export type CVCertificationResponse = {
+  id: string;
+  cvId: string;
+  name: string;
+  issuedDate: string | null;
+  description: string | null;
+  organization: string;
+  organizationId: string | null;
+};
+
+export type CreateCVCertificationRequest = {
+  cvId: string;
+  name: string;
+  issuedDate: string | null;
+  description: string | null;
+  organization: string | null;
+  organizationId: string | null;
+};
+
+export type UpdateCVCertificationRequest = {
+  name: string;
+  issuedDate: string | null;
+  description: string | null;
+  organization: string;
+  organizationId: string | null;
+};
