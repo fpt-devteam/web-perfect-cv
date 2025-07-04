@@ -137,3 +137,32 @@ export type UpdateCVCertificationRequest = {
   organization: string;
   organizationId: string | null;
 };
+
+export type CVProjectResponse = {
+  id: string;
+  cvId: string;
+  title: string;
+  description: string;
+  link: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  createdAt: string;
+  updatedAt: string | null;
+};
+
+export type CreateCVProjectRequest = {
+  cvId: string;
+  title: string;
+  description: string;
+  link: string | null;
+  startDate: string | null;
+  endDate: string | null;
+};
+
+export type UpdateCVProjectRequest = {
+  title: string;
+  description: string;
+  link: string | null;
+  startDate: string | null;
+  endDate: string | null;
+};

@@ -13,6 +13,9 @@ import type {
   CVCertificationResponse,
   CreateCVCertificationRequest,
   UpdateCVCertificationRequest,
+  CVProjectResponse,
+  CreateCVProjectRequest,
+  UpdateCVProjectRequest,
 } from '@/modules/cv/types/cv.types';
 import {
   GET_CVS_ENDPOINT,
@@ -29,6 +32,10 @@ import {
   CREATE_CERTIFICATION_ENDPOINT,
   UPDATE_CERTIFICATION_ENDPOINT,
   DELETE_CERTIFICATION_ENDPOINT,
+  LIST_PROJECTS_ENDPOINT,
+  CREATE_PROJECT_ENDPOINT,
+  UPDATE_PROJECT_ENDPOINT,
+  DELETE_PROJECT_ENDPOINT,
 } from '@/modules/cv/constants/cv-endpoint.constant';
 import { authClient } from '@/modules/auth/services/client.service';
 
@@ -203,3 +210,58 @@ export const deleteCertification = async ({
   });
   return data;
 };
+
+export const listProjects = async ({ cvId }: { readonly cvId: string }) => {
+  const { data } = await authClient<CVProjectResponse[]>({
+    method: 'GET',
+    url: LIST_PROJECTS_ENDPOINT(cvId),
+  });
+  return data;
+};
+
+export const createProject = async ({
+  cvId,
+  projectData,
+}: {
+  readonly cvId: string;
+  readonly projectData: CreateCVProjectRequest;
+}) => {
+  const { data } = await authClient<CVProjectResponse>({
+    method: 'POST',
+    url: CREATE_PROJECT_ENDPOINT(cvId),
+    data: projectData,
+  });
+  return data;
+};
+
+export const updateProject = async ({
+  cvId,
+  projectId,
+  projectData,
+}: {
+  readonly cvId: string;
+  readonly projectId: string;
+  readonly projectData: UpdateCVProjectRequest;
+}) => {
+  const { data } = await authClient<CVProjectResponse>({
+    method: 'PUT',
+    url: UPDATE_PROJECT_ENDPOINT(cvId, projectId),
+    data: projectData,
+  });
+  return data;
+};
+
+export const deleteProject = async ({
+  cvId,
+  projectId,
+}: {
+  readonly cvId: string;
+  readonly projectId: string;
+}) => {
+  const { data } = await authClient<void>({
+    method: 'DELETE',
+    url: DELETE_PROJECT_ENDPOINT(cvId, projectId),
+  });
+  return data;
+};
+
