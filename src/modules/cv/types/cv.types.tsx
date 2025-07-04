@@ -80,6 +80,7 @@ export type SearchableItemResponse = {
 
 export type SearchableItemListResponse = SearchableItemResponse[];
 export type OrganizationResponse = SearchableItemResponse;
+export type SkillCategoryResponse = SearchableItemResponse;
 export type JobTitleResponse = SearchableItemResponse;
 export type EmploymentTypeResponse = SearchableItemResponse;
 export type DegreeResponse = SearchableItemResponse;
@@ -87,6 +88,7 @@ export type OrganizationListResponse = OrganizationResponse[];
 export type EmploymentTypeListResponse = EmploymentTypeResponse[];
 export type JobTitleListResponse = JobTitleResponse[];
 export type DegreeListResponse = DegreeResponse[];
+export type SkillCategoryListResponse = SkillCategoryResponse[];
 
 export type CVSummary = {
   id: string;
@@ -198,4 +200,22 @@ export type UpdateCVEducationRequest = {
   endDate: string | null;
   description: string | null;
   gpa: number | null;
+};
+
+export type CVSkillResponse = {
+  id: string;
+  cvId: string;
+  description: string;
+  categoryId: string;
+  categoryName: string;
+};
+
+export type CreateCVSkillRequest = {
+  description: string;
+  categoryName: string;
+};
+
+export type UpdateCVSkillRequest = {
+  description: string;
+  categoryName: string;
 };

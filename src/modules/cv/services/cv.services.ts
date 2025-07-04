@@ -19,6 +19,9 @@ import type {
   CVEducationResponse,
   CreateCVEducationRequest,
   UpdateCVEducationRequest,
+  CVSkillResponse,
+  CreateCVSkillRequest,
+  UpdateCVSkillRequest,
 } from '@/modules/cv/types/cv.types';
 import {
   GET_CVS_ENDPOINT,
@@ -43,6 +46,10 @@ import {
   CREATE_EDUCATION_ENDPOINT,
   UPDATE_EDUCATION_ENDPOINT,
   DELETE_EDUCATION_ENDPOINT,
+  LIST_SKILLS_ENDPOINT,
+  CREATE_SKILL_ENDPOINT,
+  UPDATE_SKILL_ENDPOINT,
+  DELETE_SKILL_ENDPOINT,
 } from '@/modules/cv/constants/cv-endpoint.constant';
 import { authClient } from '@/modules/auth/services/client.service';
 
@@ -322,6 +329,60 @@ export const deleteEducation = async ({
   const { data } = await authClient<void>({
     method: 'DELETE',
     url: DELETE_EDUCATION_ENDPOINT(cvId, educationId),
+  });
+  return data;
+};
+
+export const listSkills = async ({ cvId }: { readonly cvId: string }) => {
+  const { data } = await authClient<CVSkillResponse[]>({
+    method: 'GET',
+    url: LIST_SKILLS_ENDPOINT(cvId),
+  });
+  return data;
+};
+
+export const createSkill = async ({
+  cvId,
+  skillData,
+}: {
+  readonly cvId: string;
+  readonly skillData: CreateCVSkillRequest;
+}) => {
+  const { data } = await authClient<CVSkillResponse>({
+    method: 'POST',
+    url: CREATE_SKILL_ENDPOINT(cvId),
+    data: skillData,
+  });
+  return data;
+};
+
+export const updateSkill = async ({
+  cvId,
+  skillId,
+  skillData,
+}: {
+  readonly cvId: string;
+  readonly skillId: string;
+  readonly skillData: UpdateCVSkillRequest;
+}) => {
+  const { data } = await authClient<CVSkillResponse>({
+    method: 'PUT',
+    url: UPDATE_SKILL_ENDPOINT(cvId, skillId),
+    data: skillData,
+  });
+  return data;
+};
+
+export const deleteSkill = async ({
+  cvId,
+  skillId,
+}: {
+  readonly cvId: string;
+  readonly skillId: string;
+}) => {
+  const { data } = await authClient<void>({
+    method: 'DELETE',
+    url: DELETE_SKILL_ENDPOINT(cvId, skillId),
   });
   return data;
 };

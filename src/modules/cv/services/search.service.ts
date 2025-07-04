@@ -1,10 +1,11 @@
 import { authClient } from '@/modules/auth/services/client.service';
-import { GET_JOB_TITLES_ENDPOINT, GET_ORGANIZATION_ENDPOINT } from '../constants/cv-endpoint.constant';
+import { GET_JOB_TITLES_ENDPOINT, GET_ORGANIZATION_ENDPOINT, LIST_CATEGORIES_ENDPOINT } from '../constants/cv-endpoint.constant';
 import type {
   DegreeListResponse,
   EmploymentTypeListResponse,
   JobTitleListResponse,
   OrganizationListResponse,
+  SkillCategoryListResponse,
 } from '../types/cv.types';
 
 
@@ -30,6 +31,19 @@ const MOCK_DEGREES: DegreeListResponse = [
   { id: '3733dcbf-940d-43c5-ac3f-ca336ea25b32', name: 'Doctor of Philosophy (PhD)' },
   { id: '6efa57a3-01a9-4eb2-9e4d-d9c2f8db662e', name: 'High School Diploma' },
 ];
+
+export const searchSkillCategories = async (query: string) => {
+  const { data } = await authClient<SkillCategoryListResponse>({
+    method: 'GET',
+    url: LIST_CATEGORIES_ENDPOINT(),
+    params: {
+      SearchTerm: query,
+    },
+  });
+
+  return data;
+};
+
 
 export const searchCompanies = async (query: string) => {
   const { data } = await authClient<OrganizationListResponse>({

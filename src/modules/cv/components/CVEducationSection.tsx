@@ -117,7 +117,7 @@ export function CVEducationForm({ cvId, onSuccess }: CVEducationFormProps) {
                     degree: data.degree,
                     degreeId: data.degreeId,
                     organization: data.organization,
-                    organizationId: null, // This would be set if we had organization selection
+                    organizationId: null,
                     location: data.location,
                     fieldOfStudy: data.fieldOfStudy,
                     startDate: data.startDate ? format(new Date(data.startDate), 'yyyy-MM-dd') : null,
@@ -136,7 +136,7 @@ export function CVEducationForm({ cvId, onSuccess }: CVEducationFormProps) {
                     degree: data.degree,
                     degreeId: data.degreeId,
                     organization: data.organization,
-                    organizationId: null, // This would be set if we had organization selection
+                    organizationId: null,
                     location: data.location,
                     fieldOfStudy: data.fieldOfStudy,
                     startDate: data.startDate ? format(new Date(data.startDate), 'yyyy-MM-dd') : null,
@@ -162,14 +162,14 @@ export function CVEducationForm({ cvId, onSuccess }: CVEducationFormProps) {
         setEditingEducation(education);
         form.reset({
             degree: education.degree,
-            degreeId: '', // Not available in response, would need to be added to API
+            degreeId: '',
             organization: education.organization,
             fieldOfStudy: education.fieldOfStudy || '',
             startDate: education.startDate,
             endDate: education.endDate,
             description: education.description || '',
             gpa: education.gpa,
-            location: '', // Not available in response, would need to be added to API
+            location: '',
         });
     };
 

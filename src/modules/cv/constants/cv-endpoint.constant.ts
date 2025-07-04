@@ -15,7 +15,7 @@ export const GET_ORGANIZATION_ENDPOINT = () => `api/organizations/suggestions`;
 export const GET_JOB_TITLES_ENDPOINT = () => `api/jobTitles/suggestions`;
 export const GET_EMPLOYMENT_TYPE_ENDPOINT = () => `api/employmentTypes/suggestions`;
 export const GET_DEGREE_ENDPOINT = () => `api/degrees/suggestions`;
-
+export const LIST_CATEGORIES_ENDPOINT = () => `api/skill/categories/suggestions`;
 
 export const UPSERT_SUMMARY_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/summary`;
 export const GET_SUMMARY_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/summary`;
@@ -41,3 +41,10 @@ export const UPDATE_EDUCATION_ENDPOINT = (cvId: string, educationId: string) =>
   `api/cvs/${cvId}/educations/${educationId}`;
 export const DELETE_EDUCATION_ENDPOINT = (cvId: string, educationId: string) =>
   `api/cvs/${cvId}/educations/${educationId}`;
+
+export const LIST_SKILLS_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/skills`;
+export const CREATE_SKILL_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/skills`;
+export const UPDATE_SKILL_ENDPOINT = (cvId: string, skillId: string) =>
+  `api/cvs/${cvId}/skills/${skillId}`;
+export const DELETE_SKILL_ENDPOINT = (cvId: string, skillId: string) =>
+  `api/cvs/${cvId}/skills/${skillId}`;
