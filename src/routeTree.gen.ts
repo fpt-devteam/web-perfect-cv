@@ -29,6 +29,7 @@ import { Route as PrivateUserDashboardResignationLetterIndexImport } from './rou
 import { Route as PrivateUserDashboardCvsIndexImport } from './routes/_private/user-dashboard/cvs/index'
 import { Route as PrivateUserDashboardCoverLetterIndexImport } from './routes/_private/user-dashboard/cover-letter/index'
 import { Route as PrivateUserDashboardCvsCvIdImport } from './routes/_private/user-dashboard/cvs/$cvId'
+import { Route as PrivateUserDashboardCvsCvIdExperienceIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/experience/index'
 import { Route as PrivateUserDashboardCvsCvIdContactIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/contact/index'
 
 // Create/Update Routes
@@ -145,6 +146,13 @@ const PrivateUserDashboardCvsCvIdRoute =
     id: '/cvs/$cvId',
     path: '/cvs/$cvId',
     getParentRoute: () => PrivateUserDashboardRoute,
+  } as any)
+
+const PrivateUserDashboardCvsCvIdExperienceIndexRoute =
+  PrivateUserDashboardCvsCvIdExperienceIndexImport.update({
+    id: '/experience/',
+    path: '/experience/',
+    getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
   } as any)
 
 const PrivateUserDashboardCvsCvIdContactIndexRoute =
@@ -291,6 +299,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateUserDashboardCvsCvIdContactIndexImport
       parentRoute: typeof PrivateUserDashboardCvsCvIdImport
     }
+    '/_private/user-dashboard/cvs/$cvId/experience/': {
+      id: '/_private/user-dashboard/cvs/$cvId/experience/'
+      path: '/experience'
+      fullPath: '/user-dashboard/cvs/$cvId/experience'
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdExperienceIndexImport
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
+    }
   }
 }
 
@@ -329,12 +344,15 @@ const PrivateAdminDashboardRouteWithChildren =
 
 interface PrivateUserDashboardCvsCvIdRouteChildren {
   PrivateUserDashboardCvsCvIdContactIndexRoute: typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  PrivateUserDashboardCvsCvIdExperienceIndexRoute: typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
 }
 
 const PrivateUserDashboardCvsCvIdRouteChildren: PrivateUserDashboardCvsCvIdRouteChildren =
   {
     PrivateUserDashboardCvsCvIdContactIndexRoute:
       PrivateUserDashboardCvsCvIdContactIndexRoute,
+    PrivateUserDashboardCvsCvIdExperienceIndexRoute:
+      PrivateUserDashboardCvsCvIdExperienceIndexRoute,
   }
 
 const PrivateUserDashboardCvsCvIdRouteWithChildren =
@@ -404,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
   '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
   '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -424,6 +443,7 @@ export interface FileRoutesByTo {
   '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
   '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
   '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
 }
 
 export interface FileRoutesById {
@@ -447,6 +467,7 @@ export interface FileRoutesById {
   '/_private/user-dashboard/cvs/': typeof PrivateUserDashboardCvsIndexRoute
   '/_private/user-dashboard/resignation-letter/': typeof PrivateUserDashboardResignationLetterIndexRoute
   '/_private/user-dashboard/cvs/$cvId/contact/': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  '/_private/user-dashboard/cvs/$cvId/experience/': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -469,6 +490,7 @@ export interface FileRouteTypes {
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
     | '/user-dashboard/cvs/$cvId/contact'
+    | '/user-dashboard/cvs/$cvId/experience'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -488,6 +510,7 @@ export interface FileRouteTypes {
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
     | '/user-dashboard/cvs/$cvId/contact'
+    | '/user-dashboard/cvs/$cvId/experience'
   id:
     | '__root__'
     | '/'
@@ -509,6 +532,7 @@ export interface FileRouteTypes {
     | '/_private/user-dashboard/cvs/'
     | '/_private/user-dashboard/resignation-letter/'
     | '/_private/user-dashboard/cvs/$cvId/contact/'
+    | '/_private/user-dashboard/cvs/$cvId/experience/'
   fileRoutesById: FileRoutesById
 }
 
@@ -623,7 +647,8 @@ export const routeTree = rootRoute
       "filePath": "_private/user-dashboard/cvs/$cvId.tsx",
       "parent": "/_private/user-dashboard",
       "children": [
-        "/_private/user-dashboard/cvs/$cvId/contact/"
+        "/_private/user-dashboard/cvs/$cvId/contact/",
+        "/_private/user-dashboard/cvs/$cvId/experience/"
       ]
     },
     "/_private/user-dashboard/cover-letter/": {
@@ -640,6 +665,10 @@ export const routeTree = rootRoute
     },
     "/_private/user-dashboard/cvs/$cvId/contact/": {
       "filePath": "_private/user-dashboard/cvs/$cvId/contact/index.tsx",
+      "parent": "/_private/user-dashboard/cvs/$cvId"
+    },
+    "/_private/user-dashboard/cvs/$cvId/experience/": {
+      "filePath": "_private/user-dashboard/cvs/$cvId/experience/index.tsx",
       "parent": "/_private/user-dashboard/cvs/$cvId"
     }
   }
