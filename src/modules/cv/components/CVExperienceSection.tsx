@@ -29,7 +29,7 @@ import type { CVExperience, EmploymentTypeResponse } from '@/modules/cv/types/cv
 import { useCreateExperience, useDeleteExperience, useListExperiences, useUpdateExperience } from '@/modules/cv/hooks/useExperiences';
 import { formatCompanyName } from '@/shared/utils/utils';
 import { useGetEmploymentType } from '@/modules/cv/hooks/useGetEmploymentType';
-import { searchJobTitles, searchOrganizations } from '@/modules/cv/services/search.service';
+import { searchJobTitles, searchCompanies } from '@/modules/cv/services/search.service';
 import { CvSectionTab } from '@/modules/cv/components/CvSectionTab';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
 import { Calendar } from '@/shared/components/ui/calendar';
@@ -196,7 +196,7 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                                                     field.onChange(val);
                                                     form.setValue('organizationId', null);
                                                 }}
-                                                onSearch={searchOrganizations}
+                                                onSearch={searchCompanies}
                                                 onSelect={item => form.setValue('organizationId', item.id)}
                                                 placeholder="e.g. Google"
                                                 className="focus:ring-blue-500 focus:border-blue-500"
@@ -224,7 +224,7 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {employmentTypes?.items.map((type: EmploymentTypeResponse) => (
+                                                {employmentTypes?.map((type: EmploymentTypeResponse) => (
                                                     <SelectItem key={type.id} value={type.id}>
                                                         {type.name}
                                                     </SelectItem>

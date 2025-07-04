@@ -16,6 +16,9 @@ import type {
   CVProjectResponse,
   CreateCVProjectRequest,
   UpdateCVProjectRequest,
+  CVEducationResponse,
+  CreateCVEducationRequest,
+  UpdateCVEducationRequest,
 } from '@/modules/cv/types/cv.types';
 import {
   GET_CVS_ENDPOINT,
@@ -36,6 +39,10 @@ import {
   CREATE_PROJECT_ENDPOINT,
   UPDATE_PROJECT_ENDPOINT,
   DELETE_PROJECT_ENDPOINT,
+  LIST_EDUCATIONS_ENDPOINT,
+  CREATE_EDUCATION_ENDPOINT,
+  UPDATE_EDUCATION_ENDPOINT,
+  DELETE_EDUCATION_ENDPOINT,
 } from '@/modules/cv/constants/cv-endpoint.constant';
 import { authClient } from '@/modules/auth/services/client.service';
 
@@ -261,6 +268,60 @@ export const deleteProject = async ({
   const { data } = await authClient<void>({
     method: 'DELETE',
     url: DELETE_PROJECT_ENDPOINT(cvId, projectId),
+  });
+  return data;
+};
+
+export const listEducations = async ({ cvId }: { readonly cvId: string }) => {
+  const { data } = await authClient<CVEducationResponse[]>({
+    method: 'GET',
+    url: LIST_EDUCATIONS_ENDPOINT(cvId),
+  });
+  return data;
+};
+
+export const createEducation = async ({
+  cvId,
+  educationData,
+}: {
+  readonly cvId: string;
+  readonly educationData: CreateCVEducationRequest;
+}) => {
+  const { data } = await authClient<CVEducationResponse>({
+    method: 'POST',
+    url: CREATE_EDUCATION_ENDPOINT(cvId),
+    data: educationData,
+  });
+  return data;
+};
+
+export const updateEducation = async ({
+  cvId,
+  educationId,
+  educationData,
+}: {
+  readonly cvId: string;
+  readonly educationId: string;
+  readonly educationData: UpdateCVEducationRequest;
+}) => {
+  const { data } = await authClient<CVEducationResponse>({
+    method: 'PUT',
+    url: UPDATE_EDUCATION_ENDPOINT(cvId, educationId),
+    data: educationData,
+  });
+  return data;
+};
+
+export const deleteEducation = async ({
+  cvId,
+  educationId,
+}: {
+  readonly cvId: string;
+  readonly educationId: string;
+}) => {
+  const { data } = await authClient<void>({
+    method: 'DELETE',
+    url: DELETE_EDUCATION_ENDPOINT(cvId, educationId),
   });
   return data;
 };

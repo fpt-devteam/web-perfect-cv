@@ -28,7 +28,7 @@ import {
     useUpdateCertification,
     useDeleteCertification
 } from '@/modules/cv/hooks/useCertification';
-import { searchOrganizations } from '@/modules/cv/services/search.service';
+import { searchCompanies } from '@/modules/cv/services/search.service';
 import type { CVCertificationResponse, CreateCVCertificationRequest, UpdateCVCertificationRequest } from '@/modules/cv/types/cv.types';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
@@ -312,7 +312,7 @@ export function CVCertificationForm({ cvId, onSuccess }: CVCertificationFormProp
                                                         field.onChange(val);
                                                         form.setValue('organizationId', null);
                                                     }}
-                                                    onSearch={searchOrganizations}
+                                                    onSearch={searchCompanies}
                                                     onSelect={item => form.setValue('organizationId', item.id)}
                                                     placeholder="e.g. Amazon Web Services"
                                                     className="focus:ring-blue-500 focus:border-blue-500"

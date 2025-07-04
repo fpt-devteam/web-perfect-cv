@@ -79,21 +79,14 @@ export type SearchableItemResponse = {
 };
 
 export type SearchableItemListResponse = SearchableItemResponse[];
-
 export type OrganizationResponse = SearchableItemResponse;
-
 export type JobTitleResponse = SearchableItemResponse;
-
 export type EmploymentTypeResponse = SearchableItemResponse;
-
+export type DegreeResponse = SearchableItemResponse;
 export type OrganizationListResponse = OrganizationResponse[];
-
-export type EmploymentTypeListResponse = {
-  total: number;
-  items: EmploymentTypeResponse[];
-};
-
+export type EmploymentTypeListResponse = EmploymentTypeResponse[];
 export type JobTitleListResponse = JobTitleResponse[];
+export type DegreeListResponse = DegreeResponse[];
 
 export type CVSummary = {
   id: string;
@@ -165,4 +158,44 @@ export type UpdateCVProjectRequest = {
   link: string | null;
   startDate: string | null;
   endDate: string | null;
+};
+
+export type CVEducationResponse = {
+  id: string;
+  cvId: string;
+  organization: string;
+  degree: string;
+  fieldOfStudy: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  description: string | null;
+  gpa: number | null;
+};
+
+export type CreateCVEducationRequest = {
+  cvId: string;
+  degree: string;
+  degreeId: string | null;
+  organizationId: string | null;
+  organization: string;
+  location: string | null;
+  fieldOfStudy: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  description: string | null;
+  gpa: number | null;
+};
+
+export type UpdateCVEducationRequest = {
+  id: string;
+  degreeId: string;
+  degree: string;
+  organization: string;
+  organizationId: string | null;
+  location: string | null;
+  fieldOfStudy: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  description: string | null;
+  gpa: number | null;
 };
