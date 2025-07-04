@@ -111,3 +111,80 @@ export type CVSummary = {
 };
 
 export type UpSertSummaryRequest = Omit<CVSummary, 'id'>;
+
+// New CV Data structure matching backend JSON format
+export interface CVData {
+  CVId?: string;
+  UserId: string;
+  Title: string;
+  JobDetail: {
+    JobTitle: string;
+    CompanyName: string;
+    Description: string;
+  };
+  Contacts: {
+    Id: string;
+    CVId: string;
+    PhoneNumber: string;
+    Email: string;
+    LinkedInUrl: string | null;
+    GitHubUrl: string | null;
+    PersonalWebsiteUrl: string | null;
+    Country: string;
+    City: string;
+  };
+  Summary: string | null;
+  Skills: Array<{
+    Id: string;
+    CVId: string;
+    Name: string;
+    Level: number;
+    Description: string | null;
+  }>;
+  Educations: Array<{
+    Organization: string;
+    Degree: string;
+    FieldOfStudy: string;
+    StartDate: string;
+    EndDate: string;
+    Description: string;
+    Gpa: number;
+  }>;
+  Certifications: Array<{
+    Id: string;
+    CVId: string;
+    Name: string;
+    OrganizationId: string;
+    Organization: string;
+    IssuedDate: string;
+    Description: string;
+  }>;
+  Experiences: Array<{
+    Id: string;
+    CVId: string;
+    JobTitleId: string;
+    JobTitle: string;
+    EmploymentTypeId: string;
+    EmploymentTypeName: string;
+    OrganizationId: string;
+    Organization: string;
+    Location: string;
+    StartDate: string;
+    EndDate: string;
+    Description: string;
+    CreatedAt: string;
+    UpdatedAt: string;
+  }>;
+  Projects: Array<{
+    Id: string;
+    CVId: string;
+    Title: string;
+    Description: string;
+    Link: string;
+    StartDate: string;
+    EndDate: string;
+    CreatedAt: string;
+    UpdatedAt: string;
+  }>;
+  lastEditedAt: string;
+}

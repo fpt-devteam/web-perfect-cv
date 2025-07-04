@@ -10,7 +10,7 @@ export function CVLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <CVSectionNavbar cvId={cvId} />
-      <div className="container mx-auto p-6 flex-1">
+      <div className="w-full px-4 py-6 flex-1">
         <Outlet />
       </div>
     </div>

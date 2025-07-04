@@ -7,3 +7,4 @@
 
 export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
 export const API_ICONS_ENDPOINT = import.meta.env.VITE_API_ICON_ENDPOINT;
+export const AI_API_ENDPOINT = import.meta.env.VITE_AI_API_ENDPOINT;
