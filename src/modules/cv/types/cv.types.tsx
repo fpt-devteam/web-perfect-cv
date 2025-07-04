@@ -103,3 +103,11 @@ export type JobTitleListResponse = {
   total: number;
   items: JobTitleResponse[];
 };
+
+export type CVSummary = {
+  id: string;
+  cvId: string;
+  context: string | null;
+};
+
+export type UpSertSummaryRequest = Omit<CVSummary, 'id'>;

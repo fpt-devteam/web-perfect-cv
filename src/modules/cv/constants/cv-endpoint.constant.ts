@@ -14,3 +14,6 @@ export const DELETE_EXPERIENCE_ENDPOINT = (cvId: string, experienceId: string) =
 export const GET_ORGANIZATION_ENDPOINT = () => `api/organizations`;
 export const GET_EMPLOYMENT_TYPE_ENDPOINT = () => `api/employment-types`;
 export const GET_JOB_TITLES_ENDPOINT = () => `api/job-titles`;
+
+export const UPSERT_SUMMARY_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/summary`;
+export const GET_SUMMARY_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/summary`;

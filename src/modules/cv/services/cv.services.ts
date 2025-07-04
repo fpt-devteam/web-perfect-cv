@@ -8,6 +8,8 @@ import type {
   CVExperience,
   CreateExperienceRequest,
   UpdateExperienceRequest,
+  CVSummary,
+  UpSertSummaryRequest,
 } from '@/modules/cv/types/cv.types';
 import {
   GET_CVS_ENDPOINT,
@@ -18,6 +20,8 @@ import {
   CREATE_EXPERIENCE_ENDPOINT,
   UPDATE_EXPERIENCE_ENDPOINT,
   DELETE_EXPERIENCE_ENDPOINT,
+  GET_SUMMARY_ENDPOINT,
+  UPSERT_SUMMARY_ENDPOINT,
 } from '@/modules/cv/constants/cv-endpoint.constant';
 import { authClient } from '@/modules/auth/services/client.service';
 
@@ -112,6 +116,29 @@ export const deleteExperience = async ({
   const { data } = await authClient<void>({
     method: 'DELETE',
     url: DELETE_EXPERIENCE_ENDPOINT(cvId, experienceId),
+  });
+  return data;
+};
+
+export const getSummary = async ({ cvId }: { readonly cvId: string }) => {
+  const { data } = await authClient<CVSummary>({
+    method: 'GET',
+    url: GET_SUMMARY_ENDPOINT(cvId),
+  });
+  return data;
+};
+
+export const upsertSummary = async ({
+  cvId,
+  summaryData,
+}: {
+  readonly cvId: string;
+  readonly summaryData: UpSertSummaryRequest;
+}) => {
+  const { data } = await authClient<CVSummary>({
+    method: 'POST',
+    url: UPSERT_SUMMARY_ENDPOINT(cvId),
+    data: summaryData,
   });
   return data;
 };
