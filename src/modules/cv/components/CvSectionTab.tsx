@@ -35,6 +35,7 @@ export function CvSectionTab({
     >
       {tabItems.map(item => (
         <CvSectionTabsItem
+          key={item.id}
           id={item.id}
           title={item.title}
           detail={item.detail}

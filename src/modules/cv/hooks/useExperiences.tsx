@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { listExperiences, createExperience, updateExperience } from '@/modules/cv/services/cv.services';
+import { listExperiences, createExperience, updateExperience, deleteExperience } from '@/modules/cv/services/cv.services';
 import type { CreateExperienceRequest, UpdateExperienceRequest } from '@/modules/cv/types/cv.types';
 
 const genExperiencesKey = (cvId: string) => ['experiences', cvId];
@@ -44,14 +44,14 @@ export function useUpdateExperience({ cvId }: { readonly cvId: string }) {
   });
 }
 
-// export function useDeleteExperience({ cvId }: { readonly cvId: string }) {
-//   const queryClient = useQueryClient();
+export function useDeleteExperience({ cvId }: { readonly cvId: string }) {
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: (experienceId: string) => deleteExperience({ cvId, experienceId }),
-//     onSuccess: (_, experienceId) => {
-//       queryClient.invalidateQueries({ queryKey: genExperiencesKey(cvId) });
-//       queryClient.invalidateQueries({ queryKey: genExperienceKey(cvId, experienceId) });
-//     },
-//   });
-// }
+  return useMutation({
+    mutationFn: (experienceId: string) => deleteExperience({ cvId, experienceId }),
+    onSuccess: (_, experienceId) => {
+      queryClient.invalidateQueries({ queryKey: genExperiencesKey(cvId) });
+      queryClient.invalidateQueries({ queryKey: genExperienceKey(cvId, experienceId) });
+    },
+  });
+}

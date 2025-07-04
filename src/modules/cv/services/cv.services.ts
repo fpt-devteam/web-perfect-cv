@@ -17,6 +17,7 @@ import {
   LIST_EXPERIENCES_ENDPOINT,
   CREATE_EXPERIENCE_ENDPOINT,
   UPDATE_EXPERIENCE_ENDPOINT,
+  DELETE_EXPERIENCE_ENDPOINT,
 } from '@/modules/cv/constants/cv-endpoint.constant';
 import { authClient } from '@/modules/auth/services/client.service';
 
@@ -101,16 +102,16 @@ export const updateExperience = async ({
   return data;
 };
 
-// export const deleteExperience = async ({
-//   cvId,
-//   experienceId,
-// }: {
-//   readonly cvId: string;
-//   readonly experienceId: string;
-// }) => {
-//   const { data } = await authClient<void>({
-//     method: 'DELETE',
-//     url: DELETE_EXPERIENCE_ENDPOINT(cvId, experienceId),
-//   });
-//   return data;
-// };
+export const deleteExperience = async ({
+  cvId,
+  experienceId,
+}: {
+  readonly cvId: string;
+  readonly experienceId: string;
+}) => {
+  const { data } = await authClient<void>({
+    method: 'DELETE',
+    url: DELETE_EXPERIENCE_ENDPOINT(cvId, experienceId),
+  });
+  return data;
+};

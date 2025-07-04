@@ -27,7 +27,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect, useState, useMemo } from 'react';
 import type { CVExperience, EmploymentTypeResponse } from '@/modules/cv/types/cv.types';
-import { useCreateExperience, useListExperiences, useUpdateExperience } from '@/modules/cv/hooks/useExperiences';
+import { useCreateExperience, useDeleteExperience, useListExperiences, useUpdateExperience } from '@/modules/cv/hooks/useExperiences';
 import { formatCompanyName } from '@/shared/utils/utils';
 import { useGetEmploymentType } from '@/modules/cv/hooks/useGetEmploymentType';
 import { searchJobTitles, searchOrganizations } from '@/modules/cv/services/search.service';
@@ -58,12 +58,15 @@ const experienceFormSchema = z.object({
 
 type ExperienceFormValues = z.infer<typeof experienceFormSchema>;
 
-function ExperienceDetailView({ experience }: { readonly experience: CVExperience }) {
+function ExperienceDetailView({ experience, isCreating }: { readonly experience: CVExperience, readonly isCreating: boolean }) {
   const { cvId } = Route.useParams();
   const { data: employmentTypes, isPending } = useGetEmploymentType();
   const { showSuccess, showError } = useNotification();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const updateExperience = useUpdateExperience({ cvId });
+  const createExperience = useCreateExperience({ cvId });
+
+  console.log('Experience:', experience);
 
   const defaultValues: ExperienceFormValues = useMemo(() => ({
     jobTitle: experience.jobTitle,
@@ -90,9 +93,9 @@ function ExperienceDetailView({ experience }: { readonly experience: CVExperienc
     setIsSubmitting(true);
     console.log('Form submitted:', data);
 
-    const res = await updateExperience.mutateAsync({
-      experienceId: experience.id,
-      experienceData: {
+    if (isCreating) {
+      const res = await createExperience.mutateAsync({
+        cvId,
         jobTitle: data.jobTitle,
         jobTitleId: data.jobTitleId ?? null,
         employmentTypeId: data.employmentTypeId,
@@ -103,20 +106,47 @@ function ExperienceDetailView({ experience }: { readonly experience: CVExperienc
         endDate: format(data.endDate, 'yyyy-MM-dd'),
         description: data.description ?? null,
       },
-    },
-      {
-        onSuccess: () => {
-          showSuccess('Experience updated successfully');
-        },
-        onError: error => {
-          showError(error as AxiosError<BaseError>);
-        },
-        onSettled: () => {
-          setIsSubmitting(false);
-        },
-      });
+        {
+          onSuccess: () => {
+            showSuccess('Experience created successfully');
+          },
+          onError: error => {
+            showError(error as AxiosError<BaseError>);
+          },
+          onSettled: () => {
+            setIsSubmitting(false);
+          },
+        });
+      console.log('Experience created successfully:', res);
+    } else {
 
-    console.log('Experience updated successfully:', res);
+      const res = await updateExperience.mutateAsync({
+        experienceId: experience.id,
+        experienceData: {
+          jobTitle: data.jobTitle,
+          jobTitleId: data.jobTitleId ?? null,
+          employmentTypeId: data.employmentTypeId,
+          organization: data.organizationName,
+          organizationId: data.organizationId ?? null,
+          location: data.location,
+          startDate: format(data.startDate, 'yyyy-MM-dd'),
+          endDate: format(data.endDate, 'yyyy-MM-dd'),
+          description: data.description ?? null,
+        },
+      },
+        {
+          onSuccess: () => {
+            showSuccess('Experience updated successfully');
+          },
+          onError: error => {
+            showError(error as AxiosError<BaseError>);
+          },
+          onSettled: () => {
+            setIsSubmitting(false);
+          },
+        });
+      console.log('Experience updated successfully:', res);
+    }
     setIsSubmitting(false);
   };
 
@@ -373,6 +403,8 @@ function ExperienceSection() {
   const [selectedExperienceId, setSelectedExperienceId] = useState<string>();
   const [experienceList, setExperienceList] = useState<CVExperience[]>([]);
   const { data: experiences, isLoading } = useListExperiences({ cvId });
+  const [creatingExperience, setCreatingExperience] = useState<string[]>([]);
+  const { showSuccess, showError } = useNotification();
 
   useEffect(() => {
     if (!isLoading && experiences && experiences.length > 0 && !selectedExperienceId) {
@@ -380,84 +412,63 @@ function ExperienceSection() {
       if (experiences) {
         setExperienceList(experiences);
       } else {
-        setExperienceList([...experienceList, generateNewTempExperience()]);
+        const tempExp = generateNewTempExperience();
+        setExperienceList([...experienceList, tempExp]);
+        setCreatingExperience(prev => [...prev, tempExp.id]);
       }
     }
   }, [experiences, isLoading, selectedExperienceId]);
 
-  const selectedExperience = experienceList?.find(exp => exp.id === selectedExperienceId);
-
-  const handleChangeSelectedExperienceId = (id: string) => setSelectedExperienceId(id);
-
   const generateNewTempExperience = () => {
     const tempId = `temp-${Date.now()}`;
+
     return {
       id: tempId,
       cvId,
-      jobTitle: '',
+      jobTitle: 'Untitled',
       jobTitleId: null,
       employmentTypeId: '',
       employmentTypeName: '',
       organizationId: null,
       organization: '',
       location: '',
-      startDate: '',
-      endDate: '',
+      startDate: new Date().toISOString(),
+      endDate: new Date().toISOString(),
       description: '',
       createdAt: '',
       updatedAt: '',
     } as CVExperience;
   }
 
+  const handleChangeSelectedExperienceId = (id: string) => setSelectedExperienceId(id);
+
+  const selectedExperience = experienceList?.find(exp => exp.id === selectedExperienceId) ?? generateNewTempExperience();
+
   const handleAddExperience = () => {
     console.log('Add new experience clicked');
     const newItem = generateNewTempExperience();
-    setExperienceList(prev => [
-      ...prev,
-      newItem
-    ]);
+    setExperienceList(prev => [...prev, newItem]);
+    setCreatingExperience(prev => [...prev, newItem.id]);
     setSelectedExperienceId(newItem.id);
   };
 
-  if (isLoading) {
-    return (
-      <div className="w-full flex gap-6 p-6 bg-gray-50 min-h-screen">
-        <div className="w-80 flex flex-col gap-6">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <div className="animate-pulse space-y-4">
-              <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-              <div className="h-8 bg-gray-200 rounded"></div>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <div className="animate-pulse space-y-3">
-              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-              {[1, 2, 3].map(i => (
-                <div key={i} className="h-16 bg-gray-200 rounded"></div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="flex-1">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <div className="animate-pulse space-y-4">
-              <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-              <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const deleteExperience = useDeleteExperience({ cvId });
 
-  const handleDeleteExperience = (id: string) => {
+  const handleDeleteExperience = async () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this experience?');
+    if (!confirmDelete) return;
+
+    try {
+      await deleteExperience.mutateAsync(selectedExperienceId ?? '');
+      showSuccess('Experience deleted successfully');
+      setExperienceList(experienceList.filter(exp => exp.id !== selectedExperienceId));
+    } catch (error) {
+      showError('Error occurred while deleting experience');
+    }
   };
 
   const handleUnShowExperience = (id: string) => {
-  }
+  };
 
   return (
     <div className="w-full flex gap-6 p-6 bg-gray-50 min-h-screen">
@@ -467,8 +478,8 @@ function ExperienceSection() {
           title="Your Experience"
           tabItems={experienceList.map(exp => ({
             id: exp.id,
-            title: exp.jobTitle ?? 'Untitled',
-            detail: formatCompanyName(exp.organization) || ''
+            title: exp.jobTitle,
+            detail: formatCompanyName(exp.organization) || "Detail"
           }))}
           selectedId={selectedExperienceId}
           onChange={handleChangeSelectedExperienceId}
@@ -478,15 +489,7 @@ function ExperienceSection() {
         />
       </div>
       <div className="flex-1">
-        {selectedExperience ? (
-          <ExperienceDetailView experience={selectedExperience} />
-        ) : (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center text-gray-500">
-              <p>Select an experience to view details</p>
-            </div>
-          </div>
-        )}
+        <ExperienceDetailView experience={selectedExperience} isCreating={creatingExperience.includes(selectedExperienceId ?? '')} />
       </div>
     </div>
   );

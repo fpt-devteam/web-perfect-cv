@@ -8,7 +8,7 @@ const JOB_TITLE_LIST_RESPONSE: JobTitleListResponse = {
   total: 30,
   items: [
     { id: '0643ed8d-728d-4acf-95ad-15ddfd7d31e6', name: 'Cybersecurity Analyst' },
-    { id: '3f9a882d-36d4-4902-9697-1798c071df13', name: 'Security Engineer' },
+    { id: '3f9a882f-36d4-4902-9697-1798c071df13', name: 'Security Engineer' },
     { id: 'a186a7e7-3bc4-4909-8eb7-1becbdc8a5d0', name: 'Data Scientist' },
     { id: 'b381508a-47c3-4eca-8c37-21eee0522c8a', name: 'Mobile Developer' },
     { id: '9ec646fb-f340-4674-a8af-22539f9ed719', name: 'IT Support Specialist' },
