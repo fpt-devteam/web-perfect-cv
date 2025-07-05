@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useGetSummary, useUpsertSummary } from "../hooks/useGetSummary";
+import { useGetSummary, useUpsertSummary } from "../hooks/useSummary";
 import { useNotification } from "@/shared/hooks/useNotification";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -84,6 +84,14 @@ export function CVSummary({ cvId }: CVSummaryProps) {
     return (
         <div className="space-y-6">
             <Card>
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center gap-2">
+                            <Pencil className="h-5 w-5" />
+                            Write a professional summary <span className="text-red-500">*</span>
+                        </CardTitle>
+                    </div>
+                </CardHeader>
                 <CardContent>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -92,10 +100,6 @@ export function CVSummary({ cvId }: CVSummaryProps) {
                                 name="context"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="flex items-center gap-2">
-                                            <Pencil className="h-4 w-4" />
-                                            Write a professional summary
-                                        </FormLabel>
                                         <FormControl>
                                             <Textarea placeholder="Enter your summary here" {...field} />
                                         </FormControl>

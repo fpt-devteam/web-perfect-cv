@@ -1,4 +1,3 @@
-import { AIScoreCard } from '@/modules/cv/components/AIScoreCard';
 import { format } from "date-fns"
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
@@ -6,6 +5,7 @@ import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
 import { Label } from '@/shared/components/ui/label';
 import { SearchableInput } from '@/shared/components/ui/searchable-input';
+import { Calendar as CalendarComponent } from '@/shared/components/ui/calendar';
 import {
     Select,
     SelectContent,
@@ -29,15 +29,14 @@ import type { CVExperience, EmploymentTypeResponse } from '@/modules/cv/types/cv
 import { useCreateExperience, useDeleteExperience, useListExperiences, useUpdateExperience } from '@/modules/cv/hooks/useExperiences';
 import { formatCompanyName } from '@/shared/utils/utils';
 import { useGetEmploymentType } from '@/modules/cv/hooks/useGetEmploymentType';
-import { searchJobTitles, searchOrganizations } from '@/modules/cv/services/search.service';
-import { CvSectionTab } from '@/modules/cv/components/CvSectionTab';
+import { searchJobTitles, searchCompanies } from '@/modules/cv/services/search.service';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
-import { Calendar } from '@/shared/components/ui/calendar';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Briefcase, Plus, Trash2, Edit3 } from 'lucide-react';
 import { cn } from '@/shared/utils/cn.util';
 import type { AxiosError } from 'axios';
 import { useNotification } from '@/shared/hooks/useNotification';
 import type { BaseError } from '@/shared/types/error.type';
+
 const experienceFormSchema = z.object({
     jobTitle: z.string().min(1, 'Job title is required'),
     jobTitleId: z.string().nullable(),
@@ -58,8 +57,6 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
     const [isSubmitting, setIsSubmitting] = useState(false);
     const updateExperience = useUpdateExperience({ cvId });
     const createExperience = useCreateExperience({ cvId });
-
-    console.log('Experience:', experience);
 
     const defaultValues: ExperienceFormValues = useMemo(() => ({
         jobTitle: experience.jobTitle,
@@ -84,7 +81,6 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
 
     const onSubmit = async (data: ExperienceFormValues) => {
         setIsSubmitting(true);
-        console.log('Form submitted:', data);
 
         if (isCreating) {
             const res = await createExperience.mutateAsync({
@@ -110,7 +106,6 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                         setIsSubmitting(false);
                     },
                 });
-            console.log('Experience created successfully:', res);
         } else {
 
             const res = await updateExperience.mutateAsync({
@@ -138,19 +133,12 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                         setIsSubmitting(false);
                     },
                 });
-            console.log('Experience updated successfully:', res);
         }
         setIsSubmitting(false);
     };
 
     return (
-        <Card className="h-full shadow-sm">
-            <CardHeader className="pb-4">
-                <CardTitle className="text-xl font-bold text-gray-900">Experience Details</CardTitle>
-                <p className="text-sm text-gray-600">
-                    {experience.jobTitle} at {formatCompanyName(experience.organization)}
-                </p>
-            </CardHeader>
+        <Card className="shadow-sm">
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -192,8 +180,11 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                                         <FormControl>
                                             <SearchableInput
                                                 value={field.value}
-                                                onChange={field.onChange}
-                                                onSearch={searchOrganizations}
+                                                onChange={(val: string) => {
+                                                    field.onChange(val);
+                                                    form.setValue('organizationId', null);
+                                                }}
+                                                onSearch={searchCompanies}
                                                 onSelect={item => form.setValue('organizationId', item.id)}
                                                 placeholder="e.g. Google"
                                                 className="focus:ring-blue-500 focus:border-blue-500"
@@ -221,7 +212,7 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {employmentTypes?.items.map((type: EmploymentTypeResponse) => (
+                                                {employmentTypes?.map((type: EmploymentTypeResponse) => (
                                                     <SelectItem key={type.id} value={type.id}>
                                                         {type.name}
                                                     </SelectItem>
@@ -254,90 +245,81 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
 
                         <div className="w-full">
                             <div className="space-y-4">
-                                <Label className="text-sm font-medium text-gray-700">
-                                    How long were you with the company? <span className="text-red-500">*</span>
-                                </Label>
-                                <div className="flex gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <FormField
-                                        name="startDate"
                                         control={form.control}
+                                        name="startDate"
                                         render={({ field }) => (
-                                            <FormItem className="flex flex-col">
-                                                <FormLabel>Start date</FormLabel>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <FormControl>
+                                            <FormItem>
+                                                <FormLabel className="text-sm font-medium text-gray-700">
+                                                    Start Date <span className="text-red-500">*</span>
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
                                                             <Button
-                                                                variant={"outline"}
+                                                                variant="outline"
                                                                 className={cn(
-                                                                    "w-[240px] pl-3 text-left font-normal",
+                                                                    "w-full justify-start text-left font-normal",
                                                                     !field.value && "text-muted-foreground"
                                                                 )}
                                                             >
-                                                                {field.value ? (
-                                                                    format(new Date(field.value), "PPP")
-                                                                ) : (
-                                                                    <span>Pick a date</span>
-                                                                )}
-                                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                {field.value ? format(new Date(field.value), "PPP") : "Pick a date"}
                                                             </Button>
-                                                        </FormControl>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className="w-auto p-0" align="start">
-                                                        <Calendar
-                                                            mode="single"
-                                                            selected={field.value ? new Date(field.value) : undefined}
-                                                            onSelect={(date) => field.onChange(date ?? undefined)}
-                                                            disabled={(date) =>
-                                                                date > new Date() || date < new Date("1900-01-01")
-                                                            }
-                                                            captionLayout="dropdown"
-                                                        />
-                                                    </PopoverContent>
-                                                </Popover>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-auto p-0" align="start">
+                                                            <CalendarComponent
+                                                                mode="single"
+                                                                selected={field.value ? new Date(field.value) : undefined}
+                                                                onSelect={(date) => field.onChange(date ? date.toISOString() : null)}
+                                                                disabled={(date) =>
+                                                                    date > new Date() || date < new Date("1900-01-01")
+                                                                }
+                                                                captionLayout="dropdown"
+                                                            />
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
-
-
                                     <FormField
-                                        name="endDate"
                                         control={form.control}
+                                        name="endDate"
                                         render={({ field }) => (
-                                            <FormItem className="flex flex-col">
-                                                <FormLabel>End date</FormLabel>
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <FormControl>
+                                            <FormItem>
+                                                <FormLabel className="text-sm font-medium text-gray-700">
+                                                    End Date <span className="text-red-500">*</span>
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
                                                             <Button
-                                                                variant={"outline"}
+                                                                variant="outline"
                                                                 className={cn(
-                                                                    "w-[240px] pl-3 text-left font-normal",
+                                                                    "w-full justify-start text-left font-normal",
                                                                     !field.value && "text-muted-foreground"
                                                                 )}
                                                             >
-                                                                {field.value ? (
-                                                                    format(new Date(field.value), "PPP")
-                                                                ) : (
-                                                                    <span>Pick a date</span>
-                                                                )}
-                                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                {field.value ? format(new Date(field.value), "PPP") : "Pick a date"}
                                                             </Button>
-                                                        </FormControl>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className="w-auto p-0" align="start">
-                                                        <Calendar
-                                                            mode="single"
-                                                            selected={field.value ? new Date(field.value) : undefined}
-                                                            onSelect={(date) => field.onChange(date ?? undefined)}
-                                                            disabled={(date) =>
-                                                                date > new Date() || date < new Date("1900-01-01")
-                                                            }
-                                                            captionLayout="dropdown"
-                                                        />
-                                                    </PopoverContent>
-                                                </Popover>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-auto p-0" align="start">
+                                                            <CalendarComponent
+                                                                mode="single"
+                                                                selected={field.value ? new Date(field.value) : undefined}
+                                                                onSelect={(date) => field.onChange(date ? date.toISOString() : null)}
+                                                                disabled={(date) =>
+                                                                    date > new Date() || date < new Date("1900-01-01")
+                                                                }
+                                                                captionLayout="dropdown"
+                                                            />
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -377,17 +359,120 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                             />
                         </div>
 
-                        <Button
-                            type="submit"
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-6"
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? 'Saving...' : 'Save Experience'}
-                        </Button>
+                        <div className="flex justify-end">
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'Saving...' : 'Save Experience'}
+                            </Button>
+                        </div>
                     </form>
                 </Form>
             </CardContent>
         </Card>
+    );
+}
+
+function CvSectionTab({
+    title,
+    tabItems,
+    selectedId,
+    onChange,
+    onAdd,
+    onDelete,
+    onUnShow
+}: {
+    title: string;
+    tabItems: Array<{ id: string; title: string; detail: string }>;
+    selectedId?: string;
+    onChange: (id: string) => void;
+    onAdd: () => void;
+    onDelete: () => void;
+    onUnShow: (id: string) => void;
+}) {
+    return (
+        <div className="space-y-6">
+            <Card>
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center gap-2">
+                            <Briefcase className="h-5 w-5" />
+                            {title}
+                            {/* {isAnyMutationInProgress && (
+                                <div className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full ml-2" />
+                            )} */}
+                        </CardTitle>
+                        <Button
+                            onClick={onAdd}
+                            size="sm"
+                            className="flex items-center gap-2"
+                        >
+                            <Plus className="h-4 w-4" />
+                            Add New
+                        </Button>
+                    </div>
+                </CardHeader>
+
+                <CardContent>
+                    <div className="space-y-3">
+                        {tabItems.map((item) => (
+                            <div
+                                key={item.id}
+                                className={cn(
+                                    "p-4 cursor-pointer transition-all duration-200 border-l-4",
+                                    selectedId === item.id
+                                        ? "bg-blue-50 border-blue-500 shadow-sm"
+                                        : "border-transparent hover:bg-gray-50"
+                                )}
+                                onClick={() => onChange(item.id)}
+                            >
+                                <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                        <h3 className={cn(
+                                            "font-medium text-sm",
+                                            selectedId === item.id ? "text-blue-900" : "text-gray-900"
+                                        )}>
+                                            {item.title}
+                                        </h3>
+                                        <p className={cn(
+                                            "text-xs mt-1",
+                                            selectedId === item.id ? "text-700" : "text-500"
+                                        )}>
+                                            {item.detail}
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onUnShow(item.id);
+                                            }}
+                                        >
+                                            <Edit3 className="h-3 w-3" />
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-6 w-6 p-0 text-red-400 hover:text-red-600"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                onDelete();
+                                            }}
+                                        >
+                                            <Trash2 className="h-3 w-3" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
     );
 }
 
@@ -463,9 +548,8 @@ function ExperienceSection({ cvId }: { readonly cvId: string }) {
     };
 
     return (
-        <div className="w-full flex gap-6 p-6 bg-gray-50 min-h-screen">
-            <div className="w-80 flex flex-col gap-6">
-                <AIScoreCard />
+        <div className="w-full flex gap-8 p-8 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+            <div className="w-96 flex flex-col gap-6">
                 <CvSectionTab
                     title="Your Experience"
                     tabItems={experienceList.map(exp => ({
@@ -487,4 +571,4 @@ function ExperienceSection({ cvId }: { readonly cvId: string }) {
     );
 }
 
-export default ExperienceSection;
+export { ExperienceSection };

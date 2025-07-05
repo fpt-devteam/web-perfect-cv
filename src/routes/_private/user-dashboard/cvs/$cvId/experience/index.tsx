@@ -1,4 +1,4 @@
-import ExperienceSection from '@/modules/cv/components/CVExperienceSection';
+import { ExperienceSection } from '@/modules/cv/components/CVExperienceSection';
 import { createFileRoute } from '@tanstack/react-router';
 
 

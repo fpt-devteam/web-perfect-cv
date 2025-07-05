@@ -33,12 +33,12 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
-interface CVContactFormProps {
+interface CVContactSectionProps {
   cvId: string;
   onSuccess?: () => void;
 }
 
-export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess }) => {
+export const CVContactSection: React.FC<CVContactSectionProps> = ({ cvId, onSuccess }) => {
   const { showError, showSuccess } = useNotification();
   const { data: contactData, isLoading: isLoadingContacts } = useListContacts({ cvId });
   const [isLoading, setIsLoading] = React.useState(false);
@@ -58,7 +58,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
   });
 
   useEffect(() => {
-    console.log('useEffect triggered:', { isLoadingContacts, contactCV: contactData });
     if (!isLoadingContacts && contactData) {
       form.reset({
         phoneNumber: contactData.phoneNumber ?? '',
@@ -69,7 +68,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
         city: contactData.city ?? '',
         country: contactData.country ?? '',
       });
-      console.log('Form values after reset:', form.getValues());
     }
   }, [contactData, isLoadingContacts, form]);
 
@@ -89,11 +87,9 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
         country: !data.country || data.country === '' ? null : data.country,
       };
 
-      console.log('Processed Data:', processedData);
-
       await upsertContact.mutateAsync(processedData, {
         onSuccess: () => {
-          showSuccess('Login successful');
+          showSuccess('Contact updated successfully!');
         },
         onError: error => {
           showError(error as AxiosError<BaseError>);
@@ -103,7 +99,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
         },
       });
 
-      showSuccess('Contact updated successfully!');
       onSuccess?.();
     } catch {
       showError('Failed to update contact');
@@ -122,17 +117,11 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
 
   return (
     <div className="space-y-6">
-      {/* Contact Form */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">Your Contact</CardTitle>
-        </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Contact Information Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Phone Number */}
                 <FormField
                   control={form.control}
                   name="phoneNumber"
@@ -150,7 +139,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
                   )}
                 />
 
-                {/* Email */}
                 <FormField
                   control={form.control}
                   name="email"
@@ -168,7 +156,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
                   )}
                 />
 
-                {/* LinkedIn URL */}
                 <FormField
                   control={form.control}
                   name="linkedInUrl"
@@ -190,7 +177,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
                   )}
                 />
 
-                {/* GitHub URL */}
                 <FormField
                   control={form.control}
                   name="gitHubUrl"
@@ -208,7 +194,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
                   )}
                 />
 
-                {/* Personal Website */}
                 <FormField
                   control={form.control}
                   name="personalWebsiteUrl"
@@ -226,7 +211,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
                   )}
                 />
 
-                {/* City */}
                 <FormField
                   control={form.control}
                   name="city"
@@ -244,7 +228,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
                   )}
                 />
 
-                {/* Country */}
                 <FormField
                   control={form.control}
                   name="country"
@@ -263,7 +246,6 @@ export const CVContactForm: React.FC<CVContactFormProps> = ({ cvId, onSuccess })
                 />
               </div>
 
-              {/* Action Buttons */}
               <div className="flex justify-end gap-3">
                 <Button type="submit" disabled={form.formState.isSubmitting} className="min-w-32">
                   {form.formState.isSubmitting && (
