@@ -51,10 +51,10 @@ export function CreateCVForm() {
       title: values.title,
       jobDetail: values.targetCv
         ? {
-          jobTitle: values.jobTitle ?? '',
-          companyName: values.companyName ?? '',
-          description: values.jobDescription ?? '',
-        }
+            jobTitle: values.jobTitle ?? '',
+            companyName: values.companyName ?? '',
+            description: values.jobDescription ?? '',
+          }
         : null,
     };
 

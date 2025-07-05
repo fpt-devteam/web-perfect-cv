@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { listExperiences, createExperience, updateExperience, deleteExperience } from '@/modules/cv/services/cv.services';
+import {
+  listExperiences,
+  createExperience,
+  updateExperience,
+  deleteExperience,
+} from '@/modules/cv/services/cv.services';
 import type { CreateExperienceRequest, UpdateExperienceRequest } from '@/modules/cv/types/cv.types';
 
 const genExperiencesKey = (cvId: string) => ['experiences', cvId];

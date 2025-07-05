@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  Eye,
-  BarChart3,
-  Zap,
-  RefreshCw
-} from 'lucide-react';
+import { Eye, BarChart3, Zap, RefreshCw } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
@@ -35,7 +30,7 @@ const mockAnalysisData: AnalysisData = {
         feedback: 'Your summary effectively highlights your key skills and experience.',
         suggestions: ['Add more quantifiable achievements', 'Include industry-specific keywords'],
         strengths: ['Clear career objective', 'Relevant experience mentioned'],
-        weaknesses: ['Lacks specific metrics', 'Could be more industry-focused']
+        weaknesses: ['Lacks specific metrics', 'Could be more industry-focused'],
       },
       skills: {
         score: 90,
@@ -44,7 +39,7 @@ const mockAnalysisData: AnalysisData = {
         strengths: ['Strong programming languages', 'Good framework knowledge'],
         weaknesses: ['Missing emerging technologies'],
         missingSkills: ['Docker', 'Kubernetes', 'AWS'],
-        relevantSkills: ['React', 'Node.js', 'Python', 'JavaScript']
+        relevantSkills: ['React', 'Node.js', 'Python', 'JavaScript'],
       },
       experience: {
         score: 85,
@@ -53,7 +48,7 @@ const mockAnalysisData: AnalysisData = {
         strengths: ['Clear career progression', 'Relevant industry experience'],
         weaknesses: ['Could show more impact metrics'],
         careerProgression: 'Strong upward trajectory',
-        quantificationLevel: 'Moderate - some metrics present'
+        quantificationLevel: 'Moderate - some metrics present',
       },
       education: {
         score: 95,
@@ -61,7 +56,7 @@ const mockAnalysisData: AnalysisData = {
         suggestions: ['Add relevant coursework', 'Include academic projects'],
         strengths: ['Relevant degree', 'Good academic performance'],
         weaknesses: ['Limited additional certifications'],
-        relevance: 'Highly relevant to Software Technology industry'
+        relevance: 'Highly relevant to Software Technology industry',
       },
       projects: {
         score: 80,
@@ -70,7 +65,7 @@ const mockAnalysisData: AnalysisData = {
         strengths: ['Diverse project portfolio', 'Clear technology stack'],
         weaknesses: ['Limited business impact description'],
         technicalDepth: 'Good technical complexity demonstrated',
-        businessImpact: 'Moderate - some business value shown'
+        businessImpact: 'Moderate - some business value shown',
       },
       certifications: {
         score: 90,
@@ -78,15 +73,15 @@ const mockAnalysisData: AnalysisData = {
         suggestions: ['Add cloud certifications', 'Include recent certifications'],
         strengths: ['Industry-recognized certifications', 'Recent completion dates'],
         weaknesses: ['Could include more cloud-specific certs'],
-        industryRelevance: 'Highly relevant to current market demands'
+        industryRelevance: 'Highly relevant to current market demands',
       },
       formatting: {
         score: 85,
         feedback: 'Clean, professional formatting with good readability.',
         suggestions: ['Improve section spacing', 'Use consistent bullet points'],
         strengths: ['Professional appearance', 'Good use of white space'],
-        weaknesses: ['Minor inconsistencies in formatting']
-      }
+        weaknesses: ['Minor inconsistencies in formatting'],
+      },
     },
     improvementSuggestions: [
       {
@@ -94,11 +89,12 @@ const mockAnalysisData: AnalysisData = {
         section: 'summary',
         priority: 'high',
         suggestion: 'Add specific metrics to quantify your achievements',
-        explanation: 'Numbers and percentages make your accomplishments more credible and impactful.',
+        explanation:
+          'Numbers and percentages make your accomplishments more credible and impactful.',
         autoApplicable: false,
         category: 'Content Enhancement',
         estimatedImpact: 'high',
-        _id: 'suggestion_1'
+        _id: 'suggestion_1',
       },
       {
         id: 'suggestion_2',
@@ -109,7 +105,7 @@ const mockAnalysisData: AnalysisData = {
         autoApplicable: true,
         category: 'Technical Skills',
         estimatedImpact: 'medium',
-        _id: 'suggestion_2'
+        _id: 'suggestion_2',
       },
       {
         id: 'suggestion_3',
@@ -120,8 +116,8 @@ const mockAnalysisData: AnalysisData = {
         autoApplicable: false,
         category: 'Achievement Metrics',
         estimatedImpact: 'high',
-        _id: 'suggestion_3'
-      }
+        _id: 'suggestion_3',
+      },
     ],
     industrySpecificAdvice: {
       targetIndustry: 'Software Technology',
@@ -129,31 +125,32 @@ const mockAnalysisData: AnalysisData = {
       industryTrends: [
         'Increased demand for full-stack developers',
         'Growing importance of cloud-native technologies',
-        'Rising focus on DevOps and automation'
+        'Rising focus on DevOps and automation',
       ],
       recommendedSkills: ['React', 'Node.js', 'AWS', 'Docker', 'Kubernetes', 'TypeScript'],
       industrySpecificSuggestions: [
         'Highlight experience with modern development practices',
-        'Emphasize any exposure to cloud platforms'
+        'Emphasize any exposure to cloud platforms',
       ],
-      competitorAnalysis: 'Your profile is competitive but could benefit from more cloud experience',
-      marketDemand: 'High demand for your skill set with 15% growth expected in the next 2 years'
+      competitorAnalysis:
+        'Your profile is competitive but could benefit from more cloud experience',
+      marketDemand: 'High demand for your skill set with 15% growth expected in the next 2 years',
     },
     atsCompatibility: {
       score: 80,
       issues: [
         'Header formatting may not parse correctly',
-        'Some bullet points use non-standard characters'
+        'Some bullet points use non-standard characters',
       ],
       recommendations: [
         'Use standard bullet points throughout',
         'Ensure consistent date formatting',
-        'Add more industry keywords'
+        'Add more industry keywords',
       ],
       keywordDensity: 75,
       formatCompliance: 'Good',
-      scanability: 'Excellent'
-    }
+      scanability: 'Excellent',
+    },
   },
   metadata: {
     processingTime: 3200,
@@ -161,17 +158,17 @@ const mockAnalysisData: AnalysisData = {
       model: 'gpt-4-turbo',
       temperature: 0.3,
       tokensUsed: 2847,
-      requestId: 'req_abc123def456'
+      requestId: 'req_abc123def456',
     },
-    createdAt: '2024-03-15T10:30:00Z'
+    createdAt: '2024-03-15T10:30:00Z',
   },
   userPreferences: {
     targetIndustry: 'Software Technology',
     targetRole: 'Senior Full Stack Developer',
     experienceLevel: 'senior',
     focusAreas: ['Technical Skills', 'Leadership', 'Innovation'],
-    urgent: false
-  }
+    urgent: false,
+  },
 };
 
 export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
@@ -220,120 +217,131 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
   const handleAnalyze = () => {
     // Hardcoded request body for testing API integration
     const hardcodedRequest = {
-      userId: "550e8400-e29b-41d4-a716-446655440000", // Use proper UUID format
+      userId: '550e8400-e29b-41d4-a716-446655440000', // Use proper UUID format
       reason: 'User requested analysis from preview page',
       cvData: {
         personalInfo: {
-          name: "John Doe",
-          email: "john.doe@example.com",
-          phone: "+1-555-0123",
-          location: "San Francisco, CA",
-          linkedIn: "linkedin.com/in/johndoe",
-          github: "github.com/johndoe"
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+          phone: '+1-555-0123',
+          location: 'San Francisco, CA',
+          linkedIn: 'linkedin.com/in/johndoe',
+          github: 'github.com/johndoe',
         },
         summary: {
-          content: "Experienced Full Stack Developer with 5+ years of experience in React, Node.js, and cloud technologies. Proven track record of delivering scalable web applications and leading development teams.",
-          keywords: ["Full Stack Developer", "React", "Node.js", "Cloud Technologies", "Web Applications", "Leadership"]
+          content:
+            'Experienced Full Stack Developer with 5+ years of experience in React, Node.js, and cloud technologies. Proven track record of delivering scalable web applications and leading development teams.',
+          keywords: [
+            'Full Stack Developer',
+            'React',
+            'Node.js',
+            'Cloud Technologies',
+            'Web Applications',
+            'Leadership',
+          ],
         },
         experience: [
           {
-            title: "Senior Full Stack Developer",
-            company: "Tech Solutions Inc.",
-            duration: "2021 - Present",
-            location: "San Francisco, CA",
+            title: 'Senior Full Stack Developer',
+            company: 'Tech Solutions Inc.',
+            duration: '2021 - Present',
+            location: 'San Francisco, CA',
             responsibilities: [
-              "Led development of microservices architecture serving 100K+ users",
-              "Implemented CI/CD pipelines reducing deployment time by 60%",
-              "Mentored 3 junior developers and conducted code reviews"
-            ]
+              'Led development of microservices architecture serving 100K+ users',
+              'Implemented CI/CD pipelines reducing deployment time by 60%',
+              'Mentored 3 junior developers and conducted code reviews',
+            ],
           },
           {
-            title: "Full Stack Developer",
-            company: "StartupXYZ",
-            duration: "2019 - 2021",
-            location: "Remote",
+            title: 'Full Stack Developer',
+            company: 'StartupXYZ',
+            duration: '2019 - 2021',
+            location: 'Remote',
             responsibilities: [
-              "Developed responsive web applications using React and Node.js",
-              "Integrated third-party APIs and payment systems",
-              "Collaborated with design team to implement pixel-perfect UIs"
-            ]
-          }
+              'Developed responsive web applications using React and Node.js',
+              'Integrated third-party APIs and payment systems',
+              'Collaborated with design team to implement pixel-perfect UIs',
+            ],
+          },
         ],
         skills: [
-          { name: "React", level: "Expert", category: "Frontend" },
-          { name: "Node.js", level: "Expert", category: "Backend" },
-          { name: "TypeScript", level: "Advanced", category: "Programming Language" },
-          { name: "Python", level: "Intermediate", category: "Programming Language" },
-          { name: "PostgreSQL", level: "Advanced", category: "Database" },
-          { name: "MongoDB", level: "Intermediate", category: "Database" },
-          { name: "AWS", level: "Intermediate", category: "Cloud" },
-          { name: "Docker", level: "Intermediate", category: "DevOps" },
-          { name: "Leadership", level: "Advanced", category: "Soft Skill" },
-          { name: "Problem Solving", level: "Expert", category: "Soft Skill" },
-          { name: "Communication", level: "Advanced", category: "Soft Skill" },
-          { name: "Team Collaboration", level: "Expert", category: "Soft Skill" }
+          { name: 'React', level: 'Expert', category: 'Frontend' },
+          { name: 'Node.js', level: 'Expert', category: 'Backend' },
+          { name: 'TypeScript', level: 'Advanced', category: 'Programming Language' },
+          { name: 'Python', level: 'Intermediate', category: 'Programming Language' },
+          { name: 'PostgreSQL', level: 'Advanced', category: 'Database' },
+          { name: 'MongoDB', level: 'Intermediate', category: 'Database' },
+          { name: 'AWS', level: 'Intermediate', category: 'Cloud' },
+          { name: 'Docker', level: 'Intermediate', category: 'DevOps' },
+          { name: 'Leadership', level: 'Advanced', category: 'Soft Skill' },
+          { name: 'Problem Solving', level: 'Expert', category: 'Soft Skill' },
+          { name: 'Communication', level: 'Advanced', category: 'Soft Skill' },
+          { name: 'Team Collaboration', level: 'Expert', category: 'Soft Skill' },
         ],
         education: [
           {
-            degree: "Bachelor of Science in Computer Science",
-            institution: "University of California, Berkeley",
-            year: "2019",
-            gpa: 3.8
-          }
+            degree: 'Bachelor of Science in Computer Science',
+            institution: 'University of California, Berkeley',
+            year: '2019',
+            gpa: 3.8,
+          },
         ],
         projects: [
           {
-            name: "E-commerce Platform",
-            description: "Full-stack e-commerce solution with payment integration",
-            technologies: ["React", "Node.js", "Stripe API", "PostgreSQL"],
-            link: "https://github.com/johndoe/ecommerce-platform"
+            name: 'E-commerce Platform',
+            description: 'Full-stack e-commerce solution with payment integration',
+            technologies: ['React', 'Node.js', 'Stripe API', 'PostgreSQL'],
+            link: 'https://github.com/johndoe/ecommerce-platform',
           },
           {
-            name: "Task Management App",
-            description: "Real-time collaborative task management application",
-            technologies: ["React", "Socket.io", "MongoDB", "Express"],
-            link: "https://github.com/johndoe/task-manager"
-          }
+            name: 'Task Management App',
+            description: 'Real-time collaborative task management application',
+            technologies: ['React', 'Socket.io', 'MongoDB', 'Express'],
+            link: 'https://github.com/johndoe/task-manager',
+          },
         ],
         certifications: [
           {
-            name: "AWS Certified Developer",
-            issuer: "Amazon Web Services",
-            year: "2023"
+            name: 'AWS Certified Developer',
+            issuer: 'Amazon Web Services',
+            year: '2023',
           },
           {
-            name: "React Developer Certification",
-            issuer: "Meta",
-            year: "2022"
-          }
-        ]
+            name: 'React Developer Certification',
+            issuer: 'Meta',
+            year: '2022',
+          },
+        ],
       },
       userPreferences: {
         targetIndustry: 'Software Technology',
         targetRole: 'Senior Full Stack Developer',
         experienceLevel: 'senior',
         focusAreas: ['technical-skills', 'leadership', 'achievements'],
-        urgent: false
-      }
+        urgent: false,
+      },
     };
 
-    analyzeMutation.mutate({
-      cvId,
-      request: hardcodedRequest
-    }, {
-      onSuccess: (response) => {
-        // Handle real API response
-        console.log('Analysis API Response:', response);
-
-        // Show the analytics modal immediately
-        setShowAnalytics(true);
+    analyzeMutation.mutate(
+      {
+        cvId,
+        request: hardcodedRequest,
       },
-      onError: (error) => {
-        console.error('Analysis API Error:', error);
-        // On error, still show mock data for development
-        setShowAnalytics(true);
+      {
+        onSuccess: response => {
+          // Handle real API response
+          console.log('Analysis API Response:', response);
+
+          // Show the analytics modal immediately
+          setShowAnalytics(true);
+        },
+        onError: error => {
+          console.error('Analysis API Error:', error);
+          // On error, still show mock data for development
+          setShowAnalytics(true);
+        },
       }
-    });
+    );
   };
 
   const getScoreColor = (score: number) => {
@@ -392,11 +400,19 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
                   ) : (
                     // Normal state with data
                     <>
-                      <div className={cn('text-2xl font-bold mt-2', getScoreColor(currentAnalysisData.analysis.overallScore).split(' ')[0])}>
+                      <div
+                        className={cn(
+                          'text-2xl font-bold mt-2',
+                          getScoreColor(currentAnalysisData.analysis.overallScore).split(' ')[0]
+                        )}
+                      >
                         {currentAnalysisData.analysis.overallScore}
                       </div>
                       <Badge
-                        className={cn('mt-1 border text-xs', getScoreColor(currentAnalysisData.analysis.overallScore))}
+                        className={cn(
+                          'mt-1 border text-xs',
+                          getScoreColor(currentAnalysisData.analysis.overallScore)
+                        )}
                         variant="outline"
                       >
                         {getScoreLabel(currentAnalysisData.analysis.overallScore)}
@@ -463,7 +479,10 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-700">Suggestions</span>
-                      <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-800 border-gray-300 px-2 py-0">
+                      <Badge
+                        variant="secondary"
+                        className="text-xs bg-gray-100 text-gray-800 border-gray-300 px-2 py-0"
+                      >
                         {currentAnalysisData.analysis.improvementSuggestions.length}
                       </Badge>
                     </div>
@@ -518,14 +537,26 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
                     <div className="text-xs text-gray-700">
                       <p className="mb-2 font-medium">Top Skills:</p>
                       <div className="flex flex-wrap gap-1">
-                        {currentAnalysisData.analysis.industrySpecificAdvice.recommendedSkills.slice(0, 2).map(skill => (
-                          <Badge key={skill} variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20 px-2 py-0">
-                            {skill}
-                          </Badge>
-                        ))}
-                        {currentAnalysisData.analysis.industrySpecificAdvice.recommendedSkills.length > 2 && (
-                          <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-800 border-gray-300 px-2 py-0">
-                            +{currentAnalysisData.analysis.industrySpecificAdvice.recommendedSkills.length - 2}
+                        {currentAnalysisData.analysis.industrySpecificAdvice.recommendedSkills
+                          .slice(0, 2)
+                          .map(skill => (
+                            <Badge
+                              key={skill}
+                              variant="secondary"
+                              className="text-xs bg-primary/10 text-primary border-primary/20 px-2 py-0"
+                            >
+                              {skill}
+                            </Badge>
+                          ))}
+                        {currentAnalysisData.analysis.industrySpecificAdvice.recommendedSkills
+                          .length > 2 && (
+                          <Badge
+                            variant="secondary"
+                            className="text-xs bg-gray-100 text-gray-800 border-gray-300 px-2 py-0"
+                          >
+                            +
+                            {currentAnalysisData.analysis.industrySpecificAdvice.recommendedSkills
+                              .length - 2}
                           </Badge>
                         )}
                       </div>

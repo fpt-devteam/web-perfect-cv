@@ -1,5 +1,11 @@
-import { HiDotsHorizontal } from "react-icons/hi";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shared/components/ui/dropdown-menu';
+import { HiDotsHorizontal } from 'react-icons/hi';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/shared/components/ui/dropdown-menu';
 import { EyeIcon, TrashIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
@@ -14,7 +20,15 @@ interface CvSectionTabsItemProps {
   readonly isActive: boolean;
 }
 
-export function CvSectionTabsItem({ id, title, detail, handleSelectTab, handledDeleteTab, handleUnShowTab, isActive }: CvSectionTabsItemProps) {
+export function CvSectionTabsItem({
+  id,
+  title,
+  detail,
+  handleSelectTab,
+  handledDeleteTab,
+  handleUnShowTab,
+  isActive,
+}: CvSectionTabsItemProps) {
   return (
     <Card
       key={id}
@@ -22,9 +36,7 @@ export function CvSectionTabsItem({ id, title, detail, handleSelectTab, handledD
       onClick={() => handleSelectTab(id)}
     >
       <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center space-x-1">
-          {title}
-        </CardTitle>
+        <CardTitle className="flex items-center space-x-1">{title}</CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild onClick={e => e.stopPropagation()}>
             <Button
@@ -38,7 +50,10 @@ export function CvSectionTabsItem({ id, title, detail, handleSelectTab, handledD
           <DropdownMenuContent className="py-1">
             <DropdownMenuItem
               className="flex items-center space-x-2"
-              onClick={e => { e.stopPropagation(); handleUnShowTab(id); }}
+              onClick={e => {
+                e.stopPropagation();
+                handleUnShowTab(id);
+              }}
             >
               <EyeIcon className="w-5 h-5" />
               <span>Show on resume</span>
@@ -46,7 +61,10 @@ export function CvSectionTabsItem({ id, title, detail, handleSelectTab, handledD
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="flex items-center space-x-2 text-red-500"
-              onClick={e => { e.stopPropagation(); handledDeleteTab(id); }}
+              onClick={e => {
+                e.stopPropagation();
+                handledDeleteTab(id);
+              }}
             >
               <TrashIcon className="w-5 h-5" />
               <span>Delete</span>
@@ -55,10 +73,8 @@ export function CvSectionTabsItem({ id, title, detail, handleSelectTab, handledD
         </DropdownMenu>
       </CardHeader>
       <CardContent className="p-4 space-y-2">
-        <p className="text-sm text-gray-600 line-clamp-2">
-          {detail}
-        </p>
+        <p className="text-sm text-gray-600 line-clamp-2">{detail}</p>
       </CardContent>
     </Card>
-  )
+  );
 }

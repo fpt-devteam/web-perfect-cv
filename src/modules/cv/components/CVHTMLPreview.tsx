@@ -10,7 +10,7 @@ const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
-    month: 'short'
+    month: 'short',
   });
 };
 
@@ -38,9 +38,7 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
       <div className="p-10 font-serif text-slate-800">
         {/* Header Section */}
         <div className="text-center mb-6 pb-4 border-b-2 border-slate-700">
-          <h1 className="text-3xl font-bold text-slate-800 mb-1 tracking-wide">
-            {fullName}
-          </h1>
+          <h1 className="text-3xl font-bold text-slate-800 mb-1 tracking-wide">{fullName}</h1>
           <h2 className="text-lg text-slate-600 mb-3 font-bold uppercase tracking-wider">
             {jobTitle}
           </h2>
@@ -60,7 +58,9 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
                 <span className="text-slate-400">•</span>
                 <div className="flex items-center gap-1">
                   <MapPin className="h-3 w-3" />
-                  <span>{contacts.City}, {contacts.Country}</span>
+                  <span>
+                    {contacts.City}, {contacts.Country}
+                  </span>
                 </div>
               </div>
 
@@ -83,7 +83,9 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
                   )}
                   {contacts.PersonalWebsiteUrl && (
                     <>
-                      {(contacts.LinkedInUrl || contacts.GitHubUrl) && <span className="text-slate-400">•</span>}
+                      {(contacts.LinkedInUrl || contacts.GitHubUrl) && (
+                        <span className="text-slate-400">•</span>
+                      )}
                       <div className="flex items-center gap-1">
                         <Globe className="h-3 w-3" />
                         <span>Portfolio</span>
@@ -130,7 +132,8 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
                       </p>
                     </div>
                     <div className="text-xs text-slate-600 text-right ml-3">
-                      {formatDate(experience.StartDate)} - {experience.EndDate ? formatDate(experience.EndDate) : 'Present'}
+                      {formatDate(experience.StartDate)} -{' '}
+                      {experience.EndDate ? formatDate(experience.EndDate) : 'Present'}
                     </div>
                   </div>
                   {experience.Description && (
@@ -190,7 +193,7 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
               Technical Skills
             </h3>
             <div className="flex flex-wrap gap-1">
-              {cvData.Skills.map((skill) => (
+              {cvData.Skills.map(skill => (
                 <div key={skill.Id} className="flex items-center gap-1">
                   <span className="text-xs text-slate-800 font-medium">{skill.Name}</span>
                   <span className="text-slate-400">•</span>
@@ -257,7 +260,9 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
                   <div className="flex justify-between items-start mb-1">
                     <div className="flex-1">
                       <h4 className="font-bold text-slate-800 text-xs">{certification.Name}</h4>
-                      <p className="text-xs text-slate-500 italic mt-1">{certification.Organization}</p>
+                      <p className="text-xs text-slate-500 italic mt-1">
+                        {certification.Organization}
+                      </p>
                     </div>
                     <div className="text-xs text-slate-600 text-right ml-3">
                       {formatDate(certification.IssuedDate)}

@@ -5,9 +5,9 @@ import { getDegrees } from '../services/search.service';
 const genDegreeKey = () => ['degree', GET_DEGREE_ENDPOINT];
 
 export function useGetDegree(options = {}) {
-    return useQuery({
-        queryKey: genDegreeKey(),
-        queryFn: () => getDegrees(),
-        ...options,
-    });
+  return useQuery({
+    queryKey: genDegreeKey(),
+    queryFn: () => getDegrees(),
+    ...options,
+  });
 }

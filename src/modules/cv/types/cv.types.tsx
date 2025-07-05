@@ -220,7 +220,6 @@ export type UpdateCVSkillRequest = {
   categoryName: string;
 };
 
-
 // New CV Data structure matching backend JSON format
 export interface CVData {
   CVId?: string;

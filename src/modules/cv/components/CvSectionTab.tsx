@@ -1,11 +1,11 @@
-import { CollapsibleFilter } from "@/shared/components/ui/collapsible";
-import { CvSectionTabsItem } from "./CvSectionTabItem";
+import { CollapsibleFilter } from '@/shared/components/ui/collapsible';
+import { CvSectionTabsItem } from './CvSectionTabItem';
 
 type tabItem = {
   id: string;
   title: string;
   detail: string;
-}
+};
 
 interface CvSectionTabProps {
   readonly title: string;

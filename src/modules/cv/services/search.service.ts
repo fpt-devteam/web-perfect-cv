@@ -1,5 +1,9 @@
 import { authClient } from '@/modules/auth/services/client.service';
-import { GET_JOB_TITLES_ENDPOINT, GET_ORGANIZATION_ENDPOINT, LIST_CATEGORIES_ENDPOINT } from '../constants/cv-endpoint.constant';
+import {
+  GET_JOB_TITLES_ENDPOINT,
+  GET_ORGANIZATION_ENDPOINT,
+  LIST_CATEGORIES_ENDPOINT,
+} from '../constants/cv-endpoint.constant';
 import type {
   DegreeListResponse,
   EmploymentTypeListResponse,
@@ -7,7 +11,6 @@ import type {
   OrganizationListResponse,
   SkillCategoryListResponse,
 } from '../types/cv.types';
-
 
 const MOCK_EMPLOYMENT_TYPES: EmploymentTypeListResponse = [
   { id: '41a582ec-3eb2-4804-9b5f-1941ed8fb465', name: 'Self-employed' },

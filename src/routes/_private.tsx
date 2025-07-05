@@ -1,7 +1,7 @@
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Spinner } from '@/shared/components/loading/spinner';
+import { Spinner } from '@/shared/components/loading/Spinner';
 
 export const Route = createFileRoute('/_private')({
   component: PrivateLayout,

@@ -34,7 +34,6 @@ export const UPDATE_PROJECT_ENDPOINT = (cvId: string, projectId: string) =>
 export const DELETE_PROJECT_ENDPOINT = (cvId: string, projectId: string) =>
   `api/cvs/${cvId}/projects/${projectId}`;
 
-
 export const LIST_EDUCATIONS_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/educations`;
 export const CREATE_EDUCATION_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/educations`;
 export const UPDATE_EDUCATION_ENDPOINT = (cvId: string, educationId: string) =>
