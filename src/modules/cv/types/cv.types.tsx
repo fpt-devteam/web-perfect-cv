@@ -206,8 +206,7 @@ export type CVSkillResponse = {
   id: string;
   cvId: string;
   description: string;
-  categoryId: string;
-  categoryName: string;
+  category: string;
 };
 
 export type CreateCVSkillRequest = {

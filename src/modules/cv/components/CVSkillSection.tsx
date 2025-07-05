@@ -115,7 +115,7 @@ export function CVSkillForm({ cvId, onSuccess }: CVSkillFormProps) {
   const handleEdit = (skill: CVSkillResponse) => {
     setEditingSkill(skill);
     form.reset({
-      categoryName: skill.categoryName,
+      categoryName: skill.category,
       description: skill.description,
     });
   };
@@ -143,7 +143,7 @@ export function CVSkillForm({ cvId, onSuccess }: CVSkillFormProps) {
   const groupedSkills =
     skills?.reduce(
       (acc, skill) => {
-        const category = skill.categoryName;
+        const category = skill.category;
         if (!acc[category]) {
           acc[category] = [];
         }

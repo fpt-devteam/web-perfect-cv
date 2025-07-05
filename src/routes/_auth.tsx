@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router';
 import { Navbar } from '@/shared/components/navbar/Navbar';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { Spinner } from '@/shared/components/loading/Spinner';
+import { Spinner } from '@/shared/components/loading/spinner';
 export const Route = createFileRoute('/_auth')({
   component: AuthLayout,
   // beforeLoad: async ({ context }) => {

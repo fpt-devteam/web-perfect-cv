@@ -5,7 +5,7 @@ import '@/styles/index.css';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from '@/routeTree.gen';
 import { InternalServerError } from '@/shared/components/error-pages/InternalServerError';
-import { Spinner } from '@/shared/components/loading/Spinner';
+import { Spinner } from '@/shared/components/loading/spinner';
 import { NotFound } from '@/shared/components/error-pages/NotFound';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { tanstackClient } from '@/config/tanstack-query.config';

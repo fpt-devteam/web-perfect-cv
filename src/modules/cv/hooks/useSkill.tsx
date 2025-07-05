@@ -40,8 +40,7 @@ export function useCreateSkill({ cvId }: { readonly cvId: string }) {
           id: `temp-${Date.now()}`,
           cvId: cvId,
           description: newSkill.description,
-          categoryName: newSkill.categoryName,
-          categoryId: `temp-${Date.now()}`,
+          category: newSkill.categoryName,
         };
 
         queryClient.setQueryData<CVSkillResponse[]>(genSkillsKey(cvId), [
