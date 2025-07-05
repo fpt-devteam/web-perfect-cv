@@ -7,9 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { UpSertSummaryRequest } from "../types/cv.types";
 import type { AxiosError } from "axios";
 import type { BaseError } from "@/shared/types/error.type";
-import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/shared/components/ui/card";
+import { Card, CardContent, CardTitle, CardHeader } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/shared/components/ui/form";
 import { Pencil } from "lucide-react";
 import { Textarea } from "@/shared/components/ui/textarea";
 

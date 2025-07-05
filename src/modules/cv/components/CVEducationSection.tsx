@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { format } from 'date-fns';
-import { GraduationCap, Calendar, MapPin, Plus, Trash2, Edit3, Award, Building } from 'lucide-react';
+import { GraduationCap, Calendar, Plus, Trash2, Edit3, Building } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -191,11 +191,6 @@ export function CVEducationForm({ cvId, onSuccess }: CVEducationFormProps) {
     const formatDate = (dateString: string | null) => {
         if (!dateString) return 'No date specified';
         return format(new Date(dateString), 'MMM yyyy');
-    };
-
-    const formatGPA = (gpa: number | null) => {
-        if (gpa === null) return '';
-        return gpa.toFixed(2);
     };
 
     const getEducationStatus = (startDate: string | null, endDate: string | null) => {

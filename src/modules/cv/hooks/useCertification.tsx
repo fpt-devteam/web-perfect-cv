@@ -46,7 +46,7 @@ export function useCreateCertification({ cvId }: { readonly cvId: string }) {
 
             return { previousCertifications };
         },
-        onError: (err, newCertification, context) => {
+        onError: (_, __, context) => {
             if (context?.previousCertifications) {
                 queryClient.setQueryData(genCertificationsKey(cvId), context.previousCertifications);
             }
@@ -89,7 +89,7 @@ export function useUpdateCertification({ cvId }: { readonly cvId: string }) {
 
             return { previousCertifications };
         },
-        onError: (err, variables, context) => {
+        onError: (_, __, context) => {
             if (context?.previousCertifications) {
                 queryClient.setQueryData(genCertificationsKey(cvId), context.previousCertifications);
             }
@@ -120,7 +120,7 @@ export function useDeleteCertification({ cvId }: { readonly cvId: string }) {
 
             return { previousCertifications };
         },
-        onError: (err, certificationId, context) => {
+        onError: (_, __, context) => {
             if (context?.previousCertifications) {
                 queryClient.setQueryData(genCertificationsKey(cvId), context.previousCertifications);
             }

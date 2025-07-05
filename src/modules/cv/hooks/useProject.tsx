@@ -48,7 +48,7 @@ export function useCreateProject({ cvId }: { readonly cvId: string }) {
 
             return { previousProjects };
         },
-        onError: (err, newProject, context) => {
+        onError: (_, __, context) => {
             if (context?.previousProjects) {
                 queryClient.setQueryData(genProjectsKey(cvId), context.previousProjects);
             }
@@ -91,7 +91,7 @@ export function useUpdateProject({ cvId }: { readonly cvId: string }) {
 
             return { previousProjects };
         },
-        onError: (err, variables, context) => {
+        onError: (_, __, context) => {
             if (context?.previousProjects) {
                 queryClient.setQueryData(genProjectsKey(cvId), context.previousProjects);
             }
@@ -122,7 +122,7 @@ export function useDeleteProject({ cvId }: { readonly cvId: string }) {
 
             return { previousProjects };
         },
-        onError: (err, projectId, context) => {
+        onError: (_, __, context) => {
             if (context?.previousProjects) {
                 queryClient.setQueryData(genProjectsKey(cvId), context.previousProjects);
             }

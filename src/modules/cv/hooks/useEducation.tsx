@@ -48,7 +48,7 @@ export function useCreateEducation({ cvId }: { readonly cvId: string }) {
 
             return { previousEducations };
         },
-        onError: (err, newEducation, context) => {
+        onError: (_, __, context) => {
             if (context?.previousEducations) {
                 queryClient.setQueryData(genEducationsKey(cvId), context.previousEducations);
             }
@@ -91,7 +91,7 @@ export function useUpdateEducation({ cvId }: { readonly cvId: string }) {
 
             return { previousEducations };
         },
-        onError: (err, variables, context) => {
+        onError: (_, __, context) => {
             if (context?.previousEducations) {
                 queryClient.setQueryData(genEducationsKey(cvId), context.previousEducations);
             }
@@ -122,7 +122,7 @@ export function useDeleteEducation({ cvId }: { readonly cvId: string }) {
 
             return { previousEducations };
         },
-        onError: (err, educationId, context) => {
+        onError: (_, __, context) => {
             if (context?.previousEducations) {
                 queryClient.setQueryData(genEducationsKey(cvId), context.previousEducations);
             }

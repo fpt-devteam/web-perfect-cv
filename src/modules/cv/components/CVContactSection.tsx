@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Phone, Mail, Github as GithubIcon, Globe, MapPin } from 'lucide-react';
 import { LinkedinLogo } from '@phosphor-icons/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { Card, CardContent } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
 import {
   Form,

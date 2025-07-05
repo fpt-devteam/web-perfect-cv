@@ -1,5 +1,3 @@
-import React from 'react';
-import { Card, CardContent } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
 import { MapPin, Mail, Phone, Globe, Github, Linkedin } from 'lucide-react';
 import type { CVData } from '../types/cv.types';

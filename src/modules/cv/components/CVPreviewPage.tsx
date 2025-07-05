@@ -1,24 +1,17 @@
 import { useState, useEffect } from 'react';
 import {
-  Download,
-  Share2,
-  BarChart3,
   Eye,
-  FileText,
+  BarChart3,
   Zap,
   RefreshCw
 } from 'lucide-react';
-import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
 import { cn } from '@/shared/utils/cn.util';
-import { EnhancedAIScoreCard } from './EnhancedAIScoreCard';
 import { AnalyticsModal } from './AnalyticsModal';
 import { CVPDFViewer } from './CVPDFViewer';
-import { HarvardCVDocument } from './HarvardCVDocument';
 import type { AnalysisData } from '../types/analysis.types';
-import type { CVData } from '../types/cv.types';
 import { useAnalyzeCV, useAnalysisFeedback } from '../hooks/useAnalysis';
 import { useCVData } from '../hooks/useCVData';
 import { mockCVData } from '../mock/mockCVData';

@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
-import { Label } from '@/shared/components/ui/label';
 import { SearchableInput } from '@/shared/components/ui/searchable-input';
 import { Calendar as CalendarComponent } from '@/shared/components/ui/calendar';
 import {
@@ -52,7 +51,7 @@ const experienceFormSchema = z.object({
 type ExperienceFormValues = z.infer<typeof experienceFormSchema>;
 
 function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId: string, readonly experience: CVExperience, readonly isCreating: boolean }) {
-    const { data: employmentTypes, isPending } = useGetEmploymentType();
+    const { data: employmentTypes } = useGetEmploymentType();
     const { showSuccess, showError } = useNotification();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const updateExperience = useUpdateExperience({ cvId });
@@ -83,7 +82,7 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
         setIsSubmitting(true);
 
         if (isCreating) {
-            const res = await createExperience.mutateAsync({
+            await createExperience.mutateAsync({
                 cvId,
                 jobTitle: data.jobTitle,
                 jobTitleId: data.jobTitleId ?? null,
@@ -108,7 +107,7 @@ function ExperienceDetailView({ cvId, experience, isCreating }: { readonly cvId:
                 });
         } else {
 
-            const res = await updateExperience.mutateAsync({
+            await updateExperience.mutateAsync({
                 experienceId: experience.id,
                 experienceData: {
                     jobTitle: data.jobTitle,
@@ -544,7 +543,7 @@ function ExperienceSection({ cvId }: { readonly cvId: string }) {
         }
     };
 
-    const handleUnShowExperience = (id: string) => {
+    const handleUnShowExperience = () => {
     };
 
     return (

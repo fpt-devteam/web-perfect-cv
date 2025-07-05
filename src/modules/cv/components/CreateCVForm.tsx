@@ -21,7 +21,7 @@ import type { BaseError } from '@/shared/types/error.type';
 
 const formSchema = z.object({
   title: z.string().min(1, { message: 'CV name is required' }),
-  targetCv: z.boolean().default(false),
+  targetCv: z.boolean(),
   jobTitle: z.string().optional(),
   companyName: z.string().optional(),
   jobDescription: z.string().optional(),
@@ -51,10 +51,10 @@ export function CreateCVForm() {
       title: values.title,
       jobDetail: values.targetCv
         ? {
-            jobTitle: values.jobTitle ?? '',
-            companyName: values.companyName ?? '',
-            description: values.jobDescription ?? '',
-          }
+          jobTitle: values.jobTitle ?? '',
+          companyName: values.companyName ?? '',
+          description: values.jobDescription ?? '',
+        }
         : null,
     };
 

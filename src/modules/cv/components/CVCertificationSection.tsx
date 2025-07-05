@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { format } from 'date-fns';
-import { Award, Calendar, Building2, FileText, Plus, Trash2, Edit3, GraduationCap } from 'lucide-react';
+import { Award, Calendar, Building2, FileText, Plus, Trash2, Edit3 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -54,7 +54,7 @@ export function CVCertificationSection({ cvId }: { readonly cvId: string }) {
 
 export function CVCertificationForm({ cvId, onSuccess }: CVCertificationFormProps) {
     const { showError, showSuccess } = useNotification();
-    const { data: certifications, isLoading: isLoadingCertifications, refetch } = useListCertifications({ cvId });
+    const { data: certifications, isLoading: isLoadingCertifications } = useListCertifications({ cvId });
     const [isCreating, setIsCreating] = useState(false);
     const [editingCertification, setEditingCertification] = useState<CVCertificationResponse | null>(null);
     const [isLoading, setIsLoading] = useState(false);

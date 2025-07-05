@@ -272,28 +272,28 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
               {(cvData.Contacts?.LinkedInUrl ||
                 cvData.Contacts?.GitHubUrl ||
                 cvData.Contacts?.PersonalWebsiteUrl) && (
-                <View style={styles.contactRow}>
-                  {cvData.Contacts?.LinkedInUrl && (
-                    <>
-                      <Text style={styles.contactInfo}>LinkedIn</Text>
-                      {(cvData.Contacts?.GitHubUrl || cvData.Contacts?.PersonalWebsiteUrl) && (
-                        <Text style={styles.contactDivider}>•</Text>
-                      )}
-                    </>
-                  )}
-                  {cvData.Contacts?.GitHubUrl && (
-                    <>
-                      <Text style={styles.contactInfo}>GitHub</Text>
-                      {cvData.Contacts?.PersonalWebsiteUrl && (
-                        <Text style={styles.contactDivider}>•</Text>
-                      )}
-                    </>
-                  )}
-                  {cvData.Contacts?.PersonalWebsiteUrl && (
-                    <Text style={styles.contactInfo}>Portfolio</Text>
-                  )}
-                </View>
-              )}
+                  <View style={styles.contactRow}>
+                    {cvData.Contacts?.LinkedInUrl && (
+                      <>
+                        <Text style={styles.contactInfo}>LinkedIn</Text>
+                        {(cvData.Contacts?.GitHubUrl || cvData.Contacts?.PersonalWebsiteUrl) && (
+                          <Text style={styles.contactDivider}>•</Text>
+                        )}
+                      </>
+                    )}
+                    {cvData.Contacts?.GitHubUrl && (
+                      <>
+                        <Text style={styles.contactInfo}>GitHub</Text>
+                        {cvData.Contacts?.PersonalWebsiteUrl && (
+                          <Text style={styles.contactDivider}>•</Text>
+                        )}
+                      </>
+                    )}
+                    {cvData.Contacts?.PersonalWebsiteUrl && (
+                      <Text style={styles.contactInfo}>Portfolio</Text>
+                    )}
+                  </View>
+                )}
             </View>
           )}
         </View>
@@ -310,7 +310,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Experiences && cvData.Experiences.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Professional Experience</Text>
-            {cvData.Experiences.map((experience, index) => (
+            {cvData.Experiences.map((experience) => (
               <View
                 key={experience.Id}
                 style={[
@@ -375,7 +375,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Technical Skills</Text>
             <View style={styles.skillsContainer}>
-              {cvData.Skills.map((skill, index) => (
+              {cvData.Skills.map((skill) => (
                 <View key={skill.Id} style={styles.skillItem}>
                   <Text style={{ fontSize: 10, color: '#334155' }}>
                     {skill.Name}
@@ -392,7 +392,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Projects && cvData.Projects.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Notable Projects</Text>
-            {cvData.Projects.map((project, index) => (
+            {cvData.Projects.map((project) => (
               <View
                 key={project.Id}
                 style={[
@@ -420,7 +420,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Certifications && cvData.Certifications.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Certifications</Text>
-            {cvData.Certifications.map((certification, index) => (
+            {cvData.Certifications.map((certification) => (
               <View
                 key={certification.Id}
                 style={[

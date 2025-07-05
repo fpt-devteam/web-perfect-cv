@@ -26,7 +26,7 @@ export const useAnalyzeCV = () => {
   return useMutation({
     mutationFn: ({ cvId, request }: { cvId: string; request: AnalyzeRequest }) =>
       analyzeCV(cvId, request),
-    onSuccess: (data, variables) => {
+    onSuccess: () => {
       showSuccess('CV analysis started successfully!');
       // Invalidate analysis feedback to trigger refetch
       queryClient.invalidateQueries({ queryKey: ['analysisFeedback'] });
@@ -54,7 +54,7 @@ export const useApplySuggestion = () => {
       suggestionId: string;
       appliedBy?: string;
     }) => applySuggestion(analysisId, suggestionId, appliedBy),
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       showSuccess('Suggestion marked as applied!');
       // Invalidate analysis feedback to update UI
       queryClient.invalidateQueries({ queryKey: ['analysisFeedback', variables.analysisId] });

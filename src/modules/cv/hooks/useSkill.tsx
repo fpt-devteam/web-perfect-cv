@@ -44,7 +44,7 @@ export function useCreateSkill({ cvId }: { readonly cvId: string }) {
 
             return { previousSkills };
         },
-        onError: (err, newSkill, context) => {
+        onError: (_, __, context) => {
             if (context?.previousSkills) {
                 queryClient.setQueryData(genSkillsKey(cvId), context.previousSkills);
             }
@@ -87,7 +87,7 @@ export function useUpdateSkill({ cvId }: { readonly cvId: string }) {
 
             return { previousSkills };
         },
-        onError: (err, variables, context) => {
+        onError: (_, __, context) => {
             if (context?.previousSkills) {
                 queryClient.setQueryData(genSkillsKey(cvId), context.previousSkills);
             }
@@ -118,7 +118,7 @@ export function useDeleteSkill({ cvId }: { readonly cvId: string }) {
 
             return { previousSkills };
         },
-        onError: (err, skillId, context) => {
+        onError: (_, __, context) => {
             if (context?.previousSkills) {
                 queryClient.setQueryData(genSkillsKey(cvId), context.previousSkills);
             }
