@@ -34,7 +34,9 @@ import { Route as PrivateUserDashboardCvsCvIdSkillsIndexImport } from './routes/
 import { Route as PrivateUserDashboardCvsCvIdProjectIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/project/index'
 import { Route as PrivateUserDashboardCvsCvIdExperienceIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/experience/index'
 import { Route as PrivateUserDashboardCvsCvIdEducationIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/education/index'
+import { Route as PrivateUserDashboardCvsCvIdEducationIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/education/index'
 import { Route as PrivateUserDashboardCvsCvIdContactIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/contact/index'
+import { Route as PrivateUserDashboardCvsCvIdCertificationsIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/certifications/index'
 import { Route as PrivateUserDashboardCvsCvIdCertificationsIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/certifications/index'
 
 // Create/Update Routes
@@ -188,10 +190,24 @@ const PrivateUserDashboardCvsCvIdEducationIndexRoute =
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
   } as any)
 
+const PrivateUserDashboardCvsCvIdEducationIndexRoute =
+  PrivateUserDashboardCvsCvIdEducationIndexImport.update({
+    id: '/education/',
+    path: '/education/',
+    getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
+  } as any)
+
 const PrivateUserDashboardCvsCvIdContactIndexRoute =
   PrivateUserDashboardCvsCvIdContactIndexImport.update({
     id: '/contact/',
     path: '/contact/',
+    getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
+  } as any)
+
+const PrivateUserDashboardCvsCvIdCertificationsIndexRoute =
+  PrivateUserDashboardCvsCvIdCertificationsIndexImport.update({
+    id: '/certifications/',
+    path: '/certifications/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
   } as any)
 
@@ -339,11 +355,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexImport
       parentRoute: typeof PrivateUserDashboardCvsCvIdImport
     }
+    '/_private/user-dashboard/cvs/$cvId/certifications/': {
+      id: '/_private/user-dashboard/cvs/$cvId/certifications/'
+      path: '/certifications'
+      fullPath: '/user-dashboard/cvs/$cvId/certifications'
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexImport
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
+    }
     '/_private/user-dashboard/cvs/$cvId/contact/': {
       id: '/_private/user-dashboard/cvs/$cvId/contact/'
       path: '/contact'
       fullPath: '/user-dashboard/cvs/$cvId/contact'
       preLoaderRoute: typeof PrivateUserDashboardCvsCvIdContactIndexImport
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
+    }
+    '/_private/user-dashboard/cvs/$cvId/education/': {
+      id: '/_private/user-dashboard/cvs/$cvId/education/'
+      path: '/education'
+      fullPath: '/user-dashboard/cvs/$cvId/education'
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdEducationIndexImport
       parentRoute: typeof PrivateUserDashboardCvsCvIdImport
     }
     '/_private/user-dashboard/cvs/$cvId/education/': {
@@ -419,7 +449,9 @@ const PrivateAdminDashboardRouteWithChildren =
 
 interface PrivateUserDashboardCvsCvIdRouteChildren {
   PrivateUserDashboardCvsCvIdCertificationsIndexRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
+  PrivateUserDashboardCvsCvIdCertificationsIndexRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
   PrivateUserDashboardCvsCvIdContactIndexRoute: typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  PrivateUserDashboardCvsCvIdEducationIndexRoute: typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   PrivateUserDashboardCvsCvIdEducationIndexRoute: typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   PrivateUserDashboardCvsCvIdExperienceIndexRoute: typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
   PrivateUserDashboardCvsCvIdProjectIndexRoute: typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
@@ -431,8 +463,12 @@ const PrivateUserDashboardCvsCvIdRouteChildren: PrivateUserDashboardCvsCvIdRoute
   {
     PrivateUserDashboardCvsCvIdCertificationsIndexRoute:
       PrivateUserDashboardCvsCvIdCertificationsIndexRoute,
+    PrivateUserDashboardCvsCvIdCertificationsIndexRoute:
+      PrivateUserDashboardCvsCvIdCertificationsIndexRoute,
     PrivateUserDashboardCvsCvIdContactIndexRoute:
       PrivateUserDashboardCvsCvIdContactIndexRoute,
+    PrivateUserDashboardCvsCvIdEducationIndexRoute:
+      PrivateUserDashboardCvsCvIdEducationIndexRoute,
     PrivateUserDashboardCvsCvIdEducationIndexRoute:
       PrivateUserDashboardCvsCvIdEducationIndexRoute,
     PrivateUserDashboardCvsCvIdExperienceIndexRoute:
@@ -512,7 +548,9 @@ export interface FileRoutesByFullPath {
   '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
   '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
   '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
+  '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
   '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
   '/user-dashboard/cvs/$cvId/project': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
@@ -538,7 +576,9 @@ export interface FileRoutesByTo {
   '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
   '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
   '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
+  '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
   '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
   '/user-dashboard/cvs/$cvId/project': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
@@ -567,7 +607,9 @@ export interface FileRoutesById {
   '/_private/user-dashboard/cvs/': typeof PrivateUserDashboardCvsIndexRoute
   '/_private/user-dashboard/resignation-letter/': typeof PrivateUserDashboardResignationLetterIndexRoute
   '/_private/user-dashboard/cvs/$cvId/certifications/': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
+  '/_private/user-dashboard/cvs/$cvId/certifications/': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
   '/_private/user-dashboard/cvs/$cvId/contact/': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
+  '/_private/user-dashboard/cvs/$cvId/education/': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   '/_private/user-dashboard/cvs/$cvId/education/': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
   '/_private/user-dashboard/cvs/$cvId/experience/': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
   '/_private/user-dashboard/cvs/$cvId/project/': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
@@ -595,7 +637,9 @@ export interface FileRouteTypes {
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
     | '/user-dashboard/cvs/$cvId/certifications'
+    | '/user-dashboard/cvs/$cvId/certifications'
     | '/user-dashboard/cvs/$cvId/contact'
+    | '/user-dashboard/cvs/$cvId/education'
     | '/user-dashboard/cvs/$cvId/education'
     | '/user-dashboard/cvs/$cvId/experience'
     | '/user-dashboard/cvs/$cvId/project'
@@ -620,7 +664,9 @@ export interface FileRouteTypes {
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
     | '/user-dashboard/cvs/$cvId/certifications'
+    | '/user-dashboard/cvs/$cvId/certifications'
     | '/user-dashboard/cvs/$cvId/contact'
+    | '/user-dashboard/cvs/$cvId/education'
     | '/user-dashboard/cvs/$cvId/education'
     | '/user-dashboard/cvs/$cvId/experience'
     | '/user-dashboard/cvs/$cvId/project'
@@ -647,7 +693,9 @@ export interface FileRouteTypes {
     | '/_private/user-dashboard/cvs/'
     | '/_private/user-dashboard/resignation-letter/'
     | '/_private/user-dashboard/cvs/$cvId/certifications/'
+    | '/_private/user-dashboard/cvs/$cvId/certifications/'
     | '/_private/user-dashboard/cvs/$cvId/contact/'
+    | '/_private/user-dashboard/cvs/$cvId/education/'
     | '/_private/user-dashboard/cvs/$cvId/education/'
     | '/_private/user-dashboard/cvs/$cvId/experience/'
     | '/_private/user-dashboard/cvs/$cvId/project/'
@@ -768,7 +816,9 @@ export const routeTree = rootRoute
       "parent": "/_private/user-dashboard",
       "children": [
         "/_private/user-dashboard/cvs/$cvId/certifications/",
+        "/_private/user-dashboard/cvs/$cvId/certifications/",
         "/_private/user-dashboard/cvs/$cvId/contact/",
+        "/_private/user-dashboard/cvs/$cvId/education/",
         "/_private/user-dashboard/cvs/$cvId/education/",
         "/_private/user-dashboard/cvs/$cvId/experience/",
         "/_private/user-dashboard/cvs/$cvId/project/",
@@ -792,8 +842,16 @@ export const routeTree = rootRoute
       "filePath": "_private/user-dashboard/cvs/$cvId/certifications/index.tsx",
       "parent": "/_private/user-dashboard/cvs/$cvId"
     },
+    "/_private/user-dashboard/cvs/$cvId/certifications/": {
+      "filePath": "_private/user-dashboard/cvs/$cvId/certifications/index.tsx",
+      "parent": "/_private/user-dashboard/cvs/$cvId"
+    },
     "/_private/user-dashboard/cvs/$cvId/contact/": {
       "filePath": "_private/user-dashboard/cvs/$cvId/contact/index.tsx",
+      "parent": "/_private/user-dashboard/cvs/$cvId"
+    },
+    "/_private/user-dashboard/cvs/$cvId/education/": {
+      "filePath": "_private/user-dashboard/cvs/$cvId/education/index.tsx",
       "parent": "/_private/user-dashboard/cvs/$cvId"
     },
     "/_private/user-dashboard/cvs/$cvId/education/": {
