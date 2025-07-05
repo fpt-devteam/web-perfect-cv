@@ -17,8 +17,8 @@ interface CVPreviewPageProps {
 
 // Mock data that matches the exact structure from the conversation summary
 const mockAnalysisData: AnalysisData = {
-  feedbackId: 'feedback_67890',
-  analysisId: 'analysis_12345',
+  feedbackId: '550e1230-e29b-41d4-a716-446655440000',
+  analysisId: '550e8400-e29b-41d4-a716-446655442211',
   cvId: 'cv_54321',
   userId: 'user_98765',
   version: 2,
@@ -155,7 +155,7 @@ const mockAnalysisData: AnalysisData = {
   metadata: {
     processingTime: 3200,
     modelInfo: {
-      model: 'gpt-4-turbo',
+      model: 'mistral-medium-latest',
       temperature: 0.3,
       tokensUsed: 2847,
       requestId: 'req_abc123def456',
@@ -186,7 +186,7 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
 
   // Set mock analysis ID on mount to fetch feedback
   useEffect(() => {
-    setAnalysisId('68683d3998e0f99fa4d07d4a');
+    setAnalysisId('6868c94fd909c821c767df67');
   }, []);
 
   // Use mock data initially, but allow real API calls to override
@@ -217,7 +217,7 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
   const handleAnalyze = () => {
     // Hardcoded request body for testing API integration
     const hardcodedRequest = {
-      userId: '550e8400-e29b-41d4-a716-446655440000', // Use proper UUID format
+      userId: '550e8400-e29b-41d4-a716-446655441234', // Use proper UUID format
       reason: 'User requested analysis from preview page',
       cvData: {
         personalInfo: {
@@ -370,9 +370,9 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
-      <div className="grid grid-cols-1 xl:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
         {/* Main CV Content - Made much wider */}
-        <div className="xl:col-span-5">
+        <div className="xl:col-span-4">
           <CVPDFViewer
             cvData={currentCVData}
             isLoading={isCVLoading}
