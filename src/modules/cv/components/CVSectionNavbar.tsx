@@ -29,7 +29,7 @@ export function CVSectionNavbar({ cvId }: { readonly cvId: string }) {
     { name: 'SKILLS', path: `/user-dashboard/cvs/${cvId}/skills` },
     { name: 'SUMMARY', path: `/user-dashboard/cvs/${cvId}/summary` },
     { name: 'FINISH UP & PREVIEW', path: `/user-dashboard/cvs/${cvId}/preview` },
-    { name: 'AI COVER LETTER', path: `/user-dashboard/cvs/${cvId}/ai-cover-letter` },
+    // { name: 'AI COVER LETTER', path: `/user-dashboard/cvs/${cvId}/ai-cover-letter` },
   ];
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export function CVSectionNavbar({ cvId }: { readonly cvId: string }) {
       if (navRef.current && itemsRef.current) {
         const containerWidth = navRef.current.offsetWidth;
         const dropdownWidth = 50; // Actual dropdown button width
-        const availableWidth = containerWidth - dropdownWidth - 32; // 32px for padding
+        const availableWidth = containerWidth - dropdownWidth - 12; // 24px for padding
 
         // Create a temporary element to measure actual text widths
         const tempElement = document.createElement('div');
@@ -46,7 +46,7 @@ export function CVSectionNavbar({ cvId }: { readonly cvId: string }) {
         tempElement.style.whiteSpace = 'nowrap';
         tempElement.style.fontSize = '14px';
         tempElement.style.fontWeight = '600';
-        tempElement.style.padding = '16px 24px'; // px-6 py-4
+        tempElement.style.padding = '16px 24px'; // px-2 py-4
         document.body.appendChild(tempElement);
 
         let totalWidth = 0;
@@ -88,15 +88,15 @@ export function CVSectionNavbar({ cvId }: { readonly cvId: string }) {
 
   return (
     <div className="w-full bg-white border-b border-gray-200 shadow-sm">
-      <div ref={navRef} className="flex items-center justify-center px-4">
+      <div ref={navRef} className="px-1">
         {/* Visible navigation items */}
-        <div ref={itemsRef} className="flex items-center">
+        <div ref={itemsRef} className="flex items-center justify-around">
           {visibleSections.map(section => (
             <Link
               key={section.path}
               to={section.path}
               className={cn(
-                'px-6 py-4 text-sm font-semibold transition-all duration-200 border-b-2 relative whitespace-nowrap',
+                'px-2 py-4 text-sm font-semibold transition-all duration-200 border-b-2 relative whitespace-nowrap',
                 currentPath === section.path
                   ? 'bg-primary/5 text-primary border-primary shadow-sm'
                   : 'hover:bg-gray-50 text-gray-600 hover:text-gray-900 border-transparent hover:border-gray-300'

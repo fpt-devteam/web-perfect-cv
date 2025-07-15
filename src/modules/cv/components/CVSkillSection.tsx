@@ -195,9 +195,6 @@ export function CVSkillForm({ cvId, onSuccess }: CVSkillFormProps) {
                     <h3 className="font-medium text-gray-900 text-sm uppercase tracking-wide">
                       {category}
                     </h3>
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                      {categorySkills.length} skill{categorySkills.length !== 1 ? 's' : ''}
-                    </span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {categorySkills.map(skill => (
