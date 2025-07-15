@@ -21,8 +21,34 @@ import type { UpSertContactRequest } from '@/modules/cv/types/cv.types';
 import type { BaseError } from '@/shared/types/error.type';
 import type { AxiosError } from 'axios';
 
+// Phone number validation regex - supports common international and domestic formats
+const phoneRegex = /^[+]?[\d\s()-]{7,20}$/;
+
 const contactSchema = z.object({
-  phoneNumber: z.string().optional().or(z.literal('')),
+  phoneNumber: z
+    .string()
+    .optional()
+    .or(z.literal(''))
+    .refine(
+      val => {
+        if (!val || val === '') return true; // Allow empty values
+        // Remove all spaces, dashes, parentheses for length check
+        const cleanNumber = val.replace(/[\s()-]/g, '');
+        return cleanNumber.length >= 7 && cleanNumber.length <= 15;
+      },
+      {
+        message: 'Phone number must be between 7-15 digits',
+      }
+    )
+    .refine(
+      val => {
+        if (!val || val === '') return true; // Allow empty values
+        return phoneRegex.test(val);
+      },
+      {
+        message: 'Invalid phone number format. Use digits, spaces, dashes, or parentheses only',
+      }
+    ),
   email: z.string().email('Invalid email format').optional().or(z.literal('')),
   linkedInUrl: z.string().url('Invalid LinkedIn URL').optional().or(z.literal('')),
   gitHubUrl: z.string().url('Invalid GitHub URL').optional().or(z.literal('')),
@@ -132,7 +158,7 @@ export const CVContactSection: React.FC<CVContactSectionProps> = ({ cvId, onSucc
                         Phone Number
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="+1 (555) 123-4567" {...field} />
+                        <Input placeholder="e.g. +1 (555) 123-4567 or 555-123-4567" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
