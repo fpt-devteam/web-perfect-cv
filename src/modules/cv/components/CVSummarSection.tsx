@@ -25,21 +25,27 @@ interface CVSummaryProps {
 
 export function CVSummary({ cvId }: CVSummaryProps) {
   const { showError, showSuccess } = useNotification();
-  const { data: summaryData, isLoading: isLoadingSummary } = useGetSummary({ cvId });
+  const {
+    data: summaryData,
+    isLoading: isLoadingSummary,
+    error: summaryError,
+  } = useGetSummary({ cvId });
   const [isLoading, setIsLoading] = useState(false);
   const upsertSummary = useUpsertSummary({ cvId });
 
   const form = useForm<SummaryFormValues>({
     resolver: zodResolver(summarySchema),
     defaultValues: {
-      context: summaryData?.context ?? '',
+      context: '',
     },
   });
 
   useEffect(() => {
     if (!isLoadingSummary && summaryData) {
+      // Safely handle null/undefined context
+      const context = summaryData?.context || '';
       form.reset({
-        context: summaryData.context ?? '',
+        context,
       });
     }
   }, [isLoadingSummary, summaryData, form]);
@@ -47,28 +53,66 @@ export function CVSummary({ cvId }: CVSummaryProps) {
   const onSubmit = async (data: SummaryFormValues) => {
     setIsLoading(true);
 
-    if (!data.context || data.context === '') {
+    if (!data.context || data.context.trim() === '') {
       setIsLoading(false);
+      showError({ message: 'Summary cannot be empty' } as AxiosError<BaseError>);
       return;
     }
 
     const processedData: UpSertSummaryRequest = {
       cvId,
-      context: !data.context || data.context === '' ? null : data.context,
+      context: data.context.trim(),
     };
 
-    await upsertSummary.mutateAsync(processedData, {
-      onSuccess: () => {
-        showSuccess('Summary updated successfully!');
-      },
-      onError: error => {
-        showError(error as AxiosError<BaseError>);
-      },
-      onSettled: () => {
-        setIsLoading(false);
-      },
-    });
+    try {
+      await upsertSummary.mutateAsync(processedData, {
+        onSuccess: () => {
+          showSuccess('Summary updated successfully!');
+        },
+        onError: error => {
+          showError(error as AxiosError<BaseError>);
+        },
+        onSettled: () => {
+          setIsLoading(false);
+        },
+      });
+    } catch (error) {
+      setIsLoading(false);
+      showError(error as AxiosError<BaseError>);
+    }
   };
+
+  // Show error state
+  if (summaryError) {
+    return (
+      <Card>
+        <CardContent className="flex items-center justify-center py-8">
+          <div className="text-center">
+            <div className="text-red-500 mb-4">
+              <svg
+                className="w-12 h-12 mx-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Error loading summary</h3>
+            <p className="text-gray-500 mb-4">Please try again later.</p>
+            <Button onClick={() => window.location.reload()} variant="outline" size="sm">
+              Retry
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   if (isLoadingSummary) {
     return (
@@ -100,7 +144,11 @@ export function CVSummary({ cvId }: CVSummaryProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Textarea placeholder="Enter your summary here" {...field} />
+                      <Textarea
+                        placeholder="Enter your summary here..."
+                        {...field}
+                        value={field.value || ''}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,11 +156,15 @@ export function CVSummary({ cvId }: CVSummaryProps) {
               />
 
               <div className="flex justify-end gap-3">
-                <Button type="submit" disabled={form.formState.isSubmitting} className="min-w-32">
+                <Button
+                  type="submit"
+                  disabled={form.formState.isSubmitting || isLoading}
+                  className="min-w-32"
+                >
                   {form.formState.isSubmitting && (
                     <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                   )}
-                  {isLoading ? 'Loading' : 'Save Summary'}
+                  {isLoading ? 'Saving...' : 'Save Summary'}
                 </Button>
               </div>
             </form>

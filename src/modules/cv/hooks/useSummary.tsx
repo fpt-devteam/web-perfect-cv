@@ -9,6 +9,11 @@ export function useGetSummary({ cvId }: { readonly cvId: string }) {
     queryKey: genSummaryKey(cvId),
     queryFn: () => getSummary({ cvId }),
     enabled: !!cvId,
+    retry: 2,
+    retryDelay: 1000,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -20,5 +25,6 @@ export function useUpsertSummary({ cvId }: { readonly cvId: string }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: genSummaryKey(cvId) });
     },
+    retry: 1,
   });
 }

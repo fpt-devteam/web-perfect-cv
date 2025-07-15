@@ -151,11 +151,26 @@ export const deleteExperience = async ({
 };
 
 export const getSummary = async ({ cvId }: { readonly cvId: string }) => {
-  const { data } = await authClient<CVSummary>({
-    method: 'GET',
-    url: GET_SUMMARY_ENDPOINT(cvId),
-  });
-  return data;
+  try {
+    const { data } = await authClient<CVSummary>({
+      method: 'GET',
+      url: GET_SUMMARY_ENDPOINT(cvId),
+    });
+
+    // Handle case where API returns null or empty data
+    if (!data) {
+      return {
+        id: '',
+        cvId,
+        context: null,
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching summary:', error);
+    throw error;
+  }
 };
 
 export const upsertSummary = async ({
