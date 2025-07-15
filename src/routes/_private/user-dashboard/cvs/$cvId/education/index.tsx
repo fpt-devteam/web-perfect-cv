@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CVEducationSection } from '@/modules/cv/components/CVEducationSection';
+import { CVEducationSection } from '@/modules/cv/components/education/CVEducationSection';
 
 export const Route = createFileRoute('/_private/user-dashboard/cvs/$cvId/education/')({
   component: RouteComponent,

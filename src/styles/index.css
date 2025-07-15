@@ -39,6 +39,8 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-placeholder-light: var(--placeholder-light);
+  --color-placeholder-light-dark: var(--placeholder-light-dark);
 }
 
 :root {
@@ -74,6 +76,10 @@
   --sidebar-accent-foreground: #1a2b22;
   --sidebar-border: #e8e8e8;
   --sidebar-ring: #7bc0a3;
+
+  /* Lighter placeholder colors */
+  --placeholder-light: #9ca3af;
+  --placeholder-light-dark: #6b7280;
 
   /* Additional color variables for more granular control */
   --gray-1: #1a2b22;
@@ -117,6 +123,10 @@
   --sidebar-accent-foreground: #e5f5ef;
   --sidebar-border: rgba(229, 245, 239, 0.1);
   --sidebar-ring: #7bc0a3;
+
+  /* Lighter placeholder colors for dark mode */
+  --placeholder-light: #9ca3af;
+  --placeholder-light-dark: #6b7280;
 
   /* Additional color variables for dark mode */
   --gray-1: #e5f5ef;
