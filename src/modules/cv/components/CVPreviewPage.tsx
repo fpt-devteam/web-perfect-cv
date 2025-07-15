@@ -7,8 +7,10 @@ import { cn } from '@/shared/utils/cn.util';
 import { AnalyticsModal } from './AnalyticsModal';
 import { CVPDFViewer } from './CVPDFViewer';
 import type { AnalysisData } from '../types/analysis.types';
+import type { CVData } from '../types/cv.types';
 import { useAnalyzeCV, useAnalysisFeedback } from '../hooks/useAnalysis';
 import { useCVData } from '../hooks/useCVData';
+import { transformCVFullContentToCVData } from '../utils/cv-data-transformer';
 import { mockCVData } from '../mock/mockCVData';
 
 interface CVPreviewPageProps {
@@ -179,10 +181,23 @@ export function CVPreviewPage({ cvId }: CVPreviewPageProps) {
   const analysisFeedback = useAnalysisFeedback(analysisId);
 
   // Fetch CV data
-  const { data: cvData, isLoading: isCVLoading, error: cvError } = useCVData(cvId);
+  const { data: cvFullContentData, isLoading: isCVLoading, error: cvError } = useCVData(cvId);
 
-  // Use mock data as fallback for development
-  const currentCVData = cvData || mockCVData;
+  // Transform API data to CVData format
+  const transformedCVData: CVData | null = cvFullContentData
+    ? transformCVFullContentToCVData(cvFullContentData)
+    : null;
+
+  // Use transformed data or fallback to mock data for development
+  const currentCVData = transformedCVData || mockCVData;
+
+  // Debug: Log the data for testing
+  useEffect(() => {
+    if (cvFullContentData) {
+      console.log('🔍 API Response:', cvFullContentData);
+      console.log('🔄 Transformed Data:', transformedCVData);
+    }
+  }, [cvFullContentData, transformedCVData]);
 
   // Set mock analysis ID on mount to fetch feedback
   useEffect(() => {

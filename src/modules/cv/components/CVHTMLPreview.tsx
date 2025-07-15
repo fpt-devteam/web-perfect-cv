@@ -1,4 +1,3 @@
-import { Badge } from '@/shared/components/ui/badge';
 import { MapPin, Mail, Phone, Globe, Github, Linkedin } from 'lucide-react';
 import type { CVData } from '../types/cv.types';
 
@@ -12,20 +11,6 @@ const formatDate = (dateString: string): string => {
     year: 'numeric',
     month: 'short',
   });
-};
-
-const getSkillLevelText = (level: number): string => {
-  if (level >= 4) return 'Expert';
-  if (level >= 3) return 'Advanced';
-  if (level >= 2) return 'Intermediate';
-  return 'Beginner';
-};
-
-const getSkillLevelColor = (level: number): string => {
-  if (level >= 4) return 'bg-green-100 text-green-800 border-green-300';
-  if (level >= 3) return 'bg-blue-100 text-blue-800 border-blue-300';
-  if (level >= 2) return 'bg-yellow-100 text-yellow-800 border-yellow-300';
-  return 'bg-gray-100 text-gray-800 border-gray-300';
 };
 
 export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
@@ -162,20 +147,27 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
                   <div className="flex justify-between items-start mb-1">
                     <div className="flex-1">
                       <h4 className="font-bold text-slate-800 text-xs">
-                        {education.Degree} in {education.FieldOfStudy}
+                        {education.Degree}{' '}
+                        {education.FieldOfStudy && `in ${education.FieldOfStudy}`}
                       </h4>
                       <p className="text-xs text-slate-500 italic mt-1">{education.Organization}</p>
-                      {education.Gpa && (
+                      {education.Gpa && education.Gpa > 0 && (
                         <p className="text-xs text-green-700 font-bold mt-1">
                           GPA: {education.Gpa.toFixed(2)}
                         </p>
                       )}
                     </div>
                     <div className="text-xs text-slate-600 text-right ml-3">
-                      {formatDate(education.StartDate)} - {formatDate(education.EndDate)}
+                      {education.StartDate && education.EndDate
+                        ? `${formatDate(education.StartDate)} - ${formatDate(education.EndDate)}`
+                        : education.StartDate
+                          ? `${formatDate(education.StartDate)} - Present`
+                          : education.EndDate
+                            ? `Completed ${formatDate(education.EndDate)}`
+                            : 'Date not specified'}
                     </div>
                   </div>
-                  {education.Description && (
+                  {education.Description && education.Description.trim() && (
                     <p className="text-xs text-slate-700 leading-relaxed text-justify mt-1">
                       {education.Description}
                     </p>
@@ -190,21 +182,34 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
         {cvData.Skills && cvData.Skills.length > 0 && (
           <div className="mb-6">
             <h3 className="text-sm font-bold text-slate-800 mb-3 pb-1 border-b border-slate-700 uppercase tracking-wider">
-              Technical Skills
+              Skills
             </h3>
-            <div className="flex flex-wrap gap-1">
-              {cvData.Skills.map(skill => (
-                <div key={skill.Id} className="flex items-center gap-1">
-                  <span className="text-xs text-slate-800 font-medium">{skill.Name}</span>
-                  <span className="text-slate-400">•</span>
-                  <Badge
-                    variant="secondary"
-                    className={`text-xs px-2 py-0.5 ${getSkillLevelColor(skill.Level)}`}
-                  >
-                    {getSkillLevelText(skill.Level)}
-                  </Badge>
-                </div>
-              ))}
+            <div className="space-y-3">
+              {/* Group skills by category */}
+              {(() => {
+                const skillCategories = cvData.Skills.reduce(
+                  (acc, skill) => {
+                    const category = skill.Name.includes(',')
+                      ? 'Technical Skills'
+                      : 'Functional Skills';
+                    if (!acc[category]) {
+                      acc[category] = [];
+                    }
+                    acc[category].push(skill);
+                    return acc;
+                  },
+                  {} as Record<string, typeof cvData.Skills>
+                );
+
+                return Object.entries(skillCategories).map(([category, skills]) => (
+                  <div key={category}>
+                    <h4 className="text-xs font-bold text-slate-800 mb-1">{category}:</h4>
+                    <p className="text-xs text-slate-700">
+                      {skills.map(skill => skill.Name).join(', ')}
+                    </p>
+                  </div>
+                ));
+              })()}
             </div>
           </div>
         )}

@@ -289,3 +289,88 @@ export interface CVData {
   }>;
   lastEditedAt: string;
 }
+
+// New type for the full content API response
+export interface CVFullContentResponse {
+  id: string;
+  userId: string;
+  title: string;
+  versionId: string;
+  analysisId: string | null;
+  createdAt: string;
+  updatedAt: string;
+  jobDetail: {
+    jobTitle: string;
+    companyName: string;
+    description: string;
+  };
+  contact: {
+    id: string;
+    cvId: string;
+    phoneNumber: string;
+    email: string;
+    linkedInUrl: string | null;
+    gitHubUrl: string | null;
+    personalWebsiteUrl: string | null;
+    country: string;
+    city: string;
+  };
+  summary: {
+    id: string;
+    cvId: string;
+    context: string | null;
+  };
+  skills: Array<{
+    id: string;
+    category: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string | null;
+  }>;
+  educations: Array<{
+    id: string;
+    organization: string;
+    degree: string;
+    fieldOfStudy: string;
+    startDate: string | null;
+    endDate: string | null;
+    description: string;
+    gpa: number | null;
+  }>;
+  experiences: Array<{
+    id: string;
+    cvId: string;
+    jobTitleId: string | null;
+    jobTitle: string;
+    employmentTypeId: string;
+    employmentTypeName: string;
+    organizationId: string | null;
+    organization: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string | null;
+  }>;
+  projects: Array<{
+    id: string;
+    cvId: string;
+    title: string;
+    description: string;
+    link: string | null;
+    startDate: string | null;
+    endDate: string | null;
+    createdAt: string;
+    updatedAt: string | null;
+  }>;
+  certifications: Array<{
+    id: string;
+    cvId: string;
+    name: string;
+    organizationId: string | null;
+    organization: string;
+    issuedDate: string | null;
+    description: string;
+  }>;
+}

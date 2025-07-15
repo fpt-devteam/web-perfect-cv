@@ -22,10 +22,12 @@ import type {
   CVSkillResponse,
   CreateCVSkillRequest,
   UpdateCVSkillRequest,
+  CVFullContentResponse,
 } from '@/modules/cv/types/cv.types';
 import {
   GET_CVS_ENDPOINT,
   CREATE_CV_ENDPOINT,
+  GET_CV_FULL_CONTENT_ENDPOINT,
   UPSERT_CONTACT_ENDPOINT,
   LIST_CONTACTS_ENDPOINT,
   LIST_EXPERIENCES_ENDPOINT,
@@ -383,6 +385,14 @@ export const deleteSkill = async ({
   const { data } = await authClient<void>({
     method: 'DELETE',
     url: DELETE_SKILL_ENDPOINT(cvId, skillId),
+  });
+  return data;
+};
+
+export const getCVFullContent = async ({ cvId }: { readonly cvId: string }) => {
+  const { data } = await authClient<CVFullContentResponse>({
+    method: 'GET',
+    url: GET_CV_FULL_CONTENT_ENDPOINT(cvId),
   });
   return data;
 };

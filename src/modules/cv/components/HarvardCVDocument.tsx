@@ -1,6 +1,22 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
 import type { CVData } from '../types/cv.types';
+
+// Register fonts that support Vietnamese characters
+Font.register({
+  family: 'Times-Roman',
+  src: 'https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.ttf',
+});
+
+Font.register({
+  family: 'Times-Bold',
+  src: 'https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmWUlfBBc9.ttf',
+});
+
+Font.register({
+  family: 'Times-Italic',
+  src: 'https://fonts.gstatic.com/s/roboto/v30/KFOkCnqEu92Fr1Mu51xIIzI.ttf',
+});
 
 const styles = StyleSheet.create({
   page: {
@@ -116,24 +132,22 @@ const styles = StyleSheet.create({
 
   // Skills Section
   skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 4,
+    flexDirection: 'column',
+    gap: 8,
   },
-  skillItem: {
-    fontSize: 10,
-    color: '#334155', // slate-800
-    marginBottom: 3,
-    marginRight: 4,
+  skillCategory: {
+    marginBottom: 6,
   },
-  skillLevel: {
+  skillCategoryTitle: {
     fontSize: 10,
-    color: '#64748b', // slate-500
     fontFamily: 'Times-Bold',
+    color: '#334155', // slate-800
+    marginBottom: 4,
   },
-  skillDivider: {
+  skillItems: {
     fontSize: 10,
-    color: '#94a3b8', // slate-400
+    color: '#475569', // slate-700
+    lineHeight: 1.4,
   },
 
   // Education Section
@@ -164,6 +178,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: '#059669', // green-700
     fontFamily: 'Times-Bold',
+  },
+  educationDate: {
+    fontSize: 10,
+    color: '#475569', // slate-600
+    textAlign: 'right',
+    minWidth: 80,
   },
 
   // Projects Section
@@ -209,16 +229,17 @@ const styles = StyleSheet.create({
     color: '#334155', // slate-800
     flex: 1,
   },
-  certificationOrg: {
+  certificationIssuer: {
     fontSize: 10,
     color: '#64748b', // slate-500
+    marginBottom: 3,
     fontFamily: 'Times-Italic',
   },
   certificationDate: {
-    fontSize: 9,
+    fontSize: 10,
     color: '#475569', // slate-600
     textAlign: 'right',
-    minWidth: 60,
+    minWidth: 80,
   },
 });
 
@@ -227,6 +248,7 @@ interface HarvardCVDocumentProps {
 }
 
 const formatDate = (dateString: string): string => {
+  if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -234,17 +256,24 @@ const formatDate = (dateString: string): string => {
   });
 };
 
-const getSkillLevelText = (level: number): string => {
-  if (level >= 4) return 'Expert';
-  if (level >= 3) return 'Advanced';
-  if (level >= 2) return 'Intermediate';
-  return 'Beginner';
-};
-
 export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) => {
-  const fullName = cvData.Title;
+  const fullName = cvData.Title || 'Your Name';
   const jobTitle = cvData.JobDetail?.JobTitle || 'Professional Title';
   const contacts = cvData.Contacts;
+
+  // Group skills by category
+  const skillCategories =
+    cvData.Skills?.reduce(
+      (acc, skill) => {
+        const category = skill.Name.includes(',') ? 'Programming Languages' : 'Technical Skills';
+        if (!acc[category]) {
+          acc[category] = [];
+        }
+        acc[category].push(skill);
+        return acc;
+      },
+      {} as Record<string, typeof cvData.Skills>
+    ) || {};
 
   return (
     <Document>
@@ -257,41 +286,32 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
           {contacts && (
             <View>
               <View style={styles.contactRow}>
-                <Text style={styles.contactInfo}>
-                  {cvData.Contacts?.Email || 'email@example.com'}
-                </Text>
+                <Text style={styles.contactInfo}>{contacts.Email}</Text>
+                <Text style={styles.contactDivider}>•</Text>
+                <Text style={styles.contactInfo}>{contacts.PhoneNumber}</Text>
                 <Text style={styles.contactDivider}>•</Text>
                 <Text style={styles.contactInfo}>
-                  {cvData.Contacts?.PhoneNumber || '+1-555-0123'}
-                </Text>
-                <Text style={styles.contactDivider}>•</Text>
-                <Text style={styles.contactInfo}>
-                  {cvData.Contacts?.City}, {cvData.Contacts?.Country}
+                  {contacts.City}, {contacts.Country}
                 </Text>
               </View>
-              {(cvData.Contacts?.LinkedInUrl ||
-                cvData.Contacts?.GitHubUrl ||
-                cvData.Contacts?.PersonalWebsiteUrl) && (
+
+              {(contacts.LinkedInUrl || contacts.GitHubUrl || contacts.PersonalWebsiteUrl) && (
                 <View style={styles.contactRow}>
-                  {cvData.Contacts?.LinkedInUrl && (
+                  {contacts.LinkedInUrl && (
                     <>
                       <Text style={styles.contactInfo}>LinkedIn</Text>
-                      {(cvData.Contacts?.GitHubUrl || cvData.Contacts?.PersonalWebsiteUrl) && (
+                      {(contacts.GitHubUrl || contacts.PersonalWebsiteUrl) && (
                         <Text style={styles.contactDivider}>•</Text>
                       )}
                     </>
                   )}
-                  {cvData.Contacts?.GitHubUrl && (
+                  {contacts.GitHubUrl && (
                     <>
                       <Text style={styles.contactInfo}>GitHub</Text>
-                      {cvData.Contacts?.PersonalWebsiteUrl && (
-                        <Text style={styles.contactDivider}>•</Text>
-                      )}
+                      {contacts.PersonalWebsiteUrl && <Text style={styles.contactDivider}>•</Text>}
                     </>
                   )}
-                  {cvData.Contacts?.PersonalWebsiteUrl && (
-                    <Text style={styles.contactInfo}>Portfolio</Text>
-                  )}
+                  {contacts.PersonalWebsiteUrl && <Text style={styles.contactInfo}>Portfolio</Text>}
                 </View>
               )}
             </View>
@@ -310,15 +330,8 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Experiences && cvData.Experiences.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Professional Experience</Text>
-            {cvData.Experiences.map(experience => (
-              <View
-                key={experience.Id}
-                style={[
-                  styles.experienceItem,
-                  // index === cvData.Experiences.length - 1 && { borderBottom: 'none' },
-                  { borderBottom: 'none' },
-                ]}
-              >
+            {cvData.Experiences.map((experience, index) => (
+              <View key={experience.Id} style={styles.experienceItem}>
                 <View style={styles.experienceHeader}>
                   <Text style={styles.jobTitleCompany}>
                     {experience.JobTitle} • {experience.Organization}
@@ -344,25 +357,26 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Education</Text>
             {cvData.Educations.map((education, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.educationItem,
-                  // index === cvData.Educations.length - 1 && { borderBottom: 'none' },
-                  { borderBottom: 'none' },
-                ]}
-              >
+              <View key={index} style={styles.educationItem}>
                 <View style={styles.educationHeader}>
                   <Text style={styles.degree}>
-                    {education.Degree} in {education.FieldOfStudy}
+                    {education.Degree} {education.FieldOfStudy && `in ${education.FieldOfStudy}`}
                   </Text>
-                  <Text style={styles.dateLocation}>
-                    {formatDate(education.StartDate)} - {formatDate(education.EndDate)}
+                  <Text style={styles.educationDate}>
+                    {education.StartDate && education.EndDate
+                      ? `${formatDate(education.StartDate)} - ${formatDate(education.EndDate)}`
+                      : education.StartDate
+                        ? `${formatDate(education.StartDate)} - Present`
+                        : education.EndDate
+                          ? `Completed ${formatDate(education.EndDate)}`
+                          : 'Date not specified'}
                   </Text>
                 </View>
                 <Text style={styles.institution}>{education.Organization}</Text>
-                {education.Gpa && <Text style={styles.gpa}>GPA: {education.Gpa.toFixed(2)}</Text>}
-                {education.Description && (
+                {education.Gpa && education.Gpa > 0 && (
+                  <Text style={styles.gpa}>GPA: {education.Gpa.toFixed(2)}</Text>
+                )}
+                {education.Description && education.Description.trim() && (
                   <Text style={styles.description}>{education.Description}</Text>
                 )}
               </View>
@@ -373,14 +387,13 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {/* Skills Section */}
         {cvData.Skills && cvData.Skills.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Technical Skills</Text>
+            <Text style={styles.sectionTitle}>Skills</Text>
             <View style={styles.skillsContainer}>
-              {cvData.Skills.map(skill => (
-                <View key={skill.Id} style={styles.skillItem}>
-                  <Text style={{ fontSize: 10, color: '#334155' }}>
-                    {skill.Name}
-                    <Text style={styles.skillDivider}> • </Text>
-                    <Text style={styles.skillLevel}>{getSkillLevelText(skill.Level)}</Text>
+              {Object.entries(skillCategories).map(([category, skills]) => (
+                <View key={category} style={styles.skillCategory}>
+                  <Text style={styles.skillCategoryTitle}>{category}:</Text>
+                  <Text style={styles.skillItems}>
+                    {skills.map(skill => skill.Name).join(', ')}
                   </Text>
                 </View>
               ))}
@@ -392,15 +405,8 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Projects && cvData.Projects.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Notable Projects</Text>
-            {cvData.Projects.map(project => (
-              <View
-                key={project.Id}
-                style={[
-                  styles.projectItem,
-                  // index === cvData.Projects.length - 1 && { borderBottom: 'none' },
-                  { borderBottom: 'none' },
-                ]}
-              >
+            {cvData.Projects.map((project, index) => (
+              <View key={project.Id} style={styles.projectItem}>
                 <View style={styles.projectHeader}>
                   <Text style={styles.projectTitle}>{project.Title}</Text>
                   <Text style={styles.dateLocation}>
@@ -420,22 +426,15 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Certifications && cvData.Certifications.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Certifications</Text>
-            {cvData.Certifications.map(certification => (
-              <View
-                key={certification.Id}
-                style={[
-                  styles.certificationItem,
-                  // index === cvData.Certifications.length - 1 && { borderBottom: 'none' },
-                  { borderBottom: 'none' },
-                ]}
-              >
+            {cvData.Certifications.map((certification, index) => (
+              <View key={certification.Id} style={styles.certificationItem}>
                 <View style={styles.certificationHeader}>
                   <Text style={styles.certificationName}>{certification.Name}</Text>
                   <Text style={styles.certificationDate}>
                     {formatDate(certification.IssuedDate)}
                   </Text>
                 </View>
-                <Text style={styles.certificationOrg}>{certification.Organization}</Text>
+                <Text style={styles.certificationIssuer}>{certification.Organization}</Text>
                 {certification.Description && (
                   <Text style={styles.description}>{certification.Description}</Text>
                 )}
