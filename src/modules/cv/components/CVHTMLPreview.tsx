@@ -189,9 +189,7 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
               {(() => {
                 const skillCategories = cvData.Skills.reduce(
                   (acc, skill) => {
-                    const category = skill.Name.includes(',')
-                      ? 'Technical Skills'
-                      : 'Functional Skills';
+                    const category = skill.Name; // Use skill.Name as category (which contains the actual category from API)
                     if (!acc[category]) {
                       acc[category] = [];
                     }
@@ -205,7 +203,7 @@ export const CVHTMLPreview: React.FC<CVHTMLPreviewProps> = ({ cvData }) => {
                   <div key={category}>
                     <h4 className="text-xs font-bold text-slate-800 mb-1">{category}:</h4>
                     <p className="text-xs text-slate-700">
-                      {skills.map(skill => skill.Name).join(', ')}
+                      {skills.map(skill => skill.Description || skill.Name).join(', ')}
                     </p>
                   </div>
                 ));

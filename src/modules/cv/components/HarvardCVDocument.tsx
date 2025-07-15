@@ -265,7 +265,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
   const skillCategories =
     cvData.Skills?.reduce(
       (acc, skill) => {
-        const category = skill.Name.includes(',') ? 'Programming Languages' : 'Technical Skills';
+        const category = skill.Name; // Use skill.Name as category (which contains the actual category from API)
         if (!acc[category]) {
           acc[category] = [];
         }
@@ -393,7 +393,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
                 <View key={category} style={styles.skillCategory}>
                   <Text style={styles.skillCategoryTitle}>{category}:</Text>
                   <Text style={styles.skillItems}>
-                    {skills.map(skill => skill.Name).join(', ')}
+                    {skills.map(skill => skill.Description || skill.Name).join(', ')}
                   </Text>
                 </View>
               ))}

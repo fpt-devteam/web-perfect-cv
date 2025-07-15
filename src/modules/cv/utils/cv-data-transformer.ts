@@ -43,9 +43,9 @@ export const transformCVFullContentToCVData = (apiData: CVFullContentResponse): 
     Skills: (apiData.skills || []).map(skill => ({
       Id: skill.id,
       CVId: apiData.id,
-      Name: skill.description || '',
+      Name: skill.category || '', // Use category as the heading
       Level: 3, // Default level since API doesn't provide it
-      Description: null,
+      Description: skill.description || '', // Use description as the content
     })),
     Educations: (apiData.educations || []).map(education => ({
       Organization: education.organization || '',
