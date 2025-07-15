@@ -57,7 +57,7 @@ export type CVExperience = {
   organization: string;
   location: string;
   startDate: string;
-  endDate: string | null;
+  endDate: string;
   description: string | null;
   createdAt: string;
   updatedAt: string | null;

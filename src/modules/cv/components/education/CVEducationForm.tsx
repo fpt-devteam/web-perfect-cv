@@ -177,7 +177,7 @@ export function CVEducationForm({
                     onSearch={handleOrganizationSearch}
                     onSelect={handleOrganizationSelect}
                     placeholder="e.g. University of Technology"
-                    minSearchLength={2}
+                    minSearchLength={1}
                     debounceMs={300}
                   />
                 </FormControl>

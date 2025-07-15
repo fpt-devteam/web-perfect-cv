@@ -4,6 +4,7 @@ import { Input } from '@/shared/components/ui/input';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 import { cn } from '@/shared/utils/cn.util';
 import type { SearchableItemResponse } from '@/modules/cv/types/cv.types';
+import { DEBOUNCE_DELAY } from '@/config/app.config';
 
 interface SearchableInputProps {
   value: string;
@@ -27,8 +28,8 @@ export function SearchableInput({
   className,
   disabled,
   error,
-  minSearchLength = 2,
-  debounceMs = 300,
+  minSearchLength = 1,
+  debounceMs = 100,
 }: SearchableInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<SearchableItemResponse[]>([]);
@@ -36,7 +37,7 @@ export function SearchableInput({
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const debouncedValue = useDebounce(value, debounceMs);
+  const debouncedValue = useDebounce(value, DEBOUNCE_DELAY);
 
   const handleSearch = useCallback(
     async (query: string) => {
