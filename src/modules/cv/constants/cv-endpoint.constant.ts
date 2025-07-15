@@ -12,10 +12,10 @@ export const DELETE_EXPERIENCE_ENDPOINT = (cvId: string, experienceId: string) =
   `api/cvs/${cvId}/experiences/${experienceId}`;
 
 export const GET_ORGANIZATION_ENDPOINT = () => `api/organizations/suggestions`;
-export const GET_JOB_TITLES_ENDPOINT = () => `api/jobTitles/suggestions`;
-export const GET_EMPLOYMENT_TYPE_ENDPOINT = () => `api/employmentTypes/suggestions`;
+export const GET_JOB_TITLES_ENDPOINT = () => `api/job-titles/suggestions`;
+export const GET_EMPLOYMENT_TYPE_ENDPOINT = () => `api/employment-types/suggestions`;
 export const GET_DEGREE_ENDPOINT = () => `api/degrees/suggestions`;
-export const LIST_CATEGORIES_ENDPOINT = () => `api/skill/categories/suggestions`;
+export const LIST_CATEGORIES_ENDPOINT = () => `api/skills/categories/suggestions`;
 
 export const UPSERT_SUMMARY_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/summary`;
 export const GET_SUMMARY_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/summary`;

@@ -10,6 +10,7 @@ import type {
   UpdateCVEducationRequest,
   CVEducationResponse,
 } from '@/modules/cv/types/cv.types';
+import { searchSchools } from '../services/search.service';
 
 const genEducationsKey = (cvId: string) => ['educations', cvId];
 

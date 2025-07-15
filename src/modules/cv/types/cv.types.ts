@@ -167,6 +167,7 @@ export type CVEducationResponse = {
   cvId: string;
   organization: string;
   degree: string;
+  location: string | null;
   fieldOfStudy: string | null;
   startDate: string | null;
   endDate: string | null;
@@ -177,10 +178,7 @@ export type CVEducationResponse = {
 export type CreateCVEducationRequest = {
   cvId: string;
   degree: string;
-  degreeId: string | null;
-  organizationId: string | null;
   organization: string;
-  location: string | null;
   fieldOfStudy: string | null;
   startDate: string | null;
   endDate: string | null;
@@ -190,14 +188,12 @@ export type CreateCVEducationRequest = {
 
 export type UpdateCVEducationRequest = {
   id: string;
-  degreeId: string;
   degree: string;
   organization: string;
-  organizationId: string | null;
   location: string | null;
-  fieldOfStudy: string | null;
-  startDate: string | null;
-  endDate: string | null;
+  fieldOfStudy: string;
+  startDate: string;
+  endDate: string;
   description: string | null;
   gpa: number | null;
 };
