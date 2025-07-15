@@ -49,8 +49,8 @@ export function useCreateCertification({ cvId }: { readonly cvId: string }) {
           name: newCertification.name,
           issuedDate: newCertification.issuedDate,
           description: newCertification.description,
-          organization: newCertification.organization || '',
-          organizationId: newCertification.organizationId,
+          organization: newCertification.organization,
+          organizationId: null, // Will be set by backend if needed
         };
 
         queryClient.setQueryData<CVCertificationResponse[]>(genCertificationsKey(cvId), [

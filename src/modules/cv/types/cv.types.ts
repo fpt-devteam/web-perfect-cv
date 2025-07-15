@@ -121,8 +121,7 @@ export type CreateCVCertificationRequest = {
   name: string;
   issuedDate: string | null;
   description: string | null;
-  organization: string | null;
-  organizationId: string | null;
+  organization: string;
 };
 
 export type UpdateCVCertificationRequest = {
@@ -130,7 +129,6 @@ export type UpdateCVCertificationRequest = {
   issuedDate: string | null;
   description: string | null;
   organization: string;
-  organizationId: string | null;
 };
 
 export type CVProjectResponse = {
