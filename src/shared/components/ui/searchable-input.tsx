@@ -29,7 +29,6 @@ export function SearchableInput({
   disabled,
   error,
   minSearchLength = 1,
-  debounceMs = 100,
 }: SearchableInputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<SearchableItemResponse[]>([]);

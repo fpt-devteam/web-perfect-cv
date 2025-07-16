@@ -330,7 +330,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Experiences && cvData.Experiences.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Professional Experience</Text>
-            {cvData.Experiences.map((experience, index) => (
+            {cvData.Experiences.map(experience => (
               <View key={experience.Id} style={styles.experienceItem}>
                 <View style={styles.experienceHeader}>
                   <Text style={styles.jobTitleCompany}>
@@ -405,7 +405,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Projects && cvData.Projects.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Notable Projects</Text>
-            {cvData.Projects.map((project, index) => (
+            {cvData.Projects.map(project => (
               <View key={project.Id} style={styles.projectItem}>
                 <View style={styles.projectHeader}>
                   <Text style={styles.projectTitle}>{project.Title}</Text>
@@ -426,7 +426,7 @@ export const HarvardCVDocument: React.FC<HarvardCVDocumentProps> = ({ cvData }) 
         {cvData.Certifications && cvData.Certifications.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Certifications</Text>
-            {cvData.Certifications.map((certification, index) => (
+            {cvData.Certifications.map(certification => (
               <View key={certification.Id} style={styles.certificationItem}>
                 <View style={styles.certificationHeader}>
                   <Text style={styles.certificationName}>{certification.Name}</Text>

@@ -10,7 +10,6 @@ import type {
   UpdateCVEducationRequest,
   CVEducationResponse,
 } from '@/modules/cv/types/cv.types';
-import { searchSchools } from '../services/search.service';
 
 const genEducationsKey = (cvId: string) => ['educations', cvId];
 
@@ -45,6 +44,7 @@ export function useCreateEducation({ cvId }: { readonly cvId: string }) {
           cvId: cvId,
           degree: newEducation.degree,
           organization: newEducation.organization,
+          location: null,
           fieldOfStudy: newEducation.fieldOfStudy,
           startDate: newEducation.startDate,
           endDate: newEducation.endDate,
@@ -95,9 +95,9 @@ export function useUpdateEducation({ cvId }: { readonly cvId: string }) {
           previousEducations.map(education =>
             education.id === educationId
               ? {
-                  ...education,
-                  ...educationData,
-                }
+                ...education,
+                ...educationData,
+              }
               : education
           )
         );

@@ -36,6 +36,7 @@ import type {
 const createEducationSchema = z.object({
   degree: z.string().min(1, 'Degree is required'),
   organization: z.string().min(1, 'Organization is required'),
+  location: z.string().nullable(),
   fieldOfStudy: z.string().nullable(),
   startDate: z.string().nullable(),
   endDate: z.string().nullable(),
@@ -68,9 +69,16 @@ const updateEducationSchema = z
     }
   );
 
-type CreateEducationFormValues = z.infer<typeof createEducationSchema>;
-type UpdateEducationFormValues = z.infer<typeof updateEducationSchema>;
-type EducationFormValues = CreateEducationFormValues & UpdateEducationFormValues;
+type EducationFormValues = {
+  degree: string;
+  organization: string;
+  location: string | null;
+  fieldOfStudy: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  description: string | null;
+  gpa: number | null;
+};
 
 interface CVEducationFormProps {
   editingEducation: CVEducationResponse | null;
@@ -97,10 +105,10 @@ export function CVEducationForm({
       organization: editingEducation?.organization || '',
       location: editingEducation?.location || '',
       fieldOfStudy: editingEducation?.fieldOfStudy || '',
-      startDate: editingEducation?.startDate || null,
-      endDate: editingEducation?.endDate || null,
+      startDate: editingEducation?.startDate || undefined,
+      endDate: editingEducation?.endDate || undefined,
       description: editingEducation?.description || '',
-      gpa: editingEducation?.gpa || null,
+      gpa: editingEducation?.gpa || undefined,
     },
   });
 
