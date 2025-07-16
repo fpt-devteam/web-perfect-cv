@@ -42,7 +42,7 @@
   --color-placeholder-light: var(--placeholder-light);
   --color-placeholder-light-dark: var(--placeholder-light-dark);
 }
-
+/* Define color variables for light and dark themes */
 :root {
   --radius: 0.625rem;
   --background: #ffffff;
