@@ -76,7 +76,7 @@ export function UserDashboardLayout({ children }: UserDashboardLayoutProps) {
 
           <DashboardHeader />
 
-          <main className="flex-1 overflow-auto bg-gradient-to-b from-white to-muted/20 pt-8">
+          <main className="flex-1 overflow-auto bg-gradient-to-b from-white to-muted/20">
             <div className="mx-auto max-w-6xl">{children}</div>
           </main>
         </div>

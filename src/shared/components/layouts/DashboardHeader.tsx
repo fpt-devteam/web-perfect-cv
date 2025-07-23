@@ -115,7 +115,7 @@ export function ActionsBar() {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4 w-full">
-        <SearchBar />
+        {/* <SearchBar /> */}
         <div className="flex-1"></div>
         <UpgradeButton />
         <NotificationButton />

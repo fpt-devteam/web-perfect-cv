@@ -16,6 +16,7 @@ import {
   DialogTrigger,
 } from '@/shared/components/ui/dialog';
 import { CreateCVForm } from '@/modules/cv/components/CreateCVForm';
+import { CVActionsModal } from '@/modules/cv/components/CVActionsModal';
 import { useNavigate } from '@tanstack/react-router';
 
 export function CVPreview({ cv }: { readonly cv: CVResponse }) {
@@ -58,9 +59,18 @@ export function CreateCVCard() {
 
 export function CVCard({ cv }: { readonly cv: CVResponse }) {
   const navigate = useNavigate();
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't navigate if clicking on the actions button
+    if ((e.target as HTMLElement).closest('[data-actions-trigger]')) {
+      return;
+    }
+    navigate({ to: `/user-dashboard/cvs/${cv.cvId}/contact` });
+  };
+
   return (
     <Card
-      onClick={() => navigate({ to: `/user-dashboard/cvs/${cv.cvId}/contact` })}
+      onClick={handleCardClick}
       className="cursor-pointer gap-0 overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow p-0"
     >
       <CardContent className="p-0">
@@ -76,9 +86,18 @@ export function CVCard({ cv }: { readonly cv: CVResponse }) {
             {formatDistanceToNow(addHours(parseISO(cv.lastEditedAt), 7), { addSuffix: true })}
           </CardDescription>
         </div>
-        <button className="p-1 rounded-full hover:bg-gray-100">
-          <MoreVertical size={18} className="text-gray-500" />
-        </button>
+        <CVActionsModal
+          cv={cv}
+          trigger={
+            <button
+              className="p-1 rounded-full hover:bg-gray-100"
+              data-actions-trigger
+              onClick={e => e.stopPropagation()}
+            >
+              <MoreVertical size={18} className="text-gray-500" />
+            </button>
+          }
+        />
       </CardFooter>
     </Card>
   );

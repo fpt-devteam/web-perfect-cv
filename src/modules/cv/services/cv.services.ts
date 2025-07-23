@@ -1,5 +1,6 @@
 import type {
   CreateCVRequest,
+  UpdateCVRequest,
   CVListQuery,
   CVListResponse,
   CVResponse,
@@ -27,6 +28,8 @@ import type {
 import {
   GET_CVS_ENDPOINT,
   CREATE_CV_ENDPOINT,
+  UPDATE_CV_ENDPOINT,
+  DELETE_CV_ENDPOINT,
   GET_CV_FULL_CONTENT_ENDPOINT,
   UPSERT_CONTACT_ENDPOINT,
   LIST_CONTACTS_ENDPOINT,
@@ -69,6 +72,23 @@ export const createCV = async (request: CreateCVRequest) => {
     method: 'POST',
     url: CREATE_CV_ENDPOINT,
     data: request,
+  });
+  return data;
+};
+
+export const updateCV = async ({ cvId, request }: { cvId: string; request: UpdateCVRequest }) => {
+  const { data } = await authClient<CVResponse>({
+    method: 'PUT',
+    url: UPDATE_CV_ENDPOINT(cvId),
+    data: request,
+  });
+  return data;
+};
+
+export const deleteCV = async ({ cvId }: { cvId: string }) => {
+  const { data } = await authClient<void>({
+    method: 'DELETE',
+    url: DELETE_CV_ENDPOINT(cvId),
   });
   return data;
 };

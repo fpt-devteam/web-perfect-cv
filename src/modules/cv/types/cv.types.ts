@@ -15,6 +15,7 @@ export type CVListResponse = {
 
 export type CVListQuery = PaginationQuery & {
   sort: CVSort | null;
+  searchTerm?: string;
 };
 
 export type CVSort = {
@@ -30,6 +31,10 @@ export type JobDetail = {
 export type CreateCVRequest = {
   title: string;
   jobDetail: JobDetail | null;
+};
+
+export type UpdateCVRequest = {
+  title: string;
 };
 
 export type CVContact = {
