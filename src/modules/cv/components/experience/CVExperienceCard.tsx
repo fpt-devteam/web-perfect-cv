@@ -27,13 +27,13 @@ export function CVExperienceCard({
   const getExperienceStatus = (startDate: string, endDate: string) => {
     if (!startDate) return 'Not specified';
     const now = new Date();
-    const start = new Date(startDate);
+
     const end = new Date(endDate);
-    
+
     // If end date is far in the future, consider it current position
     const farFuture = new Date();
     farFuture.setFullYear(farFuture.getFullYear() + 50);
-    
+
     if (end > farFuture) return 'Current Position';
     return end > now ? 'Current Position' : 'Completed';
   };

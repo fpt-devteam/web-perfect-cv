@@ -82,8 +82,12 @@ export function CVSummary({ cvId }: CVSummaryProps) {
     }
   };
 
-  // Show error state
-  if (summaryError) {
+  // Check if error is 404 (no summary exists yet) - treat as normal state
+  const is404Error =
+    summaryError && (summaryError as AxiosError<BaseError>)?.response?.status === 404;
+
+  // Show error state only for non-404 errors
+  if (summaryError && !is404Error) {
     return (
       <Card>
         <CardContent className="flex items-center justify-center py-8">
