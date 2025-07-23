@@ -50,3 +50,6 @@ export const UPDATE_SKILL_ENDPOINT = (cvId: string, skillId: string) =>
   `api/cvs/${cvId}/skills/${skillId}`;
 export const DELETE_SKILL_ENDPOINT = (cvId: string, skillId: string) =>
   `api/cvs/${cvId}/skills/${skillId}`;
+
+export const UPDATE_PROFILE_ENDPOINT = 'api/users/profile';
+export const UPDATE_AVATAR_ENDPOINT = 'api/users/avatar';

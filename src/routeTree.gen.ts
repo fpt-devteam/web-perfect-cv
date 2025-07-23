@@ -10,403 +10,411 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as PublicImport } from './routes/_public'
-import { Route as PrivateImport } from './routes/_private'
-import { Route as AuthImport } from './routes/_auth'
-import { Route as IndexImport } from './routes/index'
-import { Route as PublicForbiddenImport } from './routes/_public/forbidden'
-import { Route as PrivateUserDashboardImport } from './routes/_private/user-dashboard'
-import { Route as PrivateAdminDashboardImport } from './routes/_private/admin-dashboard'
-import { Route as AuthRegisterImport } from './routes/_auth/register'
-import { Route as AuthLoginImport } from './routes/_auth/login'
-import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
-import { Route as AuthActivationAccountIndexImport } from './routes/_auth/activation-account/index'
-import { Route as Oauth2ProviderCallbackImport } from './routes/oauth2.$provider.callback'
-import { Route as PrivateAdminDashboardDashboardImport } from './routes/_private/admin-dashboard/dashboard'
-import { Route as AuthActivationAccountTokenImport } from './routes/_auth/activation-account/$token'
-import { Route as PrivateUserDashboardResignationLetterIndexImport } from './routes/_private/user-dashboard/resignation-letter/index'
-import { Route as PrivateUserDashboardCvsIndexImport } from './routes/_private/user-dashboard/cvs/index'
-import { Route as PrivateUserDashboardCoverLetterIndexImport } from './routes/_private/user-dashboard/cover-letter/index'
-import { Route as PrivateUserDashboardCvsCvIdImport } from './routes/_private/user-dashboard/cvs/$cvId'
-import { Route as PrivateUserDashboardCvsCvIdSummaryIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/summary/index'
-import { Route as PrivateUserDashboardCvsCvIdSkillsIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/skills/index'
-import { Route as PrivateUserDashboardCvsCvIdProjectIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/project/index'
-import { Route as PrivateUserDashboardCvsCvIdPreviewIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/preview/index'
-import { Route as PrivateUserDashboardCvsCvIdExperienceIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/experience/index'
-import { Route as PrivateUserDashboardCvsCvIdEducationIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/education/index'
-import { Route as PrivateUserDashboardCvsCvIdContactIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/contact/index'
-import { Route as PrivateUserDashboardCvsCvIdCertificationsIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/certifications/index'
+import { Route as rootRoute } from './routes/__root';
+import { Route as PublicImport } from './routes/_public';
+import { Route as PrivateImport } from './routes/_private';
+import { Route as AuthImport } from './routes/_auth';
+import { Route as IndexImport } from './routes/index';
+import { Route as PublicForbiddenImport } from './routes/_public/forbidden';
+import { Route as PrivateUserDashboardImport } from './routes/_private/user-dashboard';
+import { Route as PrivateAdminDashboardImport } from './routes/_private/admin-dashboard';
+import { Route as AuthRegisterImport } from './routes/_auth/register';
+import { Route as AuthLoginImport } from './routes/_auth/login';
+import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password';
+import { Route as AuthActivationAccountIndexImport } from './routes/_auth/activation-account/index';
+import { Route as Oauth2ProviderCallbackImport } from './routes/oauth2.$provider.callback';
+import { Route as PrivateAdminDashboardDashboardImport } from './routes/_private/admin-dashboard/dashboard';
+import { Route as AuthActivationAccountTokenImport } from './routes/_auth/activation-account/$token';
+import { Route as PrivateUserDashboardResignationLetterIndexImport } from './routes/_private/user-dashboard/resignation-letter/index';
+import { Route as PrivateUserDashboardCvsIndexImport } from './routes/_private/user-dashboard/cvs/index';
+import { Route as PrivateUserDashboardCoverLetterIndexImport } from './routes/_private/user-dashboard/cover-letter/index';
+import { Route as PrivateUserDashboardAccountIndexImport } from './routes/_private/user-dashboard/account/index';
+import { Route as PrivateUserDashboardCvsCvIdImport } from './routes/_private/user-dashboard/cvs/$cvId';
+import { Route as PrivateUserDashboardCvsCvIdSummaryIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/summary/index';
+import { Route as PrivateUserDashboardCvsCvIdSkillsIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/skills/index';
+import { Route as PrivateUserDashboardCvsCvIdProjectIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/project/index';
+import { Route as PrivateUserDashboardCvsCvIdPreviewIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/preview/index';
+import { Route as PrivateUserDashboardCvsCvIdExperienceIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/experience/index';
+import { Route as PrivateUserDashboardCvsCvIdEducationIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/education/index';
+import { Route as PrivateUserDashboardCvsCvIdContactIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/contact/index';
+import { Route as PrivateUserDashboardCvsCvIdCertificationsIndexImport } from './routes/_private/user-dashboard/cvs/$cvId/certifications/index';
 
 // Create/Update Routes
 
 const PublicRoute = PublicImport.update({
   id: '/_public',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const PrivateRoute = PrivateImport.update({
   id: '/_private',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const AuthRoute = AuthImport.update({
   id: '/_auth',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
 const PublicForbiddenRoute = PublicForbiddenImport.update({
   id: '/forbidden',
   path: '/forbidden',
   getParentRoute: () => PublicRoute,
-} as any)
+} as any);
 
 const PrivateUserDashboardRoute = PrivateUserDashboardImport.update({
   id: '/user-dashboard',
   path: '/user-dashboard',
   getParentRoute: () => PrivateRoute,
-} as any)
+} as any);
 
 const PrivateAdminDashboardRoute = PrivateAdminDashboardImport.update({
   id: '/admin-dashboard',
   path: '/admin-dashboard',
   getParentRoute: () => PrivateRoute,
-} as any)
+} as any);
 
 const AuthRegisterRoute = AuthRegisterImport.update({
   id: '/register',
   path: '/register',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 
 const AuthLoginRoute = AuthLoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 
 const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 
-const AuthActivationAccountIndexRoute = AuthActivationAccountIndexImport.update(
-  {
-    id: '/activation-account/',
-    path: '/activation-account/',
-    getParentRoute: () => AuthRoute,
-  } as any,
-)
+const AuthActivationAccountIndexRoute = AuthActivationAccountIndexImport.update({
+  id: '/activation-account/',
+  path: '/activation-account/',
+  getParentRoute: () => AuthRoute,
+} as any);
 
 const Oauth2ProviderCallbackRoute = Oauth2ProviderCallbackImport.update({
   id: '/oauth2/$provider/callback',
   path: '/oauth2/$provider/callback',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
 
-const PrivateAdminDashboardDashboardRoute =
-  PrivateAdminDashboardDashboardImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => PrivateAdminDashboardRoute,
-  } as any)
+const PrivateAdminDashboardDashboardRoute = PrivateAdminDashboardDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => PrivateAdminDashboardRoute,
+} as any);
 
-const AuthActivationAccountTokenRoute = AuthActivationAccountTokenImport.update(
-  {
-    id: '/activation-account/$token',
-    path: '/activation-account/$token',
-    getParentRoute: () => AuthRoute,
-  } as any,
-)
+const AuthActivationAccountTokenRoute = AuthActivationAccountTokenImport.update({
+  id: '/activation-account/$token',
+  path: '/activation-account/$token',
+  getParentRoute: () => AuthRoute,
+} as any);
 
 const PrivateUserDashboardResignationLetterIndexRoute =
   PrivateUserDashboardResignationLetterIndexImport.update({
     id: '/resignation-letter/',
     path: '/resignation-letter/',
     getParentRoute: () => PrivateUserDashboardRoute,
-  } as any)
+  } as any);
 
-const PrivateUserDashboardCvsIndexRoute =
-  PrivateUserDashboardCvsIndexImport.update({
-    id: '/cvs/',
-    path: '/cvs/',
-    getParentRoute: () => PrivateUserDashboardRoute,
-  } as any)
+const PrivateUserDashboardCvsIndexRoute = PrivateUserDashboardCvsIndexImport.update({
+  id: '/cvs/',
+  path: '/cvs/',
+  getParentRoute: () => PrivateUserDashboardRoute,
+} as any);
 
-const PrivateUserDashboardCoverLetterIndexRoute =
-  PrivateUserDashboardCoverLetterIndexImport.update({
+const PrivateUserDashboardCoverLetterIndexRoute = PrivateUserDashboardCoverLetterIndexImport.update(
+  {
     id: '/cover-letter/',
     path: '/cover-letter/',
     getParentRoute: () => PrivateUserDashboardRoute,
-  } as any)
+  } as any
+);
 
-const PrivateUserDashboardCvsCvIdRoute =
-  PrivateUserDashboardCvsCvIdImport.update({
-    id: '/cvs/$cvId',
-    path: '/cvs/$cvId',
-    getParentRoute: () => PrivateUserDashboardRoute,
-  } as any)
+const PrivateUserDashboardAccountIndexRoute = PrivateUserDashboardAccountIndexImport.update({
+  id: '/account/',
+  path: '/account/',
+  getParentRoute: () => PrivateUserDashboardRoute,
+} as any);
+
+const PrivateUserDashboardCvsCvIdRoute = PrivateUserDashboardCvsCvIdImport.update({
+  id: '/cvs/$cvId',
+  path: '/cvs/$cvId',
+  getParentRoute: () => PrivateUserDashboardRoute,
+} as any);
 
 const PrivateUserDashboardCvsCvIdSummaryIndexRoute =
   PrivateUserDashboardCvsCvIdSummaryIndexImport.update({
     id: '/summary/',
     path: '/summary/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 const PrivateUserDashboardCvsCvIdSkillsIndexRoute =
   PrivateUserDashboardCvsCvIdSkillsIndexImport.update({
     id: '/skills/',
     path: '/skills/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 const PrivateUserDashboardCvsCvIdProjectIndexRoute =
   PrivateUserDashboardCvsCvIdProjectIndexImport.update({
     id: '/project/',
     path: '/project/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 const PrivateUserDashboardCvsCvIdPreviewIndexRoute =
   PrivateUserDashboardCvsCvIdPreviewIndexImport.update({
     id: '/preview/',
     path: '/preview/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 const PrivateUserDashboardCvsCvIdExperienceIndexRoute =
   PrivateUserDashboardCvsCvIdExperienceIndexImport.update({
     id: '/experience/',
     path: '/experience/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 const PrivateUserDashboardCvsCvIdEducationIndexRoute =
   PrivateUserDashboardCvsCvIdEducationIndexImport.update({
     id: '/education/',
     path: '/education/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 const PrivateUserDashboardCvsCvIdContactIndexRoute =
   PrivateUserDashboardCvsCvIdContactIndexImport.update({
     id: '/contact/',
     path: '/contact/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 const PrivateUserDashboardCvsCvIdCertificationsIndexRoute =
   PrivateUserDashboardCvsCvIdCertificationsIndexImport.update({
     id: '/certifications/',
     path: '/certifications/',
     getParentRoute: () => PrivateUserDashboardCvsCvIdRoute,
-  } as any)
+  } as any);
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_auth';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof AuthImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_private': {
-      id: '/_private'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PrivateImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_private';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof PrivateImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_public': {
-      id: '/_public'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PublicImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/_public';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof PublicImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_auth/forgot-password': {
-      id: '/_auth/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof AuthForgotPasswordImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/_auth/forgot-password';
+      path: '/forgot-password';
+      fullPath: '/forgot-password';
+      preLoaderRoute: typeof AuthForgotPasswordImport;
+      parentRoute: typeof AuthImport;
+    };
     '/_auth/login': {
-      id: '/_auth/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof AuthLoginImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/_auth/login';
+      path: '/login';
+      fullPath: '/login';
+      preLoaderRoute: typeof AuthLoginImport;
+      parentRoute: typeof AuthImport;
+    };
     '/_auth/register': {
-      id: '/_auth/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof AuthRegisterImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/_auth/register';
+      path: '/register';
+      fullPath: '/register';
+      preLoaderRoute: typeof AuthRegisterImport;
+      parentRoute: typeof AuthImport;
+    };
     '/_private/admin-dashboard': {
-      id: '/_private/admin-dashboard'
-      path: '/admin-dashboard'
-      fullPath: '/admin-dashboard'
-      preLoaderRoute: typeof PrivateAdminDashboardImport
-      parentRoute: typeof PrivateImport
-    }
+      id: '/_private/admin-dashboard';
+      path: '/admin-dashboard';
+      fullPath: '/admin-dashboard';
+      preLoaderRoute: typeof PrivateAdminDashboardImport;
+      parentRoute: typeof PrivateImport;
+    };
     '/_private/user-dashboard': {
-      id: '/_private/user-dashboard'
-      path: '/user-dashboard'
-      fullPath: '/user-dashboard'
-      preLoaderRoute: typeof PrivateUserDashboardImport
-      parentRoute: typeof PrivateImport
-    }
+      id: '/_private/user-dashboard';
+      path: '/user-dashboard';
+      fullPath: '/user-dashboard';
+      preLoaderRoute: typeof PrivateUserDashboardImport;
+      parentRoute: typeof PrivateImport;
+    };
     '/_public/forbidden': {
-      id: '/_public/forbidden'
-      path: '/forbidden'
-      fullPath: '/forbidden'
-      preLoaderRoute: typeof PublicForbiddenImport
-      parentRoute: typeof PublicImport
-    }
+      id: '/_public/forbidden';
+      path: '/forbidden';
+      fullPath: '/forbidden';
+      preLoaderRoute: typeof PublicForbiddenImport;
+      parentRoute: typeof PublicImport;
+    };
     '/_auth/activation-account/$token': {
-      id: '/_auth/activation-account/$token'
-      path: '/activation-account/$token'
-      fullPath: '/activation-account/$token'
-      preLoaderRoute: typeof AuthActivationAccountTokenImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/_auth/activation-account/$token';
+      path: '/activation-account/$token';
+      fullPath: '/activation-account/$token';
+      preLoaderRoute: typeof AuthActivationAccountTokenImport;
+      parentRoute: typeof AuthImport;
+    };
     '/_private/admin-dashboard/dashboard': {
-      id: '/_private/admin-dashboard/dashboard'
-      path: '/dashboard'
-      fullPath: '/admin-dashboard/dashboard'
-      preLoaderRoute: typeof PrivateAdminDashboardDashboardImport
-      parentRoute: typeof PrivateAdminDashboardImport
-    }
+      id: '/_private/admin-dashboard/dashboard';
+      path: '/dashboard';
+      fullPath: '/admin-dashboard/dashboard';
+      preLoaderRoute: typeof PrivateAdminDashboardDashboardImport;
+      parentRoute: typeof PrivateAdminDashboardImport;
+    };
     '/oauth2/$provider/callback': {
-      id: '/oauth2/$provider/callback'
-      path: '/oauth2/$provider/callback'
-      fullPath: '/oauth2/$provider/callback'
-      preLoaderRoute: typeof Oauth2ProviderCallbackImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/oauth2/$provider/callback';
+      path: '/oauth2/$provider/callback';
+      fullPath: '/oauth2/$provider/callback';
+      preLoaderRoute: typeof Oauth2ProviderCallbackImport;
+      parentRoute: typeof rootRoute;
+    };
     '/_auth/activation-account/': {
-      id: '/_auth/activation-account/'
-      path: '/activation-account'
-      fullPath: '/activation-account'
-      preLoaderRoute: typeof AuthActivationAccountIndexImport
-      parentRoute: typeof AuthImport
-    }
+      id: '/_auth/activation-account/';
+      path: '/activation-account';
+      fullPath: '/activation-account';
+      preLoaderRoute: typeof AuthActivationAccountIndexImport;
+      parentRoute: typeof AuthImport;
+    };
     '/_private/user-dashboard/cvs/$cvId': {
-      id: '/_private/user-dashboard/cvs/$cvId'
-      path: '/cvs/$cvId'
-      fullPath: '/user-dashboard/cvs/$cvId'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdImport
-      parentRoute: typeof PrivateUserDashboardImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId';
+      path: '/cvs/$cvId';
+      fullPath: '/user-dashboard/cvs/$cvId';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdImport;
+      parentRoute: typeof PrivateUserDashboardImport;
+    };
+    '/_private/user-dashboard/account/': {
+      id: '/_private/user-dashboard/account/';
+      path: '/account';
+      fullPath: '/user-dashboard/account';
+      preLoaderRoute: typeof PrivateUserDashboardAccountIndexImport;
+      parentRoute: typeof PrivateUserDashboardImport;
+    };
     '/_private/user-dashboard/cover-letter/': {
-      id: '/_private/user-dashboard/cover-letter/'
-      path: '/cover-letter'
-      fullPath: '/user-dashboard/cover-letter'
-      preLoaderRoute: typeof PrivateUserDashboardCoverLetterIndexImport
-      parentRoute: typeof PrivateUserDashboardImport
-    }
+      id: '/_private/user-dashboard/cover-letter/';
+      path: '/cover-letter';
+      fullPath: '/user-dashboard/cover-letter';
+      preLoaderRoute: typeof PrivateUserDashboardCoverLetterIndexImport;
+      parentRoute: typeof PrivateUserDashboardImport;
+    };
     '/_private/user-dashboard/cvs/': {
-      id: '/_private/user-dashboard/cvs/'
-      path: '/cvs'
-      fullPath: '/user-dashboard/cvs'
-      preLoaderRoute: typeof PrivateUserDashboardCvsIndexImport
-      parentRoute: typeof PrivateUserDashboardImport
-    }
+      id: '/_private/user-dashboard/cvs/';
+      path: '/cvs';
+      fullPath: '/user-dashboard/cvs';
+      preLoaderRoute: typeof PrivateUserDashboardCvsIndexImport;
+      parentRoute: typeof PrivateUserDashboardImport;
+    };
     '/_private/user-dashboard/resignation-letter/': {
-      id: '/_private/user-dashboard/resignation-letter/'
-      path: '/resignation-letter'
-      fullPath: '/user-dashboard/resignation-letter'
-      preLoaderRoute: typeof PrivateUserDashboardResignationLetterIndexImport
-      parentRoute: typeof PrivateUserDashboardImport
-    }
+      id: '/_private/user-dashboard/resignation-letter/';
+      path: '/resignation-letter';
+      fullPath: '/user-dashboard/resignation-letter';
+      preLoaderRoute: typeof PrivateUserDashboardResignationLetterIndexImport;
+      parentRoute: typeof PrivateUserDashboardImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/certifications/': {
-      id: '/_private/user-dashboard/cvs/$cvId/certifications/'
-      path: '/certifications'
-      fullPath: '/user-dashboard/cvs/$cvId/certifications'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/certifications/';
+      path: '/certifications';
+      fullPath: '/user-dashboard/cvs/$cvId/certifications';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/contact/': {
-      id: '/_private/user-dashboard/cvs/$cvId/contact/'
-      path: '/contact'
-      fullPath: '/user-dashboard/cvs/$cvId/contact'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdContactIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/contact/';
+      path: '/contact';
+      fullPath: '/user-dashboard/cvs/$cvId/contact';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdContactIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/education/': {
-      id: '/_private/user-dashboard/cvs/$cvId/education/'
-      path: '/education'
-      fullPath: '/user-dashboard/cvs/$cvId/education'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdEducationIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/education/';
+      path: '/education';
+      fullPath: '/user-dashboard/cvs/$cvId/education';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdEducationIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/experience/': {
-      id: '/_private/user-dashboard/cvs/$cvId/experience/'
-      path: '/experience'
-      fullPath: '/user-dashboard/cvs/$cvId/experience'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdExperienceIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/experience/';
+      path: '/experience';
+      fullPath: '/user-dashboard/cvs/$cvId/experience';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdExperienceIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/preview/': {
-      id: '/_private/user-dashboard/cvs/$cvId/preview/'
-      path: '/preview'
-      fullPath: '/user-dashboard/cvs/$cvId/preview'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdPreviewIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/preview/';
+      path: '/preview';
+      fullPath: '/user-dashboard/cvs/$cvId/preview';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdPreviewIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/project/': {
-      id: '/_private/user-dashboard/cvs/$cvId/project/'
-      path: '/project'
-      fullPath: '/user-dashboard/cvs/$cvId/project'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdProjectIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/project/';
+      path: '/project';
+      fullPath: '/user-dashboard/cvs/$cvId/project';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdProjectIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/skills/': {
-      id: '/_private/user-dashboard/cvs/$cvId/skills/'
-      path: '/skills'
-      fullPath: '/user-dashboard/cvs/$cvId/skills'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdSkillsIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/skills/';
+      path: '/skills';
+      fullPath: '/user-dashboard/cvs/$cvId/skills';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdSkillsIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
     '/_private/user-dashboard/cvs/$cvId/summary/': {
-      id: '/_private/user-dashboard/cvs/$cvId/summary/'
-      path: '/summary'
-      fullPath: '/user-dashboard/cvs/$cvId/summary'
-      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdSummaryIndexImport
-      parentRoute: typeof PrivateUserDashboardCvsCvIdImport
-    }
+      id: '/_private/user-dashboard/cvs/$cvId/summary/';
+      path: '/summary';
+      fullPath: '/user-dashboard/cvs/$cvId/summary';
+      preLoaderRoute: typeof PrivateUserDashboardCvsCvIdSummaryIndexImport;
+      parentRoute: typeof PrivateUserDashboardCvsCvIdImport;
+    };
   }
 }
 
 // Create and export the route tree
 
 interface AuthRouteChildren {
-  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
-  AuthLoginRoute: typeof AuthLoginRoute
-  AuthRegisterRoute: typeof AuthRegisterRoute
-  AuthActivationAccountTokenRoute: typeof AuthActivationAccountTokenRoute
-  AuthActivationAccountIndexRoute: typeof AuthActivationAccountIndexRoute
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute;
+  AuthLoginRoute: typeof AuthLoginRoute;
+  AuthRegisterRoute: typeof AuthRegisterRoute;
+  AuthActivationAccountTokenRoute: typeof AuthActivationAccountTokenRoute;
+  AuthActivationAccountIndexRoute: typeof AuthActivationAccountIndexRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -415,189 +423,179 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthRegisterRoute: AuthRegisterRoute,
   AuthActivationAccountTokenRoute: AuthActivationAccountTokenRoute,
   AuthActivationAccountIndexRoute: AuthActivationAccountIndexRoute,
-}
+};
 
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 
 interface PrivateAdminDashboardRouteChildren {
-  PrivateAdminDashboardDashboardRoute: typeof PrivateAdminDashboardDashboardRoute
+  PrivateAdminDashboardDashboardRoute: typeof PrivateAdminDashboardDashboardRoute;
 }
 
 const PrivateAdminDashboardRouteChildren: PrivateAdminDashboardRouteChildren = {
   PrivateAdminDashboardDashboardRoute: PrivateAdminDashboardDashboardRoute,
-}
+};
 
-const PrivateAdminDashboardRouteWithChildren =
-  PrivateAdminDashboardRoute._addFileChildren(
-    PrivateAdminDashboardRouteChildren,
-  )
+const PrivateAdminDashboardRouteWithChildren = PrivateAdminDashboardRoute._addFileChildren(
+  PrivateAdminDashboardRouteChildren
+);
 
 interface PrivateUserDashboardCvsCvIdRouteChildren {
-  PrivateUserDashboardCvsCvIdCertificationsIndexRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
-  PrivateUserDashboardCvsCvIdContactIndexRoute: typeof PrivateUserDashboardCvsCvIdContactIndexRoute
-  PrivateUserDashboardCvsCvIdEducationIndexRoute: typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
-  PrivateUserDashboardCvsCvIdExperienceIndexRoute: typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
-  PrivateUserDashboardCvsCvIdPreviewIndexRoute: typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute
-  PrivateUserDashboardCvsCvIdProjectIndexRoute: typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
-  PrivateUserDashboardCvsCvIdSkillsIndexRoute: typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute
-  PrivateUserDashboardCvsCvIdSummaryIndexRoute: typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute
+  PrivateUserDashboardCvsCvIdCertificationsIndexRoute: typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute;
+  PrivateUserDashboardCvsCvIdContactIndexRoute: typeof PrivateUserDashboardCvsCvIdContactIndexRoute;
+  PrivateUserDashboardCvsCvIdEducationIndexRoute: typeof PrivateUserDashboardCvsCvIdEducationIndexRoute;
+  PrivateUserDashboardCvsCvIdExperienceIndexRoute: typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute;
+  PrivateUserDashboardCvsCvIdPreviewIndexRoute: typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute;
+  PrivateUserDashboardCvsCvIdProjectIndexRoute: typeof PrivateUserDashboardCvsCvIdProjectIndexRoute;
+  PrivateUserDashboardCvsCvIdSkillsIndexRoute: typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute;
+  PrivateUserDashboardCvsCvIdSummaryIndexRoute: typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute;
 }
 
-const PrivateUserDashboardCvsCvIdRouteChildren: PrivateUserDashboardCvsCvIdRouteChildren =
-  {
-    PrivateUserDashboardCvsCvIdCertificationsIndexRoute:
-      PrivateUserDashboardCvsCvIdCertificationsIndexRoute,
-    PrivateUserDashboardCvsCvIdContactIndexRoute:
-      PrivateUserDashboardCvsCvIdContactIndexRoute,
-    PrivateUserDashboardCvsCvIdEducationIndexRoute:
-      PrivateUserDashboardCvsCvIdEducationIndexRoute,
-    PrivateUserDashboardCvsCvIdExperienceIndexRoute:
-      PrivateUserDashboardCvsCvIdExperienceIndexRoute,
-    PrivateUserDashboardCvsCvIdPreviewIndexRoute:
-      PrivateUserDashboardCvsCvIdPreviewIndexRoute,
-    PrivateUserDashboardCvsCvIdProjectIndexRoute:
-      PrivateUserDashboardCvsCvIdProjectIndexRoute,
-    PrivateUserDashboardCvsCvIdSkillsIndexRoute:
-      PrivateUserDashboardCvsCvIdSkillsIndexRoute,
-    PrivateUserDashboardCvsCvIdSummaryIndexRoute:
-      PrivateUserDashboardCvsCvIdSummaryIndexRoute,
-  }
+const PrivateUserDashboardCvsCvIdRouteChildren: PrivateUserDashboardCvsCvIdRouteChildren = {
+  PrivateUserDashboardCvsCvIdCertificationsIndexRoute:
+    PrivateUserDashboardCvsCvIdCertificationsIndexRoute,
+  PrivateUserDashboardCvsCvIdContactIndexRoute: PrivateUserDashboardCvsCvIdContactIndexRoute,
+  PrivateUserDashboardCvsCvIdEducationIndexRoute: PrivateUserDashboardCvsCvIdEducationIndexRoute,
+  PrivateUserDashboardCvsCvIdExperienceIndexRoute: PrivateUserDashboardCvsCvIdExperienceIndexRoute,
+  PrivateUserDashboardCvsCvIdPreviewIndexRoute: PrivateUserDashboardCvsCvIdPreviewIndexRoute,
+  PrivateUserDashboardCvsCvIdProjectIndexRoute: PrivateUserDashboardCvsCvIdProjectIndexRoute,
+  PrivateUserDashboardCvsCvIdSkillsIndexRoute: PrivateUserDashboardCvsCvIdSkillsIndexRoute,
+  PrivateUserDashboardCvsCvIdSummaryIndexRoute: PrivateUserDashboardCvsCvIdSummaryIndexRoute,
+};
 
 const PrivateUserDashboardCvsCvIdRouteWithChildren =
-  PrivateUserDashboardCvsCvIdRoute._addFileChildren(
-    PrivateUserDashboardCvsCvIdRouteChildren,
-  )
+  PrivateUserDashboardCvsCvIdRoute._addFileChildren(PrivateUserDashboardCvsCvIdRouteChildren);
 
 interface PrivateUserDashboardRouteChildren {
-  PrivateUserDashboardCvsCvIdRoute: typeof PrivateUserDashboardCvsCvIdRouteWithChildren
-  PrivateUserDashboardCoverLetterIndexRoute: typeof PrivateUserDashboardCoverLetterIndexRoute
-  PrivateUserDashboardCvsIndexRoute: typeof PrivateUserDashboardCvsIndexRoute
-  PrivateUserDashboardResignationLetterIndexRoute: typeof PrivateUserDashboardResignationLetterIndexRoute
+  PrivateUserDashboardCvsCvIdRoute: typeof PrivateUserDashboardCvsCvIdRouteWithChildren;
+  PrivateUserDashboardAccountIndexRoute: typeof PrivateUserDashboardAccountIndexRoute;
+  PrivateUserDashboardCoverLetterIndexRoute: typeof PrivateUserDashboardCoverLetterIndexRoute;
+  PrivateUserDashboardCvsIndexRoute: typeof PrivateUserDashboardCvsIndexRoute;
+  PrivateUserDashboardResignationLetterIndexRoute: typeof PrivateUserDashboardResignationLetterIndexRoute;
 }
 
 const PrivateUserDashboardRouteChildren: PrivateUserDashboardRouteChildren = {
-  PrivateUserDashboardCvsCvIdRoute:
-    PrivateUserDashboardCvsCvIdRouteWithChildren,
-  PrivateUserDashboardCoverLetterIndexRoute:
-    PrivateUserDashboardCoverLetterIndexRoute,
+  PrivateUserDashboardCvsCvIdRoute: PrivateUserDashboardCvsCvIdRouteWithChildren,
+  PrivateUserDashboardAccountIndexRoute: PrivateUserDashboardAccountIndexRoute,
+  PrivateUserDashboardCoverLetterIndexRoute: PrivateUserDashboardCoverLetterIndexRoute,
   PrivateUserDashboardCvsIndexRoute: PrivateUserDashboardCvsIndexRoute,
-  PrivateUserDashboardResignationLetterIndexRoute:
-    PrivateUserDashboardResignationLetterIndexRoute,
-}
+  PrivateUserDashboardResignationLetterIndexRoute: PrivateUserDashboardResignationLetterIndexRoute,
+};
 
-const PrivateUserDashboardRouteWithChildren =
-  PrivateUserDashboardRoute._addFileChildren(PrivateUserDashboardRouteChildren)
+const PrivateUserDashboardRouteWithChildren = PrivateUserDashboardRoute._addFileChildren(
+  PrivateUserDashboardRouteChildren
+);
 
 interface PrivateRouteChildren {
-  PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRouteWithChildren
-  PrivateUserDashboardRoute: typeof PrivateUserDashboardRouteWithChildren
+  PrivateAdminDashboardRoute: typeof PrivateAdminDashboardRouteWithChildren;
+  PrivateUserDashboardRoute: typeof PrivateUserDashboardRouteWithChildren;
 }
 
 const PrivateRouteChildren: PrivateRouteChildren = {
   PrivateAdminDashboardRoute: PrivateAdminDashboardRouteWithChildren,
   PrivateUserDashboardRoute: PrivateUserDashboardRouteWithChildren,
-}
+};
 
-const PrivateRouteWithChildren =
-  PrivateRoute._addFileChildren(PrivateRouteChildren)
+const PrivateRouteWithChildren = PrivateRoute._addFileChildren(PrivateRouteChildren);
 
 interface PublicRouteChildren {
-  PublicForbiddenRoute: typeof PublicForbiddenRoute
+  PublicForbiddenRoute: typeof PublicForbiddenRoute;
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicForbiddenRoute: PublicForbiddenRoute,
-}
+};
 
-const PublicRouteWithChildren =
-  PublicRoute._addFileChildren(PublicRouteChildren)
+const PublicRouteWithChildren = PublicRoute._addFileChildren(PublicRouteChildren);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '': typeof PublicRouteWithChildren
-  '/forgot-password': typeof AuthForgotPasswordRoute
-  '/login': typeof AuthLoginRoute
-  '/register': typeof AuthRegisterRoute
-  '/admin-dashboard': typeof PrivateAdminDashboardRouteWithChildren
-  '/user-dashboard': typeof PrivateUserDashboardRouteWithChildren
-  '/forbidden': typeof PublicForbiddenRoute
-  '/activation-account/$token': typeof AuthActivationAccountTokenRoute
-  '/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute
-  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
-  '/activation-account': typeof AuthActivationAccountIndexRoute
-  '/user-dashboard/cvs/$cvId': typeof PrivateUserDashboardCvsCvIdRouteWithChildren
-  '/user-dashboard/cover-letter': typeof PrivateUserDashboardCoverLetterIndexRoute
-  '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
-  '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
-  '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
-  '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
-  '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
-  '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
-  '/user-dashboard/cvs/$cvId/preview': typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute
-  '/user-dashboard/cvs/$cvId/project': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
-  '/user-dashboard/cvs/$cvId/skills': typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute
-  '/user-dashboard/cvs/$cvId/summary': typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute
+  '/': typeof IndexRoute;
+  '': typeof PublicRouteWithChildren;
+  '/forgot-password': typeof AuthForgotPasswordRoute;
+  '/login': typeof AuthLoginRoute;
+  '/register': typeof AuthRegisterRoute;
+  '/admin-dashboard': typeof PrivateAdminDashboardRouteWithChildren;
+  '/user-dashboard': typeof PrivateUserDashboardRouteWithChildren;
+  '/forbidden': typeof PublicForbiddenRoute;
+  '/activation-account/$token': typeof AuthActivationAccountTokenRoute;
+  '/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute;
+  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute;
+  '/activation-account': typeof AuthActivationAccountIndexRoute;
+  '/user-dashboard/cvs/$cvId': typeof PrivateUserDashboardCvsCvIdRouteWithChildren;
+  '/user-dashboard/account': typeof PrivateUserDashboardAccountIndexRoute;
+  '/user-dashboard/cover-letter': typeof PrivateUserDashboardCoverLetterIndexRoute;
+  '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute;
+  '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute;
+  '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute;
+  '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute;
+  '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute;
+  '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute;
+  '/user-dashboard/cvs/$cvId/preview': typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute;
+  '/user-dashboard/cvs/$cvId/project': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute;
+  '/user-dashboard/cvs/$cvId/skills': typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute;
+  '/user-dashboard/cvs/$cvId/summary': typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '': typeof PublicRouteWithChildren
-  '/forgot-password': typeof AuthForgotPasswordRoute
-  '/login': typeof AuthLoginRoute
-  '/register': typeof AuthRegisterRoute
-  '/admin-dashboard': typeof PrivateAdminDashboardRouteWithChildren
-  '/user-dashboard': typeof PrivateUserDashboardRouteWithChildren
-  '/forbidden': typeof PublicForbiddenRoute
-  '/activation-account/$token': typeof AuthActivationAccountTokenRoute
-  '/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute
-  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
-  '/activation-account': typeof AuthActivationAccountIndexRoute
-  '/user-dashboard/cvs/$cvId': typeof PrivateUserDashboardCvsCvIdRouteWithChildren
-  '/user-dashboard/cover-letter': typeof PrivateUserDashboardCoverLetterIndexRoute
-  '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute
-  '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute
-  '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
-  '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
-  '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
-  '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
-  '/user-dashboard/cvs/$cvId/preview': typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute
-  '/user-dashboard/cvs/$cvId/project': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
-  '/user-dashboard/cvs/$cvId/skills': typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute
-  '/user-dashboard/cvs/$cvId/summary': typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute
+  '/': typeof IndexRoute;
+  '': typeof PublicRouteWithChildren;
+  '/forgot-password': typeof AuthForgotPasswordRoute;
+  '/login': typeof AuthLoginRoute;
+  '/register': typeof AuthRegisterRoute;
+  '/admin-dashboard': typeof PrivateAdminDashboardRouteWithChildren;
+  '/user-dashboard': typeof PrivateUserDashboardRouteWithChildren;
+  '/forbidden': typeof PublicForbiddenRoute;
+  '/activation-account/$token': typeof AuthActivationAccountTokenRoute;
+  '/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute;
+  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute;
+  '/activation-account': typeof AuthActivationAccountIndexRoute;
+  '/user-dashboard/cvs/$cvId': typeof PrivateUserDashboardCvsCvIdRouteWithChildren;
+  '/user-dashboard/account': typeof PrivateUserDashboardAccountIndexRoute;
+  '/user-dashboard/cover-letter': typeof PrivateUserDashboardCoverLetterIndexRoute;
+  '/user-dashboard/cvs': typeof PrivateUserDashboardCvsIndexRoute;
+  '/user-dashboard/resignation-letter': typeof PrivateUserDashboardResignationLetterIndexRoute;
+  '/user-dashboard/cvs/$cvId/certifications': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute;
+  '/user-dashboard/cvs/$cvId/contact': typeof PrivateUserDashboardCvsCvIdContactIndexRoute;
+  '/user-dashboard/cvs/$cvId/education': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute;
+  '/user-dashboard/cvs/$cvId/experience': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute;
+  '/user-dashboard/cvs/$cvId/preview': typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute;
+  '/user-dashboard/cvs/$cvId/project': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute;
+  '/user-dashboard/cvs/$cvId/skills': typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute;
+  '/user-dashboard/cvs/$cvId/summary': typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
-  '/_private': typeof PrivateRouteWithChildren
-  '/_public': typeof PublicRouteWithChildren
-  '/_auth/forgot-password': typeof AuthForgotPasswordRoute
-  '/_auth/login': typeof AuthLoginRoute
-  '/_auth/register': typeof AuthRegisterRoute
-  '/_private/admin-dashboard': typeof PrivateAdminDashboardRouteWithChildren
-  '/_private/user-dashboard': typeof PrivateUserDashboardRouteWithChildren
-  '/_public/forbidden': typeof PublicForbiddenRoute
-  '/_auth/activation-account/$token': typeof AuthActivationAccountTokenRoute
-  '/_private/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute
-  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
-  '/_auth/activation-account/': typeof AuthActivationAccountIndexRoute
-  '/_private/user-dashboard/cvs/$cvId': typeof PrivateUserDashboardCvsCvIdRouteWithChildren
-  '/_private/user-dashboard/cover-letter/': typeof PrivateUserDashboardCoverLetterIndexRoute
-  '/_private/user-dashboard/cvs/': typeof PrivateUserDashboardCvsIndexRoute
-  '/_private/user-dashboard/resignation-letter/': typeof PrivateUserDashboardResignationLetterIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/certifications/': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/contact/': typeof PrivateUserDashboardCvsCvIdContactIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/education/': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/experience/': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/preview/': typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/project/': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/skills/': typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute
-  '/_private/user-dashboard/cvs/$cvId/summary/': typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute
+  __root__: typeof rootRoute;
+  '/': typeof IndexRoute;
+  '/_auth': typeof AuthRouteWithChildren;
+  '/_private': typeof PrivateRouteWithChildren;
+  '/_public': typeof PublicRouteWithChildren;
+  '/_auth/forgot-password': typeof AuthForgotPasswordRoute;
+  '/_auth/login': typeof AuthLoginRoute;
+  '/_auth/register': typeof AuthRegisterRoute;
+  '/_private/admin-dashboard': typeof PrivateAdminDashboardRouteWithChildren;
+  '/_private/user-dashboard': typeof PrivateUserDashboardRouteWithChildren;
+  '/_public/forbidden': typeof PublicForbiddenRoute;
+  '/_auth/activation-account/$token': typeof AuthActivationAccountTokenRoute;
+  '/_private/admin-dashboard/dashboard': typeof PrivateAdminDashboardDashboardRoute;
+  '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute;
+  '/_auth/activation-account/': typeof AuthActivationAccountIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId': typeof PrivateUserDashboardCvsCvIdRouteWithChildren;
+  '/_private/user-dashboard/account/': typeof PrivateUserDashboardAccountIndexRoute;
+  '/_private/user-dashboard/cover-letter/': typeof PrivateUserDashboardCoverLetterIndexRoute;
+  '/_private/user-dashboard/cvs/': typeof PrivateUserDashboardCvsIndexRoute;
+  '/_private/user-dashboard/resignation-letter/': typeof PrivateUserDashboardResignationLetterIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/certifications/': typeof PrivateUserDashboardCvsCvIdCertificationsIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/contact/': typeof PrivateUserDashboardCvsCvIdContactIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/education/': typeof PrivateUserDashboardCvsCvIdEducationIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/experience/': typeof PrivateUserDashboardCvsCvIdExperienceIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/preview/': typeof PrivateUserDashboardCvsCvIdPreviewIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/project/': typeof PrivateUserDashboardCvsCvIdProjectIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/skills/': typeof PrivateUserDashboardCvsCvIdSkillsIndexRoute;
+  '/_private/user-dashboard/cvs/$cvId/summary/': typeof PrivateUserDashboardCvsCvIdSummaryIndexRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/'
     | ''
@@ -612,6 +610,7 @@ export interface FileRouteTypes {
     | '/oauth2/$provider/callback'
     | '/activation-account'
     | '/user-dashboard/cvs/$cvId'
+    | '/user-dashboard/account'
     | '/user-dashboard/cover-letter'
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
@@ -622,8 +621,8 @@ export interface FileRouteTypes {
     | '/user-dashboard/cvs/$cvId/preview'
     | '/user-dashboard/cvs/$cvId/project'
     | '/user-dashboard/cvs/$cvId/skills'
-    | '/user-dashboard/cvs/$cvId/summary'
-  fileRoutesByTo: FileRoutesByTo
+    | '/user-dashboard/cvs/$cvId/summary';
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
     | ''
@@ -638,6 +637,7 @@ export interface FileRouteTypes {
     | '/oauth2/$provider/callback'
     | '/activation-account'
     | '/user-dashboard/cvs/$cvId'
+    | '/user-dashboard/account'
     | '/user-dashboard/cover-letter'
     | '/user-dashboard/cvs'
     | '/user-dashboard/resignation-letter'
@@ -648,7 +648,7 @@ export interface FileRouteTypes {
     | '/user-dashboard/cvs/$cvId/preview'
     | '/user-dashboard/cvs/$cvId/project'
     | '/user-dashboard/cvs/$cvId/skills'
-    | '/user-dashboard/cvs/$cvId/summary'
+    | '/user-dashboard/cvs/$cvId/summary';
   id:
     | '__root__'
     | '/'
@@ -666,6 +666,7 @@ export interface FileRouteTypes {
     | '/oauth2/$provider/callback'
     | '/_auth/activation-account/'
     | '/_private/user-dashboard/cvs/$cvId'
+    | '/_private/user-dashboard/account/'
     | '/_private/user-dashboard/cover-letter/'
     | '/_private/user-dashboard/cvs/'
     | '/_private/user-dashboard/resignation-letter/'
@@ -676,16 +677,16 @@ export interface FileRouteTypes {
     | '/_private/user-dashboard/cvs/$cvId/preview/'
     | '/_private/user-dashboard/cvs/$cvId/project/'
     | '/_private/user-dashboard/cvs/$cvId/skills/'
-    | '/_private/user-dashboard/cvs/$cvId/summary/'
-  fileRoutesById: FileRoutesById
+    | '/_private/user-dashboard/cvs/$cvId/summary/';
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
-  PrivateRoute: typeof PrivateRouteWithChildren
-  PublicRoute: typeof PublicRouteWithChildren
-  Oauth2ProviderCallbackRoute: typeof Oauth2ProviderCallbackRoute
+  IndexRoute: typeof IndexRoute;
+  AuthRoute: typeof AuthRouteWithChildren;
+  PrivateRoute: typeof PrivateRouteWithChildren;
+  PublicRoute: typeof PublicRouteWithChildren;
+  Oauth2ProviderCallbackRoute: typeof Oauth2ProviderCallbackRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -694,11 +695,11 @@ const rootRouteChildren: RootRouteChildren = {
   PrivateRoute: PrivateRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
   Oauth2ProviderCallbackRoute: Oauth2ProviderCallbackRoute,
-}
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {
@@ -763,6 +764,7 @@ export const routeTree = rootRoute
       "parent": "/_private",
       "children": [
         "/_private/user-dashboard/cvs/$cvId",
+        "/_private/user-dashboard/account/",
         "/_private/user-dashboard/cover-letter/",
         "/_private/user-dashboard/cvs/",
         "/_private/user-dashboard/resignation-letter/"
@@ -800,6 +802,10 @@ export const routeTree = rootRoute
         "/_private/user-dashboard/cvs/$cvId/skills/",
         "/_private/user-dashboard/cvs/$cvId/summary/"
       ]
+    },
+    "/_private/user-dashboard/account/": {
+      "filePath": "_private/user-dashboard/account/index.tsx",
+      "parent": "/_private/user-dashboard"
     },
     "/_private/user-dashboard/cover-letter/": {
       "filePath": "_private/user-dashboard/cover-letter/index.tsx",

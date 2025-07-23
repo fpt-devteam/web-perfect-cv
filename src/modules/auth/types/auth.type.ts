@@ -37,6 +37,9 @@ export type UserResponse = {
   id: string;
   email: string;
   role: UserRole;
+  avatarUrl?: string;
+  firstName?: string;
+  lastName?: string;
 };
 
 export type LogoutRequest = {
