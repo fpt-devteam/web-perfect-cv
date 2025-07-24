@@ -27,7 +27,7 @@ import { useApplySuggestion } from '../hooks/useAnalysis';
 interface AnalyticsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  analysisData: AnalysisData;
+  analysisData: AnalysisData | undefined;
   isLoading?: boolean;
 }
 
@@ -40,9 +40,11 @@ export function AnalyticsModal({
   const [activeTab, setActiveTab] = useState<'overview' | 'suggestions' | 'industry' | 'ats'>(
     'overview'
   );
+
   const applySuggestionMutation = useApplySuggestion();
 
   const handleApplySuggestion = (suggestionId: string) => {
+    if (!analysisData) return;
     applySuggestionMutation.mutate({
       analysisId: analysisData.analysisId,
       suggestionId,
@@ -86,14 +88,15 @@ export function AnalyticsModal({
     return 'Needs Improvement';
   };
 
-  if (isLoading) {
+  // Show loading state when data is not available
+  if (!analysisData || isLoading) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="!max-w-6xl !w-[90vw] h-[85vh] overflow-hidden">
           <div className="flex items-center justify-center h-96">
             <div className="text-center space-y-4">
               <RefreshCw className="h-8 w-8 animate-spin text-blue-600 mx-auto" />
-              <p className="text-gray-600">Analyzing your CV...</p>
+              <p className="text-gray-600">AI is processing...</p>
             </div>
           </div>
         </DialogContent>
@@ -260,11 +263,11 @@ export function AnalyticsModal({
                                   className={cn(
                                     'text-xs px-2 py-1',
                                     suggestion.estimatedImpact === 'high' &&
-                                      'bg-green-100 text-green-700',
+                                    'bg-green-100 text-green-700',
                                     suggestion.estimatedImpact === 'medium' &&
-                                      'bg-yellow-100 text-yellow-700',
+                                    'bg-yellow-100 text-yellow-700',
                                     suggestion.estimatedImpact === 'low' &&
-                                      'bg-gray-100 text-gray-700'
+                                    'bg-gray-100 text-gray-700'
                                   )}
                                 >
                                   {suggestion.estimatedImpact} impact

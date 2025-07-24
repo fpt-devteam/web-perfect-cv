@@ -1,20 +1,24 @@
 import { createAIClient } from '@/shared/utils/ai-client.util';
+import { ANALYSIS_ENDPOINTS } from '../constants/cv.analyze.endpoint.constant';
+
+import type { AnalysisAPIResponse, ApplySuggestionResponse } from '../types/analysis.types';
 import type {
-  AnalysisAPIResponse,
+  AnalysisStatusResponse,
   AnalyzeRequest,
   AnalyzeResponse,
-  ApplySuggestionResponse,
-} from '../types/analysis.types';
+} from '../types/analysic.cv.type';
 
 const aiClient = createAIClient();
 
 /**
  * Get analysis feedback by analysis ID
  */
-export const getAnalysisFeedback = async (analysisId: string): Promise<AnalysisAPIResponse> => {
+export const getAnalysisFeedback = async (
+  analysisId: string | undefined
+): Promise<AnalysisAPIResponse> => {
   const { data } = await aiClient<AnalysisAPIResponse>({
     method: 'GET',
-    url: `/api/cv/${analysisId}/feedback`,
+    url: ANALYSIS_ENDPOINTS.GET_FEEDBACK(analysisId!),
   });
   return data;
 };
@@ -22,14 +26,11 @@ export const getAnalysisFeedback = async (analysisId: string): Promise<AnalysisA
 /**
  * Submit CV for analysis
  */
-export const analyzeCV = async (
-  cvId: string,
-  request: AnalyzeRequest
-): Promise<AnalyzeResponse> => {
+export const analyzeCV = async (request: AnalyzeRequest): Promise<AnalyzeResponse> => {
   const { data } = await aiClient<AnalyzeResponse>({
     method: 'POST',
-    url: `/api/cv/analyze`,
-    data: { cvId, ...request },
+    url: ANALYSIS_ENDPOINTS.ANALYZE_CV,
+    data: request,
   });
   return data;
 };
@@ -44,8 +45,15 @@ export const applySuggestion = async (
 ): Promise<ApplySuggestionResponse> => {
   const { data } = await aiClient<ApplySuggestionResponse>({
     method: 'POST',
-    url: `/api/cv/analyze/${analysisId}/suggestions/${suggestionId}/apply`,
+    url: ANALYSIS_ENDPOINTS.APPLY_SUGGESTION(analysisId, suggestionId),
     data: { appliedBy },
+  });
+  return data;
+};
+export const getAnalysicStatus = async (analysisId: string): Promise<AnalysisStatusResponse> => {
+  const { data } = await aiClient<AnalysisStatusResponse>({
+    method: 'GET',
+    url: ANALYSIS_ENDPOINTS.GET_ANALYSIS_STATUS(analysisId),
   });
   return data;
 };

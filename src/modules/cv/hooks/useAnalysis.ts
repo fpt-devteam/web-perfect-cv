@@ -1,18 +1,35 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getAnalysisFeedback, analyzeCV, applySuggestion } from '../services/analysis.service';
-import type { AnalyzeRequest } from '../types/analysis.types';
+import {
+  getAnalysisFeedback,
+  analyzeCV,
+  applySuggestion,
+  getAnalysicStatus,
+} from '../services/analysis.service';
+import type { AnalyzeRequest } from '../types/analysic.cv.type';
 import { useNotification } from '@/shared/hooks/useNotification';
+import { AxiosError } from 'axios';
 
 /**
  * Hook to fetch analysis feedback
  */
-export const useAnalysisFeedback = (analysisId: string | undefined) => {
-  return useQuery({
-    queryKey: ['analysisFeedback', analysisId],
-    queryFn: () => getAnalysisFeedback(analysisId!),
-    enabled: !!analysisId,
-    retry: 3,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+// export const useAnalysisFeedback = () => {
+//   return useQuery({
+//     queryKey: ['analysisFeedback', analysisId],
+//     queryFn: (analysisId: string) => getAnalysisFeedback(analysisId),
+//     enabled: !!analysisId,
+//     retry: 3,
+//     staleTime: 5 * 60 * 1000,
+//   });
+// };
+
+export const useAnalysisFeedback = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (analysisId: string) => getAnalysisFeedback(analysisId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['analysisFeedback'] });
+    },
   });
 };
 
@@ -24,16 +41,23 @@ export const useAnalyzeCV = () => {
   const { showSuccess, showError } = useNotification();
 
   return useMutation({
-    mutationFn: ({ cvId, request }: { cvId: string; request: AnalyzeRequest }) =>
-      analyzeCV(cvId, request),
+    mutationFn: (request: AnalyzeRequest) => analyzeCV(request),
     onSuccess: () => {
       showSuccess('CV analysis started successfully!');
       // Invalidate analysis feedback to trigger refetch
       queryClient.invalidateQueries({ queryKey: ['analysisFeedback'] });
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message?: string }>) => {
       showError(error?.response?.data?.message || 'Failed to start analysis');
     },
+  });
+};
+
+export const useAnalysicStatus = (analysisId: string) => {
+  return useQuery({
+    queryKey: ['analysisStatus', analysisId],
+    queryFn: () => getAnalysicStatus(analysisId),
+    enabled: !!analysisId,
   });
 };
 
@@ -59,7 +83,7 @@ export const useApplySuggestion = () => {
       // Invalidate analysis feedback to update UI
       queryClient.invalidateQueries({ queryKey: ['analysisFeedback', variables.analysisId] });
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message?: string }>) => {
       showError(error?.response?.data?.message || 'Failed to apply suggestion');
     },
   });
