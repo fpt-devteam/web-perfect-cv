@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Eye, BarChart3, Zap, RefreshCw } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent } from '@/shared/components/ui/card';
@@ -11,6 +11,7 @@ import { useAnalysisFeedback, useAnalyzeCV } from '../hooks/useAnalysis';
 import { transformCVFullContentToCVData } from '../utils/cv-data-transformer';
 
 import type { AnalyzeRequest } from '../types/analysic.cv.type';
+import { useAnalyzeIdForCv, getAnalyzeIdForCv, setAnalyzeIdForCv } from '../stores/analyze.store';
 
 interface CVPreviewPageProps {
   data: CVFullContentResponse;
@@ -19,12 +20,6 @@ interface CVPreviewPageProps {
 export function CVPreviewPage({ data }: CVPreviewPageProps) {
   // Show modal
   const [showAnalytics, setShowAnalytics] = useState(false);
-
-  //Save analysicId for call api feedback
-  const [analysicId, setAnalysicId] = useState<string | undefined>(undefined);
-
-  //Check if user has analyzed
-  const [hasAnalyze, setHasAnalyze] = useState(false);
 
   //Save analysicData for show modal
   const [analysicData, setAnalysicData] = useState<AnalysisData>();
@@ -38,10 +33,86 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
   const transformedCVData: CVData | null = data ? transformCVFullContentToCVData(data) : null;
   const currentCVData = transformedCVData;
 
+  const workerRef = useRef<Worker | null>(null);
+
+  const cvId = data ? data.versionId : '';
+  const [analyzeIdAtom, setAnalyzeIdAtom] = useAnalyzeIdForCv(cvId);
+
+  // Add a state to indicate no feedback is available
+  const [noFeedback, setNoFeedback] = useState(false);
+  const [isAnalyzingFeedback, setIsAnalyzingFeedback] = useState(false);
+
+  // Helper to start the worker
+  const startWorker = (id: string) => {
+    if (workerRef.current) {
+      console.log('[Worker] Terminating existing worker before starting new one');
+      workerRef.current.terminate();
+      workerRef.current = null;
+    }
+    setIsAnalyzingFeedback(true);
+    console.log('[Worker] Starting new worker for analyzeId:', id);
+    const AnalysisFeedbackWorker = new Worker(
+      new URL('../worker/analysis-feedback.worker.ts', import.meta.url),
+      { type: 'module' }
+    );
+    workerRef.current = AnalysisFeedbackWorker;
+    AnalysisFeedbackWorker.postMessage({
+      analysisId: id,
+      apiBaseUrl: import.meta.env.VITE_AI_API_ENDPOINT || '',
+      intervalMs: 3000,
+    });
+    AnalysisFeedbackWorker.onmessage = (event: MessageEvent) => {
+      if (event.data?.type === 'feedback') {
+        console.log('[Worker] Feedback received, terminating worker');
+        setAnalysicData(event.data.data.data);
+        setIsAnalyzingFeedback(false);
+        if (workerRef.current) {
+          workerRef.current.terminate();
+          workerRef.current = null;
+        }
+      } else if (event.data?.type === 'error') {
+        console.log('[Worker] Error received, terminating worker');
+        setIsAnalyzingFeedback(false);
+        if (workerRef.current) {
+          workerRef.current.terminate();
+          workerRef.current = null;
+        }
+      }
+    };
+  };
+
+  // Determine if we should poll for feedback (worker)
+  const shouldPollFeedback = !!getAnalyzeIdForCv(cvId) && !analysicData;
+
+  useEffect(() => {
+    const analyzeId = getAnalyzeIdForCv(cvId);
+    if (shouldPollFeedback && analyzeId) {
+      startWorker(analyzeId);
+    } else {
+      setIsAnalyzingFeedback(false);
+      if (workerRef.current) {
+        console.log(
+          '[Worker] No analyzeId or feedback already present, terminating any existing worker'
+        );
+        workerRef.current.terminate();
+        workerRef.current = null;
+      }
+    }
+    return () => {
+      if (workerRef.current) {
+        console.log('[Worker] Cleaning up worker on unmount');
+        workerRef.current.terminate();
+        workerRef.current = null;
+      }
+      setIsAnalyzingFeedback(false);
+    };
+  }, [cvId, startWorker, shouldPollFeedback, analysicData]);
+
   const handleAnalyze = () => {
-    const cvIdRandom = crypto.randomUUID();
+    // Do not remove previous analyzeId immediately
+    const newCvId = cvId;
     const analyzeCVRequest: AnalyzeRequest = {
-      cvId: cvIdRandom,
+      cvId: newCvId,
       userId: data.userId,
       reason: 'User requested analysis from preview page',
       cvData: {
@@ -65,7 +136,6 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
           endDate: experience.endDate,
           description: experience.description,
         })),
-
         skills: data.skills.map(skill => ({
           category: skill.category,
           items: [skill.description],
@@ -94,28 +164,29 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
         urgent: false,
       },
     };
-
     analyzeMutation.mutate(analyzeCVRequest, {
       onSuccess: response => {
-        setAnalysicId(response.data.analysisId);
-        setHasAnalyze(true);
+        setAnalyzeIdAtom(undefined); // Remove old analyzeId only on success
+        setAnalyzeIdForCv(cvId, response.data.analysisId);
         setAnalysicData(undefined);
+        // Worker will auto-start via useEffect
       },
     });
   };
 
   const handleGetFeedback = () => {
-    if (!hasAnalyze || !analysicId) {
-      return;
-    }
-
-    if (analysicData) {
+    const analyzeId = getAnalyzeIdForCv(cvId);
+    if (!analyzeId) {
+      setNoFeedback(true);
       setShowAnalytics(true);
       return;
     }
-
-    analysisFeedback.mutate(analysicId);
+    // Always open the modal, even if worker is polling
     setShowAnalytics(true);
+    // If feedback is not available and not currently loading via mutation, optionally trigger a fetch
+    if (!analysicData && !isAnalyzingFeedback && !analysisFeedback.isPending) {
+      analysisFeedback.mutate(analyzeId);
+    }
   };
 
   const isAnalyzing = analyzeMutation.isPending;
@@ -124,16 +195,37 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
 
   // Cache feedback data when it arrives (no automatic modal opening)
   useEffect(() => {
-    if (hasFeedbackData && !analysicData && hasAnalyze) {
+    if (hasFeedbackData && !analysicData) {
       console.log('Caching feedback data:', hasFeedbackData);
       setAnalysicData(hasFeedbackData);
     }
-  }, [hasFeedbackData, analysicData, hasAnalyze]);
+  }, [hasFeedbackData, analysicData]);
 
   // Use cached data or fresh API data
   const currentAnalysisData = analysicData || hasFeedbackData;
 
-  const isModalLoading = isAnalyzing || (hasAnalyze && !currentAnalysisData && isLoadingFeedback);
+  const isModalLoading =
+    isAnalyzing || (analyzeIdAtom && !currentAnalysisData && isLoadingFeedback);
+
+  // Clean up worker on unmount or when analysisId changes
+  useEffect(() => {
+    return () => {
+      if (workerRef.current) {
+        workerRef.current.terminate();
+        workerRef.current = null;
+      }
+    };
+  }, []);
+
+  // Button logic
+  let feedbackBtnText: string;
+  if (isLoadingFeedback) {
+    feedbackBtnText = 'AI is processing...';
+  } else if (analysicData) {
+    feedbackBtnText = 'View Details';
+  } else {
+    feedbackBtnText = 'View Feedback';
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -159,21 +251,11 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
                 <div className="space-y-2">
                   <Button
                     onClick={handleGetFeedback}
-                    disabled={!hasAnalyze || isLoadingFeedback}
+                    disabled={!!isLoadingFeedback}
                     className="w-full gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm h-8 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Eye className="h-3 w-3" />
-                    {/* 1. Initially disabled with "View (Analyze first)" */}
-                    {/* 3. When loading feedback: "AI is processing" */}
-                    {/* 4. When cached: "View Details" for instant access */}
-                    {/* 2. After analyze: "View Feedback" to get data */}
-                    {isLoadingFeedback
-                      ? 'AI is processing...'
-                      : analysicData
-                        ? 'View Details'
-                        : hasAnalyze
-                          ? 'View Feedback'
-                          : 'View (Analyze first)'}
+                    {feedbackBtnText}
                   </Button>
                   <Button
                     onClick={handleAnalyze}
@@ -215,9 +297,13 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
       {showAnalytics && (
         <AnalyticsModal
           open={showAnalytics}
-          onOpenChange={setShowAnalytics}
-          analysisData={analysicData}
-          isLoading={isModalLoading}
+          onOpenChange={open => {
+            setShowAnalytics(open);
+            if (!open) setNoFeedback(false);
+          }}
+          analysisData={noFeedback ? undefined : analysicData}
+          isLoading={isAnalyzingFeedback || !!isModalLoading}
+          noFeedback={noFeedback}
         />
       )}
     </div>

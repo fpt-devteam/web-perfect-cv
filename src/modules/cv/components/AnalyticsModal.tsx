@@ -8,7 +8,6 @@ import {
   TrendingUp,
   Clock,
   Lightbulb,
-  RefreshCw,
   CheckSquare,
   Award,
   Zap,
@@ -23,12 +22,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/compo
 import { cn } from '@/shared/utils/cn.util';
 import type { AnalysisData, ImprovementSuggestion } from '../types/analysis.types';
 import { useApplySuggestion } from '../hooks/useAnalysis';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 interface AnalyticsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   analysisData: AnalysisData | undefined;
   isLoading?: boolean;
+  noFeedback?: boolean;
 }
 
 export function AnalyticsModal({
@@ -36,6 +37,7 @@ export function AnalyticsModal({
   onOpenChange,
   analysisData,
   isLoading = false,
+  noFeedback = false,
 }: AnalyticsModalProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'suggestions' | 'industry' | 'ats'>(
     'overview'
@@ -88,21 +90,78 @@ export function AnalyticsModal({
     return 'Needs Improvement';
   };
 
-  // Show loading state when data is not available
-  if (!analysisData || isLoading) {
+  // Show loading state when AI is analyzing
+  if (isLoading) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="!max-w-6xl !w-[90vw] h-[85vh] overflow-hidden">
-          <div className="flex items-center justify-center h-96">
-            <div className="text-center space-y-4">
-              <RefreshCw className="h-8 w-8 animate-spin text-blue-600 mx-auto" />
-              <p className="text-gray-600">AI is processing...</p>
+        <DialogContent className="!max-w-md !w-[90vw] h-[50vh] flex items-center justify-center bg-white shadow-xl rounded-xl">
+          <DialogTitle asChild>
+            <VisuallyHidden>AI is analyzing your CV</VisuallyHidden>
+          </DialogTitle>
+          <div className="flex flex-col items-center justify-center w-full h-full p-8">
+            <svg className="animate-spin h-12 w-12 text-primary mb-6" viewBox="0 0 24 24">
+              <circle
+                className="opacity-20"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+              />
+              <path
+                className="opacity-70"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              />
+            </svg>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">AI is analyzing your CV...</h2>
+            <p className="text-gray-600 mb-4 text-center max-w-md">
+              Our AI is reviewing your CV for strengths, weaknesses, and opportunities for
+              improvement. This usually takes less than a minute.
+            </p>
+            <div className="w-full max-w-xs mb-2">
+              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-full bg-primary animate-pulse" style={{ width: '80%' }} />
+              </div>
+            </div>
+            <div className="text-xs text-gray-400 mt-2 text-center">
+              <span className="inline-block align-middle mr-1">💡</span>
+              Tip: You can continue editing your CV or explore other sections while the analysis
+              completes.
             </div>
           </div>
         </DialogContent>
       </Dialog>
     );
   }
+
+  if (noFeedback) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="!max-w-md !w-[90vw] h-[40vh] flex items-center justify-center bg-white shadow-xl rounded-xl">
+          <DialogTitle asChild>
+            <VisuallyHidden>No feedback available for this CV</VisuallyHidden>
+          </DialogTitle>
+          <div className="flex flex-col items-center justify-center w-full h-full p-8">
+            <BarChart3 className="h-12 w-12 text-gray-300 mb-6" />
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">No feedback available yet</h2>
+            <p className="text-gray-600 mb-2 text-center max-w-md">
+              This CV has not been analyzed yet. Click{' '}
+              <span className="font-medium text-primary">Analyze</span> to receive AI feedback and
+              suggestions.
+            </p>
+            <div className="text-xs text-gray-400 mt-2 text-center">
+              <span className="inline-block align-middle mr-1">💡</span>
+              Tip: Make sure your CV is complete before analyzing for the best results.
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  if (!analysisData) return null;
 
   const { analysis } = analysisData;
 
@@ -263,11 +322,11 @@ export function AnalyticsModal({
                                   className={cn(
                                     'text-xs px-2 py-1',
                                     suggestion.estimatedImpact === 'high' &&
-                                    'bg-green-100 text-green-700',
+                                      'bg-green-100 text-green-700',
                                     suggestion.estimatedImpact === 'medium' &&
-                                    'bg-yellow-100 text-yellow-700',
+                                      'bg-yellow-100 text-yellow-700',
                                     suggestion.estimatedImpact === 'low' &&
-                                    'bg-gray-100 text-gray-700'
+                                      'bg-gray-100 text-gray-700'
                                   )}
                                 >
                                   {suggestion.estimatedImpact} impact
