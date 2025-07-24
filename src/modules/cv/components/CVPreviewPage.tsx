@@ -99,6 +99,7 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
       onSuccess: response => {
         setAnalysicId(response.data.analysisId);
         setHasAnalyze(true);
+        setAnalysicData(undefined);
       },
     });
   };
@@ -181,7 +182,7 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
                     className="w-full gap-2 border-gray-300 text-gray-700 hover:bg-gray-50 text-sm h-8"
                   >
                     <RefreshCw className={cn('h-3 w-3', isAnalyzing && 'animate-spin')} />
-                    {isAnalyzing ? 'Analyzing...' : hasAnalyze ? 'Re-analyze' : 'Analyze'}
+                    Analyze
                   </Button>
                 </div>
               </div>
