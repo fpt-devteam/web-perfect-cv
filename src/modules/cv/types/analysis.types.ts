@@ -112,23 +112,6 @@ export interface UserPreferences {
   focusAreas: string[];
   urgent: boolean;
 }
-
-export interface AnalyzeRequest {
-  cvData?: Record<string, unknown>;
-  userPreferences?: UserPreferences;
-  reason?: string;
-}
-
-// API Response Types
-export interface AnalyzeResponse {
-  success: boolean;
-  message: string;
-  data: {
-    analysisId: string;
-    status: string;
-  };
-}
-
 export interface ApplySuggestionResponse {
   success: boolean;
   message: string;

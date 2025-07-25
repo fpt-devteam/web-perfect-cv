@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { CVPreviewPage } from '@/modules/cv/components/CVPreviewPage';
+import { useCVData } from '@/modules/cv/hooks/useCVData';
 
 export const Route = createFileRoute('/_private/user-dashboard/cvs/$cvId/preview/')({
   component: PreviewComponent,
@@ -7,5 +8,19 @@ export const Route = createFileRoute('/_private/user-dashboard/cvs/$cvId/preview
 
 function PreviewComponent() {
   const { cvId } = Route.useParams();
-  return <CVPreviewPage cvId={cvId} />;
+  const { data, isLoading: isCVLoading, error: cvError } = useCVData(cvId);
+
+  if (isCVLoading) {
+    return <div>Cv Preview Page is loading...</div>;
+  }
+
+  if (!data) {
+    return <div>No data available for this CV</div>;
+  }
+
+  if (cvError) {
+    return <div>Error loading data: {cvError.message}</div>;
+  }
+
+  return <CVPreviewPage data={data} />;
 }

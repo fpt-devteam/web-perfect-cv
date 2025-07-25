@@ -49,11 +49,14 @@ export function AnalysisSidebar({
   };
 
   const handleAnalyze = () => {
+    // Note: This is a simplified version for the sidebar. 
+    // A complete implementation would need cvData and userPreferences
     analyzeMutation.mutate({
       cvId,
-      request: {
-        reason: 'User requested analysis from preview page',
-      },
+      userId: '', // TODO: Get actual userId from auth context
+      reason: 'User requested analysis from preview page',
+      cvData: {} as any, // TODO: Get actual CV data
+      userPreferences: {} as any, // TODO: Get actual user preferences
     });
     onAnalyze?.();
   };
