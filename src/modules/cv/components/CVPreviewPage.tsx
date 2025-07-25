@@ -81,7 +81,6 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
     };
   };
 
-  // Determine if we should poll for feedback (worker)
   const shouldPollFeedback = !!getAnalyzeIdForCv(cvId) && !analysicData;
 
   useEffect(() => {
