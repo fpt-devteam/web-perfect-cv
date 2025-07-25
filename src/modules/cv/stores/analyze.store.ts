@@ -47,7 +47,7 @@ const cvAnalyzeListAtom = atom<CvAnalyzeEntry[]>(getCvAnalyzeList());
 // Sync atom with localStorage on set
 const setCvAnalyzeListAtom = atom(
   get => get(cvAnalyzeListAtom),
-  (get, set, list: CvAnalyzeEntry[]) => {
+  (_get, set, list: CvAnalyzeEntry[]) => {
     setCvAnalyzeList(list);
     set(cvAnalyzeListAtom, list);
   }
