@@ -18,13 +18,13 @@ import {
 import { useNotification } from '@/shared/hooks/useNotification';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
+import { useRef } from 'react';
 
 const formSchema = z.object({
   title: z.string().min(1, { message: 'CV name is required' }),
-  targetCv: z.boolean(),
-  jobTitle: z.string().optional(),
-  companyName: z.string().optional(),
-  jobDescription: z.string().optional(),
+  jobTitle: z.string().min(1, { message: 'Job title is required' }),
+  companyName: z.string().min(1, { message: 'Company name is required' }),
+  jobDescription: z.string().min(1, { message: 'Job description is required' }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -32,35 +32,33 @@ type FormValues = z.infer<typeof formSchema>;
 export function CreateCVForm() {
   const { showSuccess, showError } = useNotification();
   const { mutate: createCV, isPending } = useCreateCV();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      targetCv: false,
       jobTitle: '',
       companyName: '',
       jobDescription: '',
     },
   });
 
-  const targetCv = form.watch('targetCv');
-
   function onSubmit(values: FormValues) {
     const request: CreateCVRequest = {
       title: values.title,
-      jobDetail: values.targetCv
-        ? {
-            jobTitle: values.jobTitle ?? '',
-            companyName: values.companyName ?? '',
-            description: values.jobDescription ?? '',
-          }
-        : null,
+      jobDetail: {
+        jobTitle: values.jobTitle,
+        companyName: values.companyName,
+        description: values.jobDescription,
+      },
     };
 
     createCV(request, {
       onSuccess: () => {
         showSuccess('Your CV has been created successfully');
+        // Close the dialog only on successful creation
+        closeButtonRef.current?.click();
       },
       onError: error => {
         showError(error as AxiosError<BaseError>);
@@ -93,92 +91,61 @@ export function CreateCVForm() {
           <ImportOptions />
 
           <div className="border-t pt-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-medium">Target your CV</h3>
+            <div className="space-y-4">
               <FormField
                 control={form.control}
-                name="targetCv"
+                name="jobTitle"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Target your CV</FormLabel>
+                    <FormLabel className="font-medium text-sm">JOB TITLE</FormLabel>
                     <FormControl>
-                      <div className="relative inline-block w-10 mr-2 align-middle select-none">
-                        <input
-                          type="checkbox"
-                          id="toggle"
-                          className="sr-only"
-                          checked={field.value}
-                          onChange={field.onChange}
-                        />
-                        <label
-                          htmlFor="toggle"
-                          className={`block overflow-hidden h-6 rounded-full cursor-pointer transition-colors ${field.value ? 'bg-primary' : 'bg-gray-300'}`}
-                        >
-                          <span
-                            className={`block h-6 w-6 rounded-full transform transition-transform ${field.value ? 'translate-x-4 bg-white' : 'translate-x-0 bg-white'}`}
-                          />
-                        </label>
-                      </div>
+                      <Input placeholder="Enter here..." {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium text-sm">COMPANY NAME</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter here..." {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="jobDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium text-sm">JOB DESCRIPTION</FormLabel>
+                    <FormControl>
+                      <textarea
+                        placeholder="Paste job description here..."
+                        className="min-h-[120px] w-full p-2 border rounded-md"
+                        {...field}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
-
-            {targetCv && (
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="jobTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-medium text-sm">JOB TITLE</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter here..." {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="companyName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-medium text-sm">COMPANY NAME</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter here..." {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="jobDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-medium text-sm">JOB DESCRIPTION</FormLabel>
-                      <FormControl>
-                        <textarea
-                          placeholder="Paste job description here..."
-                          className="min-h-[120px] w-full p-2 border rounded-md"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
           </div>
 
           <div className="border-t pt-6 flex justify-end">
+            {/* Hidden DialogClose button that we'll trigger programmatically */}
             <DialogClose asChild>
-              <Button type="submit" disabled={isPending}>
-                {isPending ? 'Creating...' : 'Create CV'}
-              </Button>
+              <button ref={closeButtonRef} style={{ display: 'none' }} title="Close dialog" />
             </DialogClose>
+
+            <Button type="submit" disabled={isPending}>
+              {isPending ? 'Creating...' : 'Create CV'}
+            </Button>
           </div>
         </form>
       </Form>

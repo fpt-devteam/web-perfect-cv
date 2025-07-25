@@ -113,6 +113,8 @@ export const CVContactSection: React.FC<CVContactSectionProps> = ({ cvId, onSucc
         country: !data.country || data.country === '' ? null : data.country,
       };
 
+      console.log('processData', processedData);
+
       await upsertContact.mutateAsync(processedData, {
         onSuccess: () => {
           showSuccess('Contact updated successfully!');

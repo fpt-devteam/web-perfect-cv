@@ -1,5 +1,6 @@
 import { TabsList, TabsTrigger, Tabs } from '@/shared/components/ui/tabs';
 import { FileText, Sparkles, FileX, Search, Bell, ChevronDown } from 'lucide-react';
+import { useNavigate } from '@tanstack/react-router';
 import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
 import {
   DropdownMenu,
@@ -47,6 +48,7 @@ export function NotificationButton() {
 
 export function UserProfileMenu() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const userInitials = user?.email ? user.email.slice(0, 2).toUpperCase() : 'CV';
 
   return (
@@ -69,7 +71,7 @@ export function UserProfileMenu() {
           </p>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate({ to: '/user-dashboard/account' })}>
           <span className="text-sm">Account</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

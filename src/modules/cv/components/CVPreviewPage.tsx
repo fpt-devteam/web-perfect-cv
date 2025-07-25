@@ -24,7 +24,7 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
   //Save analysicData for show modal
   const [analysicData, setAnalysicData] = useState<AnalysisData>();
 
-  //Call api analyze
+  //Call api analyze.v
   const analyzeMutation = useAnalyzeCV();
   const analysisFeedback = useAnalysisFeedback();
 
@@ -117,47 +117,47 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
       cvData: {
         title: data.title,
         contact: {
-          email: data.contact.email,
-          phoneNumber: data.contact.phoneNumber,
-          city: data.contact.city,
-          country: data.contact.country,
+          email: data.contact.email || '',
+          phoneNumber: data.contact.phoneNumber || '',
+          city: data.contact.city || '',
+          country: data.contact.country || '',
           linkedInUrl: data.contact.linkedInUrl || 'https://www.linkedin.com/in/your-profile',
           gitHubUrl: data.contact.gitHubUrl || 'https://github.com/your-profile',
         },
         summary: {
-          context: data.summary.context || '',
+          context: data.summary?.context || ' ',
         },
         experience: data.experiences.map(experience => ({
-          jobTitle: experience.jobTitle,
-          company: experience.organization,
-          location: experience.location,
-          startDate: experience.startDate,
-          endDate: experience.endDate,
-          description: experience.description,
+          jobTitle: experience.jobTitle || '',
+          company: experience.organization || '',
+          location: experience.location || '',
+          startDate: experience.startDate || '',
+          endDate: experience.endDate || '',
+          description: experience.description || '',
         })),
         skills: data.skills.map(skill => ({
-          category: skill.category,
-          items: [skill.description],
+          category: skill.category || '',
+          items: [skill.description || ''],
         })),
         education: data.educations.map(education => ({
-          degree: education.degree,
-          organization: education.organization,
-          fieldOfStudy: education.fieldOfStudy,
+          degree: education.degree || '',
+          organization: education.organization || '',
+          fieldOfStudy: education.fieldOfStudy || '',
           startDate: education.startDate || '2024-01-01',
           endDate: education.endDate || '2024-01-01',
           gpa: education.gpa || 0,
         })),
         projects: data.projects.map(project => ({
-          title: project.title,
-          description: project.description,
+          title: project.title || '',
+          description: project.description || '',
           link: project.link || '',
           startDate: project.startDate || '2024-01-01',
           endDate: project.endDate || '2024-01-01',
         })),
       },
       userPreferences: {
-        targetIndustry: data.jobDetail.companyName,
-        targetRole: data.jobDetail.jobTitle,
+        targetIndustry: data.jobDetail?.companyName || '',
+        targetRole: data.jobDetail?.jobTitle || '',
         experienceLevel: 'senior' as const,
         focusAreas: ['technical-skills', 'leadership', 'achievements'],
         urgent: false,
