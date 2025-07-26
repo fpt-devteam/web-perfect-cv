@@ -7,6 +7,7 @@ interface CVExperienceListProps {
   isLoading: boolean;
   onEdit: (experience: CVExperience) => void;
   onDelete: (experienceId: string) => void;
+  onView: (experience: CVExperience) => void;
   deletingExperienceId: string | null;
   isDisabled: boolean;
 }
@@ -16,6 +17,7 @@ export function CVExperienceList({
   isLoading,
   onEdit,
   onDelete,
+  onView,
   deletingExperienceId,
   isDisabled,
 }: CVExperienceListProps) {
@@ -62,6 +64,7 @@ export function CVExperienceList({
           experience={experience}
           onEdit={onEdit}
           onDelete={onDelete}
+          onView={onView}
           isDeleting={deletingExperienceId === experience.id}
           isDisabled={isDisabled}
         />

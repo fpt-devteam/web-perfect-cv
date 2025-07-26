@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { FileText, Calendar, Link as LinkIcon, Edit3, Trash2 } from 'lucide-react';
+import { FileText, Calendar, Link as LinkIcon, Edit3, Trash2, Eye } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import type { CVProjectResponse } from '@/modules/cv/types/cv.types';
 
@@ -7,6 +7,7 @@ interface CVProjectCardProps {
   project: CVProjectResponse;
   onEdit: (project: CVProjectResponse) => void;
   onDelete: (projectId: string) => void;
+  onView: (project: CVProjectResponse) => void;
   isDeleting?: boolean;
   disabled?: boolean;
 }
@@ -15,6 +16,7 @@ export function CVProjectCard({
   project,
   onEdit,
   onDelete,
+  onView,
   isDeleting = false,
   disabled = false,
 }: CVProjectCardProps) {
@@ -31,6 +33,10 @@ export function CVProjectCard({
     if (project.id) {
       onDelete(project.id);
     }
+  };
+
+  const handleView = () => {
+    onView(project);
   };
 
   return (
@@ -75,12 +81,21 @@ export function CVProjectCard({
         )}
       </div>
 
-      <div className="flex items-center gap-2 ml-4">
+      <div className="flex items-center gap-1 ml-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleView}
+          className="h-8 w-8 p-0 text-gray-400 hover:text-green-600"
+          disabled={disabled}
+        >
+          <Eye className="h-4 w-4" />
+        </Button>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleEdit}
-          className="h-8 w-8 p-0"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
           disabled={disabled}
         >
           <Edit3 className="h-4 w-4" />
@@ -89,7 +104,7 @@ export function CVProjectCard({
           variant="ghost"
           size="sm"
           onClick={handleDelete}
-          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
           disabled={isDeleting || disabled}
         >
           {isDeleting ? (

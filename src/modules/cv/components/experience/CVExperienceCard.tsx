@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { Briefcase, Calendar, Edit3, Trash2, Building, MapPin } from 'lucide-react';
+import { Briefcase, Calendar, Edit3, Trash2, Building, MapPin, Eye } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn.util';
 import type { CVExperience } from '@/modules/cv/types/cv.types';
@@ -8,6 +8,7 @@ interface CVExperienceCardProps {
   experience: CVExperience;
   onEdit: (experience: CVExperience) => void;
   onDelete: (experienceId: string) => void;
+  onView: (experience: CVExperience) => void;
   isDeleting: boolean;
   isDisabled: boolean;
 }
@@ -16,6 +17,7 @@ export function CVExperienceCard({
   experience,
   onEdit,
   onDelete,
+  onView,
   isDeleting,
   isDisabled,
 }: CVExperienceCardProps) {
@@ -46,6 +48,10 @@ export function CVExperienceCard({
     if (experience.id) {
       onDelete(experience.id);
     }
+  };
+
+  const handleView = () => {
+    onView(experience);
   };
 
   return (
@@ -108,6 +114,15 @@ export function CVExperienceCard({
       </div>
 
       <div className="flex items-center gap-1 ml-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-green-600"
+          onClick={handleView}
+          disabled={isDisabled}
+        >
+          <Eye className="h-4 w-4" />
+        </Button>
         <Button
           variant="ghost"
           size="sm"

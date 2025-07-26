@@ -7,6 +7,7 @@ interface CVEducationListProps {
   isLoading: boolean;
   onEdit: (education: CVEducationResponse) => void;
   onDelete: (educationId: string) => void;
+  onView: (education: CVEducationResponse) => void;
   deletingEducationId: string | null;
   isDisabled: boolean;
 }
@@ -16,6 +17,7 @@ export function CVEducationList({
   isLoading,
   onEdit,
   onDelete,
+  onView,
   deletingEducationId,
   isDisabled,
 }: CVEducationListProps) {
@@ -52,6 +54,7 @@ export function CVEducationList({
           education={education}
           onEdit={onEdit}
           onDelete={onDelete}
+          onView={onView}
           isDeleting={deletingEducationId === education.id}
           isDisabled={isDisabled}
         />

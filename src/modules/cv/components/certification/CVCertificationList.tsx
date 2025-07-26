@@ -7,6 +7,7 @@ interface CVCertificationListProps {
   isLoading: boolean;
   onEdit: (certification: CVCertificationResponse) => void;
   onDelete: (certificationId: string) => void;
+  onView: (certification: CVCertificationResponse) => void;
   deletingCertificationId: string | null;
   disabled?: boolean;
 }
@@ -16,6 +17,7 @@ export function CVCertificationList({
   isLoading,
   onEdit,
   onDelete,
+  onView,
   deletingCertificationId,
   disabled = false,
 }: CVCertificationListProps) {
@@ -53,6 +55,7 @@ export function CVCertificationList({
           certification={certification}
           onEdit={onEdit}
           onDelete={onDelete}
+          onView={onView}
           isDeleting={deletingCertificationId === certification.id}
           disabled={disabled}
         />

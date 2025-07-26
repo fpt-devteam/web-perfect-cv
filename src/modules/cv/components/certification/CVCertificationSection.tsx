@@ -12,6 +12,7 @@ import {
 } from '@/modules/cv/hooks/useCertification';
 import { CVCertificationList } from './CVCertificationList';
 import { CVCertificationForm } from './CVCertificationForm';
+import { CVCertificationView } from './CVCertificationView';
 import type {
   CVCertificationResponse,
   CreateCVCertificationRequest,
@@ -40,6 +41,9 @@ export function CVCertificationSection({ cvId, onSuccess }: CVCertificationSecti
   });
   const [isCreating, setIsCreating] = useState(false);
   const [editingCertification, setEditingCertification] = useState<CVCertificationResponse | null>(
+    null
+  );
+  const [viewingCertification, setViewingCertification] = useState<CVCertificationResponse | null>(
     null
   );
   const [deletingCertificationId, setDeletingCertificationId] = useState<string | null>(null);
@@ -100,6 +104,10 @@ export function CVCertificationSection({ cvId, onSuccess }: CVCertificationSecti
     setIsCreating(false);
   };
 
+  const handleView = (certification: CVCertificationResponse) => {
+    setViewingCertification(certification);
+  };
+
   const handleDelete = async (certificationId: string) => {
     if (deletingCertificationId === certificationId) return;
 
@@ -123,6 +131,10 @@ export function CVCertificationSection({ cvId, onSuccess }: CVCertificationSecti
 
   const handleCancel = () => {
     resetForm();
+  };
+
+  const handleCloseView = () => {
+    setViewingCertification(null);
   };
 
   const showForm = isCreating || !!editingCertification;
@@ -157,6 +169,7 @@ export function CVCertificationSection({ cvId, onSuccess }: CVCertificationSecti
             isLoading={isLoadingCertifications}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={handleView}
             deletingCertificationId={deletingCertificationId}
             disabled={showForm || isAnyMutationInProgress}
           />
@@ -169,6 +182,14 @@ export function CVCertificationSection({ cvId, onSuccess }: CVCertificationSecti
           isLoading={isAnyMutationInProgress}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+        />
+      )}
+
+      {viewingCertification && (
+        <CVCertificationView
+          certification={viewingCertification}
+          isOpen={!!viewingCertification}
+          onClose={handleCloseView}
         />
       )}
     </div>

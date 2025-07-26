@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { Award, Calendar, Building2, Edit3, Trash2 } from 'lucide-react';
+import { Award, Calendar, Building2, Edit3, Trash2, Eye } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import type { CVCertificationResponse } from '@/modules/cv/types/cv.types';
 
@@ -7,6 +7,7 @@ interface CVCertificationCardProps {
   certification: CVCertificationResponse;
   onEdit: (certification: CVCertificationResponse) => void;
   onDelete: (certificationId: string) => void;
+  onView: (certification: CVCertificationResponse) => void;
   isDeleting?: boolean;
   disabled?: boolean;
 }
@@ -15,6 +16,7 @@ export function CVCertificationCard({
   certification,
   onEdit,
   onDelete,
+  onView,
   isDeleting = false,
   disabled = false,
 }: CVCertificationCardProps) {
@@ -31,6 +33,10 @@ export function CVCertificationCard({
     if (certification.id) {
       onDelete(certification.id);
     }
+  };
+
+  const handleView = () => {
+    onView(certification);
   };
 
   return (
@@ -59,12 +65,21 @@ export function CVCertificationCard({
         )}
       </div>
 
-      <div className="flex items-center gap-2 ml-4">
+      <div className="flex items-center gap-1 ml-4">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleView}
+          className="h-8 w-8 p-0 text-gray-400 hover:text-green-600"
+          disabled={disabled}
+        >
+          <Eye className="h-4 w-4" />
+        </Button>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleEdit}
-          className="h-8 w-8 p-0"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
           disabled={disabled}
         >
           <Edit3 className="h-4 w-4" />
@@ -73,7 +88,7 @@ export function CVCertificationCard({
           variant="ghost"
           size="sm"
           onClick={handleDelete}
-          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
           disabled={isDeleting || disabled}
         >
           {isDeleting ? (

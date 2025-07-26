@@ -12,6 +12,7 @@ import {
 } from '@/modules/cv/hooks/useExperiences';
 import { CVExperienceList } from './CVExperienceList';
 import { CVExperienceForm } from './CVExperienceForm';
+import { CVExperienceView } from './CVExperienceView';
 import type { CVExperience } from '@/modules/cv/types/cv.types';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
@@ -42,6 +43,7 @@ function CVExperienceSection({ cvId, onSuccess }: CVExperienceSectionProps) {
   const { data: experiences, isLoading: isLoadingExperiences } = useListExperiences({ cvId });
   const [isCreating, setIsCreating] = useState(false);
   const [editingExperience, setEditingExperience] = useState<CVExperience | null>(null);
+  const [viewingExperience, setViewingExperience] = useState<CVExperience | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [deletingExperienceId, setDeletingExperienceId] = useState<string | null>(null);
 
@@ -65,6 +67,15 @@ function CVExperienceSection({ cvId, onSuccess }: CVExperienceSectionProps) {
 
     setEditingExperience(experience);
     setIsCreating(false);
+  };
+
+  const handleView = (experience: CVExperience) => {
+    if (!experience) {
+      showError('Experience object is missing. Cannot view experience.');
+      return;
+    }
+
+    setViewingExperience(experience);
   };
 
   const handleDelete = async (experienceId: string) => {
@@ -141,6 +152,10 @@ function CVExperienceSection({ cvId, onSuccess }: CVExperienceSectionProps) {
     setEditingExperience(null);
   };
 
+  const handleCloseView = () => {
+    setViewingExperience(null);
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -162,6 +177,7 @@ function CVExperienceSection({ cvId, onSuccess }: CVExperienceSectionProps) {
             isLoading={isLoadingExperiences}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={handleView}
             deletingExperienceId={deletingExperienceId}
             isDisabled={isAnyMutationInProgress}
           />
@@ -174,6 +190,14 @@ function CVExperienceSection({ cvId, onSuccess }: CVExperienceSectionProps) {
           isLoading={isLoading}
           onSubmit={handleFormSubmit}
           onCancel={handleCancel}
+        />
+      )}
+
+      {viewingExperience && (
+        <CVExperienceView
+          experience={viewingExperience}
+          isOpen={!!viewingExperience}
+          onClose={handleCloseView}
         />
       )}
     </div>

@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { GraduationCap, Calendar, Edit3, Trash2, Building } from 'lucide-react';
+import { GraduationCap, Calendar, Edit3, Trash2, Building, Eye } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn.util';
 import type { CVEducationResponse } from '@/modules/cv/types/cv.types';
@@ -8,6 +8,7 @@ interface CVEducationCardProps {
   education: CVEducationResponse;
   onEdit: (education: CVEducationResponse) => void;
   onDelete: (educationId: string) => void;
+  onView: (education: CVEducationResponse) => void;
   isDeleting: boolean;
   isDisabled: boolean;
 }
@@ -16,6 +17,7 @@ export function CVEducationCard({
   education,
   onEdit,
   onDelete,
+  onView,
   isDeleting,
   isDisabled,
 }: CVEducationCardProps) {
@@ -38,6 +40,10 @@ export function CVEducationCard({
     if (education.id) {
       onDelete(education.id);
     }
+  };
+
+  const handleView = () => {
+    onView(education);
   };
 
   return (
@@ -110,12 +116,21 @@ export function CVEducationCard({
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleView}
+          className="h-8 w-8 p-0 text-gray-400 hover:text-green-600"
+          disabled={isDisabled}
+        >
+          <Eye className="h-4 w-4" />
+        </Button>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleEdit}
-          className="h-8 w-8 p-0"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-blue-600"
           disabled={isDisabled}
         >
           <Edit3 className="h-4 w-4" />
@@ -124,7 +139,7 @@ export function CVEducationCard({
           variant="ghost"
           size="sm"
           onClick={handleDelete}
-          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+          className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
           disabled={isDeleting || isDisabled}
         >
           {isDeleting ? (

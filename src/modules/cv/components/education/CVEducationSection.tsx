@@ -13,6 +13,7 @@ import {
 import { useGetDegree } from '@/modules/cv/hooks/useGetDegree';
 import { CVEducationList } from './CVEducationList';
 import { CVEducationForm as EducationFormComponent } from './CVEducationForm';
+import { CVEducationView } from './CVEducationView';
 import type {
   CVEducationResponse,
   CreateCVEducationRequest,
@@ -47,6 +48,7 @@ function CVEducationForm({ cvId, onSuccess }: CVEducationSectionProps) {
   const { data: degrees } = useGetDegree();
   const [isCreating, setIsCreating] = useState(false);
   const [editingEducation, setEditingEducation] = useState<CVEducationResponse | null>(null);
+  const [viewingEducation, setViewingEducation] = useState<CVEducationResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [deletingEducationId, setDeletingEducationId] = useState<string | null>(null);
 
@@ -76,6 +78,15 @@ function CVEducationForm({ cvId, onSuccess }: CVEducationSectionProps) {
 
     setEditingEducation(education);
     setIsCreating(false);
+  };
+
+  const handleView = (education: CVEducationResponse) => {
+    if (!education) {
+      showError('Education object is missing. Cannot view education.');
+      return;
+    }
+
+    setViewingEducation(education);
   };
 
   const handleDelete = async (educationId: string) => {
@@ -159,6 +170,10 @@ function CVEducationForm({ cvId, onSuccess }: CVEducationSectionProps) {
     setEditingEducation(null);
   };
 
+  const handleCloseView = () => {
+    setViewingEducation(null);
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -188,6 +203,7 @@ function CVEducationForm({ cvId, onSuccess }: CVEducationSectionProps) {
             isLoading={isLoadingEducations}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={handleView}
             deletingEducationId={deletingEducationId}
             isDisabled={isCreating || !!editingEducation || isAnyMutationInProgress}
           />
@@ -206,6 +222,14 @@ function CVEducationForm({ cvId, onSuccess }: CVEducationSectionProps) {
             />
           </CardContent>
         </Card>
+      )}
+
+      {viewingEducation && (
+        <CVEducationView
+          education={viewingEducation}
+          isOpen={!!viewingEducation}
+          onClose={handleCloseView}
+        />
       )}
     </div>
   );

@@ -12,6 +12,7 @@ import {
 } from '@/modules/cv/hooks/useProject';
 import { CVProjectList } from './CVProjectList';
 import { CVProjectForm } from './CVProjectForm';
+import { CVProjectView } from './CVProjectView';
 import type {
   CVProjectResponse,
   CreateCVProjectRequest,
@@ -38,6 +39,7 @@ export function CVProjectSection({ cvId, onSuccess }: CVProjectSectionProps) {
   const { data: projects, isLoading: isLoadingProjects } = useListProjects({ cvId });
   const [isCreating, setIsCreating] = useState(false);
   const [editingProject, setEditingProject] = useState<CVProjectResponse | null>(null);
+  const [viewingProject, setViewingProject] = useState<CVProjectResponse | null>(null);
   const [deletingProjectId, setDeletingProjectId] = useState<string | null>(null);
 
   const createProject = useCreateProject({ cvId });
@@ -94,6 +96,10 @@ export function CVProjectSection({ cvId, onSuccess }: CVProjectSectionProps) {
     setIsCreating(false);
   };
 
+  const handleView = (project: CVProjectResponse) => {
+    setViewingProject(project);
+  };
+
   const handleDelete = async (projectId: string) => {
     if (deletingProjectId === projectId) return;
     setDeletingProjectId(projectId);
@@ -116,6 +122,10 @@ export function CVProjectSection({ cvId, onSuccess }: CVProjectSectionProps) {
 
   const handleCancel = () => {
     resetForm();
+  };
+
+  const handleCloseView = () => {
+    setViewingProject(null);
   };
 
   const showForm = isCreating || !!editingProject;
@@ -150,6 +160,7 @@ export function CVProjectSection({ cvId, onSuccess }: CVProjectSectionProps) {
             isLoading={isLoadingProjects}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={handleView}
             deletingProjectId={deletingProjectId}
             disabled={showForm || isAnyMutationInProgress}
           />
@@ -162,6 +173,14 @@ export function CVProjectSection({ cvId, onSuccess }: CVProjectSectionProps) {
           isLoading={isAnyMutationInProgress}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
+        />
+      )}
+
+      {viewingProject && (
+        <CVProjectView
+          project={viewingProject}
+          isOpen={!!viewingProject}
+          onClose={handleCloseView}
         />
       )}
     </div>

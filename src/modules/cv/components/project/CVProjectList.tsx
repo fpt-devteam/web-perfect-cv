@@ -7,6 +7,7 @@ interface CVProjectListProps {
   isLoading: boolean;
   onEdit: (project: CVProjectResponse) => void;
   onDelete: (projectId: string) => void;
+  onView: (project: CVProjectResponse) => void;
   deletingProjectId: string | null;
   disabled?: boolean;
 }
@@ -16,6 +17,7 @@ export function CVProjectList({
   isLoading,
   onEdit,
   onDelete,
+  onView,
   deletingProjectId,
   disabled = false,
 }: CVProjectListProps) {
@@ -51,6 +53,7 @@ export function CVProjectList({
           project={project}
           onEdit={onEdit}
           onDelete={onDelete}
+          onView={onView}
           isDeleting={deletingProjectId === project.id}
           disabled={disabled}
         />
