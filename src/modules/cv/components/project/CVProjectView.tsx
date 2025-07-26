@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { FileText, Calendar, Link as LinkIcon, X, ExternalLink } from 'lucide-react';
+import { FileText, Calendar, X, ExternalLink } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import type { CVProjectResponse } from '@/modules/cv/types/cv.types';

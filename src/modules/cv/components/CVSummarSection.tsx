@@ -14,7 +14,7 @@ import { Pencil } from 'lucide-react';
 import { Textarea } from '@/shared/components/ui/textarea';
 
 const summarySchema = z.object({
-  context: z.string().min(1, { message: 'Summary cannot be empty' }),
+  context: z.string().min(10, { message: 'Context must be between 10-2000 characters' }),
 });
 
 type SummaryFormValues = z.infer<typeof summarySchema>;

@@ -26,7 +26,7 @@ const projectFormSchema = z
     title: z.string().min(1, 'Project title is required'),
     startDate: z.date().nullable(),
     endDate: z.date().nullable(),
-    description: z.string().nullable(),
+    description: z.string().min(1, 'Project description is required'),
     link: z.string().url('Invalid URL').nullable().or(z.literal('')),
   })
   .refine(
