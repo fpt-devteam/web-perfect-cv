@@ -117,7 +117,7 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
       cvData: {
         title: data.title,
         contact: {
-          email: data.contact.email || 'example@example.com',
+          email: data.contact?.email || 'example@example.com',
           phoneNumber: data.contact.phoneNumber || '',
           city: data.contact.city || '',
           country: data.contact.country || '',
