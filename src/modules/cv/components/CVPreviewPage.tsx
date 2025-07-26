@@ -118,16 +118,16 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
         title: data.title,
         contact: {
           email: data.contact?.email || 'example@example.com',
-          phoneNumber: data.contact.phoneNumber || '',
-          city: data.contact.city || '',
-          country: data.contact.country || '',
-          linkedInUrl: data.contact.linkedInUrl || 'https://www.linkedin.com/in/your-profile',
-          gitHubUrl: data.contact.gitHubUrl || 'https://github.com/your-profile',
+          phoneNumber: data.contact?.phoneNumber || '',
+          city: data.contact?.city || '',
+          country: data.contact?.country || '',
+          linkedInUrl: data.contact?.linkedInUrl || 'https://www.linkedin.com/in/your-profile',
+          gitHubUrl: data.contact?.gitHubUrl || 'https://github.com/your-profile',
         },
         summary: {
           context: data.summary?.context || ' ',
         },
-        experience: data.experiences.map(experience => ({
+        experience: data.experiences?.map(experience => ({
           jobTitle: experience.jobTitle || '',
           company: experience.organization || '',
           location: experience.location || '',
@@ -135,11 +135,11 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
           endDate: experience.endDate || '',
           description: experience.description || '',
         })),
-        skills: data.skills.map(skill => ({
+        skills: data.skills?.map(skill => ({
           category: skill.category || '',
           items: [skill.description || ''],
         })),
-        education: data.educations.map(education => ({
+        education: data.educations?.map(education => ({
           degree: education.degree || '',
           organization: education.organization || '',
           fieldOfStudy: education.fieldOfStudy || '',
@@ -147,7 +147,7 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
           endDate: education.endDate || '2024-01-01',
           gpa: education.gpa || 0,
         })),
-        projects: data.projects.map(project => ({
+        projects: data.projects?.map(project => ({
           title: project.title || '',
           description: project.description || '',
           link: project.link || '',
