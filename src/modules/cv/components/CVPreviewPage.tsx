@@ -118,9 +118,9 @@ export function CVPreviewPage({ data }: CVPreviewPageProps) {
         title: data.title,
         contact: {
           email: data.contact?.email || 'example@example.com',
-          phoneNumber: data.contact?.phoneNumber || '',
-          city: data.contact?.city || '',
-          country: data.contact?.country || '',
+          phoneNumber: data.contact?.phoneNumber || '0911290070',
+          city: data.contact?.city || 'Hanoi',
+          country: data.contact?.country || 'Vietnam',
           linkedInUrl: data.contact?.linkedInUrl || 'https://www.linkedin.com/in/your-profile',
           gitHubUrl: data.contact?.gitHubUrl || 'https://github.com/your-profile',
         },
