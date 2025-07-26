@@ -6,6 +6,7 @@ export type CVResponse = {
   title: string;
   fullContent: string;
   lastEditedAt: string;
+  jobDetail?: JobDetail | null;
 };
 
 export type CVListResponse = {
@@ -35,6 +36,8 @@ export type CreateCVRequest = {
 
 export type UpdateCVRequest = {
   title: string;
+  jobDetail?: JobDetail | null;
+  analysisId?: string | null;
 };
 
 export type CVContact = {

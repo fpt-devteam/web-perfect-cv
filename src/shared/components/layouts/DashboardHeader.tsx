@@ -1,7 +1,7 @@
 import { TabsList, TabsTrigger, Tabs } from '@/shared/components/ui/tabs';
 import { FileText, Sparkles, FileX, Search, Bell, ChevronDown } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
-import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,6 +56,9 @@ export function UserProfileMenu() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex items-center gap-2">
           <Avatar className="h-8 w-8 rounded-full">
+            {user?.avatarUrl && (
+              <AvatarImage src={user.avatarUrl} alt={user.email || 'User avatar'} />
+            )}
             <AvatarFallback className="bg-gradient-to-br from-primary to-primary/70 text-white">
               {userInitials}
             </AvatarFallback>
