@@ -1,18 +1,19 @@
 export type SkillResponse = {
   id: string;
-  cvId: string;
-  description: string;
   category: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateSkillRequest = {
-  description: string;
-  categoryName: string;
+  category: string;
+  content: string;
 };
 
 export type UpdateSkillRequest = {
-  description: string;
-  categoryName: string;
+  category: string;
+  content: string;
 };
 
 export type SearchableItemResponse = {

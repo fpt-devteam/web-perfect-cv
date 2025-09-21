@@ -2,12 +2,9 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { X } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
@@ -132,18 +129,10 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
       <DialogTrigger asChild onClick={e => e.stopPropagation()}>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="max-w-md" onClick={e => e.stopPropagation()}>
-        <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle>CV Options</DialogTitle>
-          <Button variant="ghost" size="sm" onClick={handleClose} className="h-8 w-8 p-0">
-            <X className="h-4 w-4" />
-          </Button>
-        </DialogHeader>
-
+      <DialogContent className="max-w-lg" onClick={e => e.stopPropagation()}>
         <div className="space-y-6">
           {/* Edit CV Section */}
           <div className="space-y-4">
-            <h3 className="font-medium text-gray-900">Edit CV</h3>
             {isLoadingCVDetail && (
               <div className="flex items-center justify-center py-4">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
@@ -229,7 +218,7 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
                           disabled={updateCVMutation.isPending || isLoadingCVDetail}
                           onClick={handleInputClick}
                           onFocus={handleInputClick}
-                          className="min-h-[100px] resize-none"
+                          className="min-h-[100px] max-h-[150px] resize-none scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
                         />
                       </FormControl>
                       <FormMessage />
@@ -252,7 +241,7 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
                           disabled={updateCVMutation.isPending || isLoadingCVDetail}
                           onClick={handleInputClick}
                           onFocus={handleInputClick}
-                          className="min-h-[100px] resize-none"
+                          className="min-h-[100px] max-h-[150px] resize-none scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
                         />
                       </FormControl>
                       <FormMessage />
@@ -303,7 +292,6 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
 
           {/* Delete CV Section */}
           <div className="space-y-4">
-            <h3 className="font-medium text-gray-900">Delete CV</h3>
             <p className="text-sm text-gray-600">
               This action cannot be undone. The CV will be permanently deleted.
             </p>

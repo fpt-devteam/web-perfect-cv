@@ -33,8 +33,8 @@ import type { BaseError } from '@/shared/types/error.type';
 import type { SearchableItemResponse } from '@/modules/skill/types/skill.types';
 
 const skillSchema = z.object({
-  categoryName: z.string().min(1, 'Category is required'),
-  description: z.string().min(1, 'Description is required'),
+  category: z.string().min(1, 'Category is required'),
+  content: z.string().min(1, 'Content is required'),
 });
 
 type SkillFormValues = z.infer<typeof skillSchema>;
@@ -66,15 +66,15 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
   const form = useForm<SkillFormValues>({
     resolver: zodResolver(skillSchema),
     defaultValues: {
-      categoryName: '',
-      description: '',
+      category: '',
+      content: '',
     },
   });
 
   const resetForm = () => {
     form.reset({
-      categoryName: '',
-      description: '',
+      category: '',
+      content: '',
     });
     setIsCreating(false);
     setEditingSkill(null);
@@ -85,8 +85,8 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
     try {
       if (editingSkill) {
         const updateData: UpdateSkillRequest = {
-          categoryName: data.categoryName,
-          description: data.description,
+          category: data.category,
+          content: data.content,
         };
         await updateSkill.mutateAsync({
           skillId: editingSkill.id,
@@ -95,8 +95,8 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
         showSuccess('Skill updated successfully');
       } else {
         const createData: CreateSkillRequest = {
-          categoryName: data.categoryName,
-          description: data.description,
+          category: data.category,
+          content: data.content,
         };
         await createSkill.mutateAsync(createData);
         showSuccess('Skill added successfully');
@@ -115,8 +115,8 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
   const handleEdit = (skill: SkillResponse) => {
     setEditingSkill(skill);
     form.reset({
-      categoryName: skill.category,
-      description: skill.description,
+      category: skill.category,
+      content: skill.content,
     });
   };
 
@@ -136,7 +136,7 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
   };
 
   const handleCategorySelect = (item: SearchableItemResponse) => {
-    form.setValue('categoryName', item.name);
+    form.setValue('category', item.name);
   };
 
   // Group skills by category for better display
@@ -205,7 +205,7 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between mb-1">
                             <p className="text-sm font-medium text-gray-900 truncate">
-                              {skill.description}
+                              {skill.content}
                             </p>
                           </div>
                         </div>
@@ -269,7 +269,7 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="categoryName"
+                  name="category"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-medium text-gray-700">
@@ -294,11 +294,11 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
 
                 <FormField
                   control={form.control}
-                  name="description"
+                  name="content"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-medium text-gray-700">
-                        Skill Description <span className="text-red-500">*</span>
+                        Skill Content <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input

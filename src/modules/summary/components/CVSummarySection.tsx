@@ -6,7 +6,6 @@ import type { UpSertSummaryRequest } from '@/modules/summary/types/summary.types
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
 import { Card, CardContent, CardTitle, CardHeader } from '@/shared/components/ui/card';
-import { Button } from '@/shared/components/ui/button';
 import { Pencil } from 'lucide-react';
 
 interface CVSummaryProps {
@@ -72,10 +71,7 @@ export function CVSummarySection({ cvId, onSuccess }: CVSummaryProps) {
               </svg>
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">Error loading summary</h3>
-            <p className="text-gray-500 mb-4">Please try again later.</p>
-            <Button onClick={() => window.location.reload()} variant="outline" size="sm">
-              Retry
-            </Button>
+            <p className="text-gray-500">Please try again later.</p>
           </div>
         </CardContent>
       </Card>

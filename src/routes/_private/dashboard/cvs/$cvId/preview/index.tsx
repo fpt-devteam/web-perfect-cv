@@ -1,6 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CVPreviewPage } from '@/modules/cv/components/CVPreviewPage';
-import { useCVData } from '@/modules/cv/hooks/useCVData';
 
 export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/preview/')({
   component: PreviewComponent,

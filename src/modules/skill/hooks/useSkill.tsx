@@ -38,9 +38,10 @@ export function useCreateSkill({ cvId }: { readonly cvId: string }) {
       if (previousSkills) {
         const optimisticSkill: SkillResponse = {
           id: `temp-${Date.now()}`,
-          cvId: cvId,
-          description: newSkill.description,
-          category: newSkill.categoryName,
+          category: newSkill.category,
+          content: newSkill.content,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         };
 
         queryClient.setQueryData<SkillResponse[]>(genSkillsKey(cvId), [
@@ -79,10 +80,11 @@ export function useUpdateSkill({ cvId }: { readonly cvId: string }) {
           previousSkills.map(skill =>
             skill.id === skillId
               ? {
-                  ...skill,
-                  description: skillData.description,
-                  category: skillData.categoryName,
-                }
+                ...skill,
+                content: skillData.content,
+                category: skillData.category,
+                updatedAt: new Date().toISOString(),
+              }
               : skill
           )
         );

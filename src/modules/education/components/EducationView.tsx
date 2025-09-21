@@ -32,9 +32,6 @@ export function EducationView({ education, isOpen, onClose }: EducationViewProps
               <GraduationCap className="h-5 w-5 text-blue-600" />
               Education Details
             </DialogTitle>
-            <Button variant="ghost" size="sm" onClick={onClose} className="h-8 w-8 p-0">
-              <X className="h-4 w-4" />
-            </Button>
           </div>
         </DialogHeader>
 

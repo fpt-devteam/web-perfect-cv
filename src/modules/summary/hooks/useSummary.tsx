@@ -9,7 +9,14 @@ export function useGetSummary({ cvId }: { readonly cvId: string }) {
     queryKey: genSummaryKey(cvId),
     queryFn: () => getSummary({ cvId }),
     enabled: !!cvId,
-    retry: 2,
+    retry: (failureCount, error: any) => {
+      // Don't retry for 404 errors (SummaryNotFound)
+      if (error?.response?.status === 404 || error?.code === 'SummaryNotFound') {
+        return false;
+      }
+      // Retry up to 2 times for other errors
+      return failureCount < 2;
+    },
     retryDelay: 1000,
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
