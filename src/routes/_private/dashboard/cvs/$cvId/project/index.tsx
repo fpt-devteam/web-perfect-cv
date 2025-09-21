@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CVProjectSection } from '@/modules/cv/components/project/CVProjectSection';
+import { ProjectSection } from '@/modules/project';
 
 export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/project/')({
   component: RouteComponent,
@@ -7,5 +7,5 @@ export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/project/')({
 
 function RouteComponent() {
   const { cvId } = Route.useParams();
-  return <CVProjectSection cvId={cvId} />;
+  return <ProjectSection cvId={cvId} />;
 }

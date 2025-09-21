@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { CVContactSection } from '@/modules/cv/components/contact/CVContactSection';
+import { CVContactSection } from '@/modules/contact';
 
 export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/contact/')({
   component: RouteComponent,

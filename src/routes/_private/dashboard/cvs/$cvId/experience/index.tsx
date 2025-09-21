@@ -1,4 +1,4 @@
-import { ExperienceSection } from '@/modules/cv/components/experience/CVExperienceSection';
+import { CVExperienceSection as ExperienceSection } from '@/modules/experience';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/experience/')({

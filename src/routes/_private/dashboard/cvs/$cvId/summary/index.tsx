@@ -1,4 +1,4 @@
-import { CVSummary } from '@/modules/cv/components/CVSummarSection';
+import { CVSummarySection as CVSummary } from '@/modules/summary';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/summary/')({

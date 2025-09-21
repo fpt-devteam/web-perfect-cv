@@ -40,46 +40,9 @@ export type UpdateCVRequest = {
   analysisId?: string | null;
 };
 
-export type CVContact = {
-  id: string;
-  cvId: string;
-  phoneNumber: string | null;
-  email: string | null;
-  linkedInUrl: string | null;
-  gitHubUrl: string | null;
-  personalWebsiteUrl: string | null;
-  city: string | null;
-  country: string | null;
-};
-
-export type UpSertContactRequest = Omit<CVContact, 'id'>;
-
-export type CVExperience = {
-  id: string;
-  cvId: string;
-  jobTitle: string;
-  jobTitleId: string | null;
-  employmentTypeId: string;
-  employmentTypeName: string;
-  organizationId: string | null;
-  organization: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  description: string | null;
-  createdAt: string;
-  updatedAt: string | null;
-};
-
-export type CreateExperienceRequest = Omit<
-  CVExperience,
-  'id' | 'createdAt' | 'updatedAt' | 'employmentTypeName'
->;
-
-export type UpdateExperienceRequest = Omit<
-  CVExperience,
-  'id' | 'cvId' | 'createdAt' | 'updatedAt' | 'employmentTypeName'
->;
+// Contact and Experience types moved to their respective modules
+// @/modules/contact/types/contact.types.ts
+// @/modules/experience/types/experience.types.ts
 
 export type SearchableItemResponse = {
   id: string;
@@ -98,13 +61,8 @@ export type JobTitleListResponse = JobTitleResponse[];
 export type DegreeListResponse = DegreeResponse[];
 export type SkillCategoryListResponse = SkillCategoryResponse[];
 
-export type CVSummary = {
-  id: string;
-  cvId: string;
-  context: string | null;
-};
-
-export type UpSertSummaryRequest = Omit<CVSummary, 'id'>;
+// Summary types moved to summary module
+// @/modules/summary/types/summary.types.ts
 
 // export type CVSkill = {
 //   id: string;
@@ -114,112 +72,17 @@ export type UpSertSummaryRequest = Omit<CVSummary, 'id'>;
 
 // export type UpSertSkillRequest = Omit<CVSkill, 'id'>;
 
-export type CVCertificationResponse = {
-  id: string;
-  cvId: string;
-  name: string;
-  issuedDate: string | null;
-  description: string | null;
-  organization: string;
-  organizationId: string | null;
-};
+// Certification types moved to certification module
+// @/modules/certification/types/certification.types.ts
 
-export type CreateCVCertificationRequest = {
-  cvId: string;
-  name: string;
-  issuedDate: string | null;
-  description: string | null;
-  organization: string;
-};
+// Project types moved to project module
+// @/modules/project/types/project.types.ts
 
-export type UpdateCVCertificationRequest = {
-  name: string;
-  issuedDate: string | null;
-  description: string | null;
-  organization: string;
-};
+// Education types moved to education module
+// @/modules/education/types/education.types.ts
 
-export type CVProjectResponse = {
-  id: string;
-  cvId: string;
-  title: string;
-  description: string;
-  link: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  createdAt: string;
-  updatedAt: string | null;
-};
-
-export type CreateCVProjectRequest = {
-  cvId: string;
-  title: string;
-  description: string;
-  link: string | null;
-  startDate: string | null;
-  endDate: string | null;
-};
-
-export type UpdateCVProjectRequest = {
-  title: string;
-  description: string;
-  link: string | null;
-  startDate: string | null;
-  endDate: string | null;
-};
-
-export type CVEducationResponse = {
-  id: string;
-  cvId: string;
-  organization: string;
-  degree: string;
-  location: string | null;
-  fieldOfStudy: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  description: string | null;
-  gpa: number | null;
-};
-
-export type CreateCVEducationRequest = {
-  cvId: string;
-  degree: string;
-  organization: string;
-  fieldOfStudy: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  description: string | null;
-  gpa: number | null;
-};
-
-export type UpdateCVEducationRequest = {
-  id: string;
-  degree: string;
-  organization: string;
-  location: string | null;
-  fieldOfStudy: string;
-  startDate: string;
-  endDate: string;
-  description: string | null;
-  gpa: number | null;
-};
-
-export type CVSkillResponse = {
-  id: string;
-  cvId: string;
-  description: string;
-  category: string;
-};
-
-export type CreateCVSkillRequest = {
-  description: string;
-  categoryName: string;
-};
-
-export type UpdateCVSkillRequest = {
-  description: string;
-  categoryName: string;
-};
+// Skill types moved to skill module
+// @/modules/skill/types/skill.types.ts
 
 // New CV Data structure matching backend JSON format
 export interface CVData {
