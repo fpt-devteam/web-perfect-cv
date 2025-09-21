@@ -12,6 +12,7 @@ import { tanstackClient } from '@/config/tanstack-query.config';
 import { ROUTE_PENDING_DELAY } from '@/config/app.config';
 import { useNotification } from '@/shared/hooks/useNotification';
 import { Toaster } from 'sonner';
+import { AuthStatus, useAuthInit } from './modules/auth/hooks/useAuthInit';
 
 const router = createRouter({
   routeTree,
@@ -41,6 +42,11 @@ createRoot(document.getElementById('root')!).render(
 export function App() {
   const auth = useAuth();
   const notification = useNotification();
+  const authStatus = useAuthInit();
+
+  if (authStatus === AuthStatus.LOADING) {
+    return <Spinner size="lg" />;
+  }
   return (
     <>
       <RouterProvider

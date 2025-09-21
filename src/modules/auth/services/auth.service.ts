@@ -79,7 +79,7 @@ export async function loginWithCredentials(request: LoginRequest) {
   const { data } = await baseClient<LoginResponse>({
     method: 'POST',
     url: LOGIN_ENDPOINT,
-    data: request,
+  data: request,
   });
 
   accessTokenStorage.set(data.accessToken);

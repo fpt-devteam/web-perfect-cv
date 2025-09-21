@@ -1,11 +1,9 @@
 import { Link, useMatches } from '@tanstack/react-router';
-import { useAuth } from '@/modules/auth/hooks/useAuth';
-import { useState, useEffect } from 'react';
 import { Logo } from '@/shared/components/logo/Logo';
+import { useAuthState } from '@/modules/auth/stores/auth.store';
 
 export function Navbar() {
-  const { getCurrentUser } = useAuth();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, isLoaded } = useAuthState();
   const matches = useMatches();
 
   const isAuthPage = matches.some(
@@ -15,9 +13,10 @@ export function Navbar() {
       match.routeId === '/_auth/forgot-password'
   );
 
-  useEffect(() => {
-    getCurrentUser().then(user => setIsAuthenticated(!!user));
-  }, [getCurrentUser]);
+  console.log("Navbar render", { user, isLoaded, isAuthPage });
+
+  if (!isLoaded) return null;
+  const isLoggedIn = !!user;
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white shadow-md py-6 px-8">
@@ -41,7 +40,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex justify-end">
-          {isAuthenticated ? (
+          {isLoggedIn ? (
             <Link
               to="/user-dashboard/cvs"
               className="bg-primary text-white py-2 px-5 rounded-md transition-colors font-medium inline-block"
