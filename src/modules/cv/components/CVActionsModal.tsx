@@ -22,15 +22,15 @@ import {
   FormMessage,
 } from '@/shared/components/ui/form';
 import { useNotification } from '@/shared/hooks/useNotification';
-import { useUpdateCV, useDeleteCV } from '@/modules/cv/hooks';
-import { useCVData } from '@/modules/cv/hooks/useCVData';
+import { useUpdateCV, useDeleteCV, useCVData } from '@/modules/cv/hooks';
 import type { CVResponse } from '@/modules/cv/types/cv.types';
 
 const updateCVSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title cannot exceed 200 characters'),
   jobTitle: z.string().min(1, 'Job title is required'),
   companyName: z.string().min(1, 'Company name is required'),
-  jobDescription: z.string().min(1, 'Job description is required'),
+  responsibility: z.string().min(1, 'Responsibility is required'),
+  qualification: z.string().min(1, 'Qualification is required'),
 });
 
 type UpdateCVFormValues = z.infer<typeof updateCVSchema>;
@@ -46,16 +46,17 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
   const updateCVMutation = useUpdateCV();
   const deleteCVMutation = useDeleteCV();
 
-  // Fetch detailed CV data when modal is open
-  const { data: cvDetailData, isLoading: isLoadingCVDetail } = useCVData(cv.cvId);
+  // Fetch detailed CV data only when modal is open
+  const { data: cvDetailData, isLoading: isLoadingCVDetail } = useCVData(cv.cvId, { enabled: isOpen });
 
   const form = useForm<UpdateCVFormValues>({
     resolver: zodResolver(updateCVSchema),
     defaultValues: {
       title: cv.title,
-      jobTitle: cv.jobDetail?.jobTitle || '',
-      companyName: cv.jobDetail?.companyName || '',
-      jobDescription: cv.jobDetail?.description || '',
+      jobTitle: cv.jobDescription.title,
+      companyName: cv.jobDescription.companyName,
+      responsibility: cv.jobDescription.responsibility,
+      qualification: cv.jobDescription.qualification,
     },
   });
 
@@ -64,9 +65,10 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
     if (cvDetailData && isOpen) {
       form.reset({
         title: cvDetailData.title,
-        jobTitle: cvDetailData.jobDetail?.jobTitle || '',
-        companyName: cvDetailData.jobDetail?.companyName || '',
-        jobDescription: cvDetailData.jobDetail?.description || '',
+        jobTitle: cvDetailData.jobDescription.title,
+        companyName: cvDetailData.jobDescription.companyName,
+        responsibility: cvDetailData.jobDescription.responsibility,
+        qualification: cvDetailData.jobDescription.qualification,
       });
     }
   }, [cvDetailData, isOpen, form]);
@@ -76,10 +78,11 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
     try {
       const request = {
         title: data.title,
-        jobDetail: {
-          jobTitle: data.jobTitle,
+        jobDescription: {
+          title: data.jobTitle,
           companyName: data.companyName,
-          description: data.jobDescription,
+          responsibility: data.responsibility,
+          qualification: data.qualification,
         },
         analysisId: null, // Có thể cập nhật sau nếu cần
       };
@@ -213,16 +216,39 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
 
                 <FormField
                   control={form.control}
-                  name="jobDescription"
+                  name="responsibility"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm font-medium text-gray-700">
-                        Job Description
+                        Responsibility
                       </FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
-                          placeholder="Enter job description"
+                          placeholder="Enter job responsibilities"
+                          disabled={updateCVMutation.isPending || isLoadingCVDetail}
+                          onClick={handleInputClick}
+                          onFocus={handleInputClick}
+                          className="min-h-[100px] resize-none"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="qualification"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">
+                        Qualification
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder="Enter required qualifications"
                           disabled={updateCVMutation.isPending || isLoadingCVDetail}
                           onClick={handleInputClick}
                           onFocus={handleInputClick}
@@ -256,8 +282,10 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
                         formData.jobTitle.trim() &&
                         formData.companyName &&
                         formData.companyName.trim() &&
-                        formData.jobDescription &&
-                        formData.jobDescription.trim()
+                        formData.responsibility &&
+                        formData.responsibility.trim() &&
+                        formData.qualification &&
+                        formData.qualification.trim()
                       ) {
                         handleUpdateCV(formData);
                       } else {

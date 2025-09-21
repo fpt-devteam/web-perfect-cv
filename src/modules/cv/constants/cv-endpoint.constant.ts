@@ -2,7 +2,7 @@ export const GET_CVS_ENDPOINT = 'api/cvs';
 export const CREATE_CV_ENDPOINT = 'api/cvs';
 export const UPDATE_CV_ENDPOINT = (cvId: string) => `api/cvs/${cvId}`;
 export const DELETE_CV_ENDPOINT = (cvId: string) => `api/cvs/${cvId}`;
-export const GET_CV_FULL_CONTENT_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/full-content`;
+export const GET_CV_ENDPOINT = (cvId: string) => `api/cvs/${cvId}`;
 
 export const UPSERT_CONTACT_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/contacts`;
 export const LIST_CONTACTS_ENDPOINT = (cvId: string) => `api/cvs/${cvId}/contacts`;

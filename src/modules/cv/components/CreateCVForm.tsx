@@ -21,10 +21,10 @@ import type { BaseError } from '@/shared/types/error.type';
 
 const formSchema = z.object({
   title: z.string().min(1, { message: 'CV name is required' }),
-  targetCv: z.boolean(),
-  jobTitle: z.string().optional(),
-  companyName: z.string().optional(),
-  jobDescription: z.string().optional(),
+  jobTitle: z.string().min(1, { message: 'Job title is required' }),
+  companyName: z.string().min(1, { message: 'Company name is required' }),
+  responsibility: z.string().min(1, { message: 'Responsibility is required' }),
+  qualification: z.string().min(1, { message: 'Qualification is required' }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -37,25 +37,22 @@ export function CreateCVForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      targetCv: false,
       jobTitle: '',
       companyName: '',
-      jobDescription: '',
+      responsibility: '',
+      qualification: '',
     },
   });
-
-  const targetCv = form.watch('targetCv');
 
   function onSubmit(values: FormValues) {
     const request: CreateCVRequest = {
       title: values.title,
-      jobDetail: values.targetCv
-        ? {
-          jobTitle: values.jobTitle ?? '',
-          companyName: values.companyName ?? '',
-          description: values.jobDescription ?? '',
-        }
-        : null,
+      jobDescription: {
+        title: values.jobTitle,
+        companyName: values.companyName,
+        responsibility: values.responsibility,
+        qualification: values.qualification,
+      },
     };
 
     createCV(request, {
@@ -93,84 +90,83 @@ export function CreateCVForm() {
           <ImportOptions />
 
           <div className="border-t pt-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-medium">Target your CV</h3>
+            <div className="mb-4">
+              <h3 className="font-medium">Job Description <span className="text-red-500">*</span></h3>
+            </div>
+
+            <div className="space-y-4">
               <FormField
                 control={form.control}
-                name="targetCv"
+                name="jobTitle"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Target your CV</FormLabel>
+                    <FormLabel className="font-medium text-sm">
+                      JOB TITLE <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <div className="relative inline-block w-10 mr-2 align-middle select-none">
-                        <input
-                          type="checkbox"
-                          id="toggle"
-                          className="sr-only"
-                          checked={field.value}
-                          onChange={field.onChange}
-                        />
-                        <label
-                          htmlFor="toggle"
-                          className={`block overflow-hidden h-6 rounded-full cursor-pointer transition-colors ${field.value ? 'bg-primary' : 'bg-gray-300'}`}
-                        >
-                          <span
-                            className={`block h-6 w-6 rounded-full transform transition-transform ${field.value ? 'translate-x-4 bg-white' : 'translate-x-0 bg-white'}`}
-                          />
-                        </label>
-                      </div>
+                      <Input placeholder="e.g. Software Engineer" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium text-sm">
+                      COMPANY NAME <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. VNG Corporation" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="responsibility"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium text-sm">
+                      RESPONSIBILITY <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <textarea
+                        placeholder="e.g. Backend engineer responsible for developing scalable web applications..."
+                        className="min-h-[100px] w-full p-2 border rounded-md resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="qualification"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium text-sm">
+                      QUALIFICATION <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <textarea
+                        placeholder="e.g. Bachelor Degree. Good at algorithm and data structures..."
+                        className="min-h-[100px] w-full p-2 border rounded-md resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
-            {targetCv && (
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="jobTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-medium text-sm">JOB TITLE</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter here..." {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="companyName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-medium text-sm">COMPANY NAME</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter here..." {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="jobDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-medium text-sm">JOB DESCRIPTION</FormLabel>
-                      <FormControl>
-                        <textarea
-                          placeholder="Paste job description here..."
-                          className="min-h-[120px] w-full p-2 border rounded-md"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
           </div>
 
           <div className="border-t pt-6 flex justify-end">

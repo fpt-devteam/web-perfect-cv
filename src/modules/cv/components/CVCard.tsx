@@ -1,5 +1,5 @@
 import { MoreVertical, Plus } from 'lucide-react';
-import { parseISO, addHours, formatDistanceToNow } from 'date-fns';
+import { formatRelativeTime, formatLocalDateTime } from '@/shared/utils/date.utils';
 import {
   Card,
   CardContent,
@@ -18,6 +18,7 @@ import {
 import { CreateCVForm } from '@/modules/cv/components/CreateCVForm';
 import { CVActionsModal } from '@/modules/cv/components/CVActionsModal';
 import { useNavigate } from '@tanstack/react-router';
+
 
 export function CVPreview({ cv }: { readonly cv: CVResponse }) {
   return (
@@ -81,9 +82,11 @@ export function CVCard({ cv }: { readonly cv: CVResponse }) {
       <CardFooter className="p-6 flex items-center justify-between">
         <div className="min-w-0 flex-1">
           <CardTitle className="font-medium text-gray-900 truncate block">{cv.title}</CardTitle>
-          <CardDescription className="text-xs text-gray-500 truncate">
-            Edited{' '}
-            {formatDistanceToNow(addHours(parseISO(cv.lastEditedAt), 7), { addSuffix: true })}
+          <CardDescription
+            className="text-xs text-gray-500 truncate"
+            title={`Last edited: ${formatLocalDateTime(cv.lastEditedAt)}`}
+          >
+            Edited {formatRelativeTime(cv.lastEditedAt)}
           </CardDescription>
         </div>
         <CVActionsModal

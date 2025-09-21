@@ -33,14 +33,18 @@ export function CVList() {
     setCurrentPage(1);
   }, [debouncedSearchTerm, sortOrder]);
 
-  const { data, isLoading, error } = useListCVs({
+  // API query with correct sort format
+  const query = {
     limit: ITEMS_PER_PAGE,
     offset: (currentPage - 1) * ITEMS_PER_PAGE,
-    sort: {
-      updatedAt: sortOrder,
-    },
+    'Sort.UpdatedAt': sortOrder,
     searchTerm: debouncedSearchTerm || undefined,
-  });
+  };
+
+  // Debug logging
+  console.log('CV List Query:', query);
+
+  const { data, isLoading, error } = useListCVs(query);
 
   const totalPages = Math.ceil((data?.total || 0) / ITEMS_PER_PAGE);
 

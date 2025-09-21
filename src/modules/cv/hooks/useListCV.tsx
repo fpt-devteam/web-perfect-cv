@@ -8,8 +8,11 @@ export const genListCVsKey = (query: CVListQuery) => ['get', GET_CVS_ENDPOINT, q
 export function useListCVs(query: CVListQuery, options = {}) {
   return useQuery({
     queryKey: genListCVsKey(query),
-    queryFn: () => listCVs(query),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    queryFn: () => {
+      console.log('API call triggered with query:', query);
+      return listCVs(query);
+    },
+    staleTime: 0, // Force fresh data for debugging
     gcTime: 10 * 60 * 1000, // 10 minutes
     refetchOnWindowFocus: false,
     retry: 2,

@@ -4,14 +4,13 @@ import type {
   CVListQuery,
   CVListResponse,
   CVResponse,
-  CVFullContentResponse,
 } from '@/modules/cv/types/cv.types';
 import {
   GET_CVS_ENDPOINT,
   CREATE_CV_ENDPOINT,
   UPDATE_CV_ENDPOINT,
   DELETE_CV_ENDPOINT,
-  GET_CV_FULL_CONTENT_ENDPOINT,
+  GET_CV_ENDPOINT,
 } from '@/modules/cv/constants/cv-endpoint.constant';
 import { authClient } from '@/modules/auth/services/client.service';
 
@@ -50,10 +49,10 @@ export const deleteCV = async ({ cvId }: { cvId: string }) => {
   return data;
 };
 
-export const getCVFullContent = async ({ cvId }: { readonly cvId: string }) => {
-  const { data } = await authClient<CVFullContentResponse>({
+export const getCV = async ({ cvId }: { readonly cvId: string }) => {
+  const { data } = await authClient<CVResponse>({
     method: 'GET',
-    url: GET_CV_FULL_CONTENT_ENDPOINT(cvId),
+    url: GET_CV_ENDPOINT(cvId),
   });
   return data;
 };
