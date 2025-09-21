@@ -5,16 +5,16 @@ import { z } from 'zod';
 import { Button } from '@/shared/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/shared/components/ui/form';
 import { Textarea } from '@/shared/components/ui/textarea';
-import type { UpSertSummaryRequest } from '@/modules/summary/types/summary.types';
+import type { CVSummary, UpSertSummaryRequest } from '@/modules/summary/types/summary.types';
 
 const summarySchema = z.object({
-  context: z.string().min(10, { message: 'Context must be between 10-2000 characters' }),
+  content: z.string().min(10, { message: 'Content must be between 10-2000 characters' }),
 });
 
 type SummaryFormValues = z.infer<typeof summarySchema>;
 
 interface SummaryFormProps {
-  initialData?: { context: string };
+  initialData: CVSummary | undefined;
   onSubmit: (data: UpSertSummaryRequest) => void;
   isLoading?: boolean;
   cvId: string;
@@ -29,18 +29,18 @@ export const SummaryForm: React.FC<SummaryFormProps> = ({
   const form = useForm<SummaryFormValues>({
     resolver: zodResolver(summarySchema),
     defaultValues: {
-      context: initialData?.context || '',
+      content: initialData?.content || '',
     },
   });
 
   const handleSubmit = (data: SummaryFormValues) => {
-    if (!data.context || data.context.trim() === '') {
+    if (!data.content || data.content.trim() === '') {
       return;
     }
 
     const processedData: UpSertSummaryRequest = {
       cvId,
-      context: data.context.trim(),
+      content: data.content.trim(),
     };
 
     onSubmit(processedData);
@@ -51,7 +51,7 @@ export const SummaryForm: React.FC<SummaryFormProps> = ({
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="context"
+          name="content"
           render={({ field }) => (
             <FormItem>
               <FormControl>

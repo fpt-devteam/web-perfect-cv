@@ -1,6 +1,19 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* globals.css */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE, Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -42,6 +55,7 @@
   --color-placeholder-light: var(--placeholder-light);
   --color-placeholder-light-dark: var(--placeholder-light-dark);
 }
+
 /* Define color variables for light and dark themes */
 :root {
   --radius: 0.625rem;

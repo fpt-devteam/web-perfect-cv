@@ -1,16 +1,16 @@
 export interface CVSummary {
   id: string;
   cvId: string;
-  context: string | null;
+  content: string | null;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface UpSertSummaryRequest {
   cvId: string;
-  context: string;
+  content: string;
 }
 
 export type SummaryFormValues = {
-  context: string;
+  content: string;
 };

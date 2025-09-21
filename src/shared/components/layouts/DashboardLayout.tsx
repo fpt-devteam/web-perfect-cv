@@ -15,7 +15,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="flex h-full flex-col overflow-auto">
           <DashboardHeader />
 
-          <main className="flex-1 overflow-auto bg-gradient-to-b from-white to-muted/20 px-8">
+          <main className="flex-1 overflow-auto bg-gradient-to-b from-white to-muted/20 px-8 scrollbar-hide">
             <div className="mx-auto">{children}</div>
           </main>
         </div>

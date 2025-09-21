@@ -88,10 +88,6 @@ export function CVSummarySection({ cvId, onSuccess }: CVSummaryProps) {
     );
   }
 
-  const initialData = summaryData?.context ? {
-    context: summaryData.context
-  } : { context: '' };
-
   return (
     <div className="space-y-6">
       <Card>
@@ -105,7 +101,7 @@ export function CVSummarySection({ cvId, onSuccess }: CVSummaryProps) {
         </CardHeader>
         <CardContent>
           <SummaryForm
-            initialData={initialData}
+            initialData={summaryData}
             onSubmit={handleSubmit}
             isLoading={isLoading}
             cvId={cvId}

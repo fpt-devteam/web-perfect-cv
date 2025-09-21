@@ -1,3 +1,6 @@
+import { CVPreview } from '@/modules/cv/components/CVSections';
+import { useCVData } from '@/modules/cv/hooks';
+import { Spinner } from '@/shared/components/loading/spinner';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/preview/')({
@@ -5,21 +8,21 @@ export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/preview/')({
 });
 
 function PreviewComponent() {
-  // const { cvId } = Route.useParams();
-  // const { data, isLoading: isCVLoading, error: cvError } = useCVData(cvId);
-  // console.log('useCVData:', data);
+  const { cvId } = Route.useParams();
+  const { data, isLoading: isCVLoading, error: cvError } = useCVData(cvId);
+  console.log('useCVData:', data);
 
-  // if (isCVLoading) {
-  //   return <div>Cv Preview Page is loading...</div>;
-  // }
+  if (isCVLoading) {
+    return <Spinner />;
+  }
 
-  // if (!data) {
-  //   return <div>No data available for this CV</div>;
-  // }
+  if (!data) {
+    return <div>No data available for this CV</div>;
+  }
 
-  // if (cvError) {
-  //   return <div>Error loading data: {cvError.message}</div>;
-  // }
+  if (cvError) {
+    return <div>Error loading data: {cvError.message}</div>;
+  }
 
-  // return <CVPreviewPage data={data} />;
+  return <CVPreview cvData={data} />;
 }
