@@ -11,6 +11,8 @@ import type { BaseError } from '@/shared/types/error.type';
 import { Button } from '@/shared/components/ui/button';
 import { useState } from 'react';
 import { useLoginWithCredential } from '@/modules/auth/hooks/useLoginWithCredential';
+import { useSetAuth } from '@/modules/auth/stores/auth.store';
+import { useGetMe } from '@/modules/auth/hooks/useGetMe';
 const LoginSchema = zod.object({
   email: zod.string().trim().min(1, 'Email is required').email('Invalid email'),
   password: zod.string().trim(),
@@ -22,6 +24,8 @@ export function LoginForm() {
   const { showSuccess, showError } = useNotification();
   const navigate = useNavigate();
   const loginWithCredential = useLoginWithCredential();
+  const setAuth = useSetAuth();
+  const getMe = useGetMe({ enabled: false });
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -37,9 +41,22 @@ export function LoginForm() {
     await loginWithCredential.mutateAsync(
       { email: data.email, password: data.password },
       {
-        onSuccess: () => {
-          showSuccess('Login successful');
-          navigate({ to: '/user-dashboard/cvs' });
+        onSuccess: async () => {
+          try {
+            // Fetch user data and update auth state immediately after login
+            const { data: user } = await getMe.refetch();
+            if (user) {
+              // Update auth state with user data to ensure route guards work
+              setAuth({ user, isLoaded: true });
+              showSuccess('Login successful');
+              navigate({ to: '/dashboard/cvs' });
+            } else {
+              showError('Failed to fetch user data after login');
+            }
+          } catch (error) {
+            console.error('Failed to fetch user data after login:', error);
+            showError('Login succeeded but failed to load user data');
+          }
         },
         onError: error => {
           showError(error as AxiosError<BaseError>);

@@ -34,17 +34,17 @@ type SidebarItemType = {
 const generalItems: SidebarItemType[] = [
   {
     title: 'My Dashboard',
-    url: '/user-dashboard/cvs',
+    url: '/dashboard/cvs',
     icon: LayoutDashboard,
   },
   {
     title: 'Review CV',
-    url: '/user-dashboard/review-cv',
+    url: '/dashboard/review-cv',
     icon: FileText,
   },
   {
     title: 'Sample Library',
-    url: '/user-dashboard/sample-library',
+    url: '/dashboard/sample-library',
     icon: Book,
   },
 ];
@@ -52,17 +52,17 @@ const generalItems: SidebarItemType[] = [
 const toolsItems: SidebarItemType[] = [
   {
     title: 'My Account',
-    url: '/user-dashboard/account',
+    url: '/dashboard/account',
     icon: User2,
   },
   {
     title: 'Premium Features',
-    url: '/user-dashboard/premium',
+    url: '/dashboard/premium',
     icon: Star,
   },
   {
     title: 'Billing',
-    url: '/user-dashboard/billing',
+    url: '/dashboard/billing',
     icon: CreditCard,
   },
 ];
@@ -70,12 +70,12 @@ const toolsItems: SidebarItemType[] = [
 const supportItems: SidebarItemType[] = [
   {
     title: 'Notifications',
-    url: '/user-dashboard/notifications',
+    url: '/dashboard/notifications',
     icon: Bell,
   },
   {
     title: 'Settings',
-    url: '/user-dashboard/settings',
+    url: '/dashboard/settings',
     icon: Settings,
   },
 ];
@@ -89,7 +89,7 @@ export function DashboardSidebar() {
       className="border-r border-[var(--sidebar-border)] bg-gradient-to-b from-[var(--sidebar)] to-white shadow-sm"
     >
       <SidebarHeader
-        onClick={() => navigate({ to: '/user-dashboard/cvs' })}
+        onClick={() => navigate({ to: '/dashboard/cvs' })}
         className="flex items-center justify-center cursor-pointer pb-6 pt-6"
       >
         <Logo />

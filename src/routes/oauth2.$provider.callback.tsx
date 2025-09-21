@@ -31,7 +31,7 @@ function OAuthCallback() {
         {
           onSuccess: () => {
             showSuccess('Login successfully');
-            navigate({ to: '/user-dashboard/cvs' });
+            navigate({ to: '/dashboard/cvs' });
           },
           onError: error => {
             showError(error as AxiosError<BaseError>);

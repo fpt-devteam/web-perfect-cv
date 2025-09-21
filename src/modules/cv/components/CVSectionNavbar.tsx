@@ -21,15 +21,15 @@ export function CVSectionNavbar({ cvId }: { readonly cvId: string }) {
   const itemsRef = useRef<HTMLDivElement>(null);
 
   const sections = [
-    { name: 'CONTACT', path: `/user-dashboard/cvs/${cvId}/contact` },
-    { name: 'EXPERIENCE', path: `/user-dashboard/cvs/${cvId}/experience` },
-    { name: 'PROJECT', path: `/user-dashboard/cvs/${cvId}/project` },
-    { name: 'EDUCATION', path: `/user-dashboard/cvs/${cvId}/education` },
-    { name: 'CERTIFICATIONS', path: `/user-dashboard/cvs/${cvId}/certifications` },
-    { name: 'SKILLS', path: `/user-dashboard/cvs/${cvId}/skills` },
-    { name: 'SUMMARY', path: `/user-dashboard/cvs/${cvId}/summary` },
-    { name: 'FINISH UP & PREVIEW', path: `/user-dashboard/cvs/${cvId}/preview` },
-    // { name: 'AI COVER LETTER', path: `/user-dashboard/cvs/${cvId}/ai-cover-letter` },
+    { name: 'CONTACT', path: `/dashboard/cvs/${cvId}/contact` },
+    { name: 'EXPERIENCE', path: `/dashboard/cvs/${cvId}/experience` },
+    { name: 'PROJECT', path: `/dashboard/cvs/${cvId}/project` },
+    { name: 'EDUCATION', path: `/dashboard/cvs/${cvId}/education` },
+    { name: 'CERTIFICATIONS', path: `/dashboard/cvs/${cvId}/certifications` },
+    { name: 'SKILLS', path: `/dashboard/cvs/${cvId}/skills` },
+    { name: 'SUMMARY', path: `/dashboard/cvs/${cvId}/summary` },
+    { name: 'FINISH UP & PREVIEW', path: `/dashboard/cvs/${cvId}/preview` },
+    // { name: 'AI COVER LETTER', path: `/dashboard/cvs/${cvId}/ai-cover-letter` },
   ];
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export function CVSectionNavbar({ cvId }: { readonly cvId: string }) {
   const hiddenSections = sections.slice(visibleItems);
 
   return (
-    <div className="w-full bg-white border-b border-gray-200 shadow-sm">
+    <div className="w-full border border-gray-200 border-t-0 rounded-b-lg">
       <div ref={navRef} className="px-1">
         {/* Visible navigation items */}
         <div ref={itemsRef} className="flex items-center justify-around">

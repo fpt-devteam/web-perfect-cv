@@ -74,7 +74,7 @@ export function UserProfileMenu() {
           </p>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate({ to: '/user-dashboard/account' })}>
+        <DropdownMenuItem onClick={() => navigate({ to: '/dashboard/account' })}>
           <span className="text-sm">Account</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -88,24 +88,24 @@ export function UserProfileMenu() {
 
 export function DashboardNavTabs() {
   return (
-    <Tabs defaultValue="/user-dashboard/cvs" className="w-full">
+    <Tabs defaultValue="/dashboard/cvs" className="w-full">
       <TabsList className="flex h-10 gap-1 rounded-lg bg-muted p-1 w-fit">
         <TabsTrigger
-          value="/user-dashboard/cvs"
+          value="/dashboard/cvs"
           className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-lg transition-all"
         >
           <FileText className="h-4 w-4" />
           <span className="font-medium">RESUMES</span>
         </TabsTrigger>
         <TabsTrigger
-          value="/user-dashboard/cover-letter"
+          value="/dashboard/cover-letter"
           className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-lg transition-all"
         >
           <Sparkles className="h-4 w-4" />
           <span className="font-medium">COVER LETTERS</span>
         </TabsTrigger>
         <TabsTrigger
-          value="/user-dashboard/resignation-letter"
+          value="/dashboard/resignation-letter"
           className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-lg transition-all"
         >
           <FileX className="h-4 w-4" />

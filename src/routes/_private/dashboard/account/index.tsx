@@ -9,7 +9,7 @@ import ResetPasswordForm from '../../../../modules/auth/components/ResetPassword
 import { createFileRoute } from '@tanstack/react-router';
 import { useGetMe } from '@/modules/auth/hooks/useGetMe';
 
-export const Route = createFileRoute('/_private/user-dashboard/account/')({
+export const Route = createFileRoute('/_private/dashboard/account/')({
   component: ProfilePage,
 });
 

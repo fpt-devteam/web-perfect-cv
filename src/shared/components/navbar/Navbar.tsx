@@ -42,7 +42,7 @@ export function Navbar() {
         <div className="flex justify-end">
           {isLoggedIn ? (
             <Link
-              to="/user-dashboard/cvs"
+              to="/dashboard/cvs"
               className="bg-primary text-white py-2 px-5 rounded-md transition-colors font-medium inline-block"
             >
               Dashboard

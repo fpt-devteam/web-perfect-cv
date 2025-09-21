@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { CVSectionNavbar } from '@/modules/cv/components/CVSectionNavbar';
 
-export const Route = createFileRoute('/_private/user-dashboard/cvs/$cvId')({
+export const Route = createFileRoute('/_private/dashboard/cvs/$cvId')({
   component: CVLayout,
 });
 
@@ -10,7 +10,7 @@ export function CVLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <CVSectionNavbar cvId={cvId} />
-      <div className="container mx-auto p-3 flex-1">
+      <div className="container mx-auto py-4 flex-1">
         <Outlet />
       </div>
     </div>

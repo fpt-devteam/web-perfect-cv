@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { CVProjectSection } from '@/modules/cv/components/project/CVProjectSection';
 
-export const Route = createFileRoute('/_private/user-dashboard/cvs/$cvId/project/')({
+export const Route = createFileRoute('/_private/dashboard/cvs/$cvId/project/')({
   component: RouteComponent,
 });
 

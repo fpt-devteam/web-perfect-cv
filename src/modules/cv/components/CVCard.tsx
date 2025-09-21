@@ -65,7 +65,7 @@ export function CVCard({ cv }: { readonly cv: CVResponse }) {
     if ((e.target as HTMLElement).closest('[data-actions-trigger]')) {
       return;
     }
-    navigate({ to: `/user-dashboard/cvs/${cv.cvId}/contact` });
+    navigate({ to: `/dashboard/cvs/${cv.cvId}/contact` });
   };
 
   return (
