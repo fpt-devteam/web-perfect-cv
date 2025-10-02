@@ -23,6 +23,9 @@ import {
 } from '@/modules/skill/hooks/useSkill';
 import { SearchableInput } from '@/shared/components/ui/searchable-input';
 import { searchSkillCategories } from '@/modules/skill/services/skill.services';
+import { AIEvaluationCard } from '@/modules/cv/components/ai-evaluation';
+import { useSectionScore } from '@/modules/cv/hooks/useCVSectionScores';
+import { SectionType } from '@/modules/cv/types/ai-evaluation.types';
 import type {
   SkillResponse,
   CreateSkillRequest,
@@ -51,6 +54,7 @@ export function SkillSection({ cvId }: { readonly cvId: string }) {
 export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
   const { showError, showSuccess } = useNotification();
   const { data: skills, isLoading: isLoadingSkills } = useListSkills({ cvId });
+  const { data: sectionScore, isLoading: isLoadingScore } = useSectionScore(cvId, SectionType.Skills);
   const [isCreating, setIsCreating] = useState(false);
   const [editingSkill, setEditingSkill] = useState<SkillResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -155,6 +159,13 @@ export function SkillForm({ cvId, onSuccess }: SkillFormProps) {
 
   return (
     <div className="space-y-6">
+      {/* AI Evaluation Card */}
+      <AIEvaluationCard
+        sectionScore={sectionScore}
+        sectionType={SectionType.Skills}
+        isLoading={isLoadingScore}
+      />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

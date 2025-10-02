@@ -13,6 +13,9 @@ import {
 import { ProjectList } from './ProjectList';
 import { ProjectForm } from './ProjectForm';
 import { ProjectView } from './ProjectView';
+import { AIEvaluationCard } from '@/modules/cv/components/ai-evaluation';
+import { useSectionScore } from '@/modules/cv/hooks/useCVSectionScores';
+import { SectionType } from '@/modules/cv/types/ai-evaluation.types';
 import type {
   ProjectResponse,
   CreateProjectRequest,
@@ -37,6 +40,7 @@ interface ProjectSectionProps {
 export function ProjectSection({ cvId, onSuccess }: ProjectSectionProps) {
   const { showError, showSuccess } = useNotification();
   const { data: projects, isLoading: isLoadingProjects } = useListProjects({ cvId });
+  const { data: sectionScore, isLoading: isLoadingScore } = useSectionScore(cvId, SectionType.Projects);
   const [isCreating, setIsCreating] = useState(false);
   const [editingProject, setEditingProject] = useState<ProjectResponse | null>(null);
   const [viewingProject, setViewingProject] = useState<ProjectResponse | null>(null);
@@ -132,6 +136,13 @@ export function ProjectSection({ cvId, onSuccess }: ProjectSectionProps) {
 
   return (
     <div className="space-y-6">
+      {/* AI Evaluation Card */}
+      <AIEvaluationCard
+        sectionScore={sectionScore}
+        sectionType={SectionType.Projects}
+        isLoading={isLoadingScore}
+      />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

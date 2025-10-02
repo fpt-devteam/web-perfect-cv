@@ -2,6 +2,9 @@ import { useGetSummary, useUpsertSummary } from '@/modules/summary/hooks/useSumm
 import { useNotification } from '@/shared/hooks/useNotification';
 import { useState } from 'react';
 import { SummaryForm } from './SummaryForm';
+import { AIEvaluationCard } from '@/modules/cv/components/ai-evaluation';
+import { useSectionScore } from '@/modules/cv/hooks/useCVSectionScores';
+import { SectionType } from '@/modules/cv/types/ai-evaluation.types';
 import type { UpSertSummaryRequest } from '@/modules/summary/types/summary.types';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
@@ -20,6 +23,7 @@ export function CVSummarySection({ cvId, onSuccess }: CVSummaryProps) {
     isLoading: isLoadingSummary,
     error: summaryError,
   } = useGetSummary({ cvId });
+  const { data: sectionScore, isLoading: isLoadingScore } = useSectionScore(cvId, SectionType.Summary);
   const [isLoading, setIsLoading] = useState(false);
   const upsertSummary = useUpsertSummary({ cvId });
 
@@ -90,6 +94,13 @@ export function CVSummarySection({ cvId, onSuccess }: CVSummaryProps) {
 
   return (
     <div className="space-y-6">
+      {/* AI Evaluation Card */}
+      <AIEvaluationCard
+        sectionScore={sectionScore}
+        sectionType={SectionType.Summary}
+        isLoading={isLoadingScore}
+      />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

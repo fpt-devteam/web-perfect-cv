@@ -13,6 +13,9 @@ import {
 import { CVExperienceList } from './CVExperienceList';
 import { CVExperienceForm } from './CVExperienceForm';
 import { CVExperienceView } from './CVExperienceView';
+import { AIEvaluationCard } from '@/modules/cv/components/ai-evaluation';
+import { useSectionScore } from '@/modules/cv/hooks/useCVSectionScores';
+import { SectionType } from '@/modules/cv/types/ai-evaluation.types';
 import type { CVExperience, ExperienceFormValues } from '@/modules/experience/types/experience.types';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
@@ -30,6 +33,7 @@ function ExperienceSection({ cvId }: { readonly cvId: string }) {
 function CVExperienceSection({ cvId, onSuccess }: CVExperienceSectionProps) {
   const { showError, showSuccess } = useNotification();
   const { data: experiences, isLoading: isLoadingExperiences } = useListExperiences({ cvId });
+  const { data: sectionScore, isLoading: isLoadingScore } = useSectionScore(cvId, SectionType.Experience);
   const [isCreating, setIsCreating] = useState(false);
   const [editingExperience, setEditingExperience] = useState<CVExperience | null>(null);
   const [viewingExperience, setViewingExperience] = useState<CVExperience | null>(null);
@@ -147,6 +151,13 @@ function CVExperienceSection({ cvId, onSuccess }: CVExperienceSectionProps) {
 
   return (
     <div className="space-y-6">
+      {/* AI Evaluation Card */}
+      <AIEvaluationCard
+        sectionScore={sectionScore}
+        sectionType={SectionType.Experience}
+        isLoading={isLoadingScore}
+      />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

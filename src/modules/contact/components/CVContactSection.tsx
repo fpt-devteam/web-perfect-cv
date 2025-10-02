@@ -3,6 +3,9 @@ import { Card, CardContent } from '@/shared/components/ui/card';
 import { useNotification } from '@/shared/hooks/useNotification';
 import { useListContacts, useUpsertContact } from '@/modules/contact/hooks/useContacts';
 import { ContactForm } from './ContactForm';
+import { AIEvaluationCard } from '@/modules/cv/components/ai-evaluation';
+import { useSectionScore } from '@/modules/cv/hooks/useCVSectionScores';
+import { SectionType } from '@/modules/cv/types/ai-evaluation.types';
 import type { UpSertContactRequest } from '@/modules/contact/types/contact.types';
 import type { BaseError } from '@/shared/types/error.type';
 import type { AxiosError } from 'axios';
@@ -15,6 +18,7 @@ interface CVContactSectionProps {
 export const CVContactSection: React.FC<CVContactSectionProps> = ({ cvId, onSuccess }) => {
   const { showError, showSuccess } = useNotification();
   const { data: contactData, isLoading: isLoadingContacts } = useListContacts({ cvId });
+  const { data: sectionScore, isLoading: isLoadingScore } = useSectionScore(cvId, SectionType.Contact);
   const [isLoading, setIsLoading] = useState(false);
   const upsertContact = useUpsertContact({ cvId });
 
@@ -62,6 +66,13 @@ export const CVContactSection: React.FC<CVContactSectionProps> = ({ cvId, onSucc
 
   return (
     <div className="space-y-6">
+      {/* AI Evaluation Card */}
+      <AIEvaluationCard
+        sectionScore={sectionScore}
+        sectionType={SectionType.Contact}
+        isLoading={isLoadingScore}
+      />
+
       <Card>
         <CardContent>
           <ContactForm

@@ -14,6 +14,9 @@ import { useGetDegree } from '@/modules/education/hooks/useGetDegree';
 import { EducationList } from './EducationList';
 import { EducationForm as EducationFormComponent } from './EducationForm';
 import { EducationView } from './EducationView';
+import { AIEvaluationCard } from '@/modules/cv/components/ai-evaluation';
+import { useSectionScore } from '@/modules/cv/hooks/useCVSectionScores';
+import { SectionType } from '@/modules/cv/types/ai-evaluation.types';
 import type {
   EducationResponse,
   CreateEducationRequest,
@@ -36,6 +39,7 @@ function EducationManager({ cvId, onSuccess }: EducationSectionProps) {
   const { showError, showSuccess } = useNotification();
   const { data: educations, isLoading: isLoadingEducations } = useListEducations({ cvId });
   const { data: degrees } = useGetDegree();
+  const { data: sectionScore, isLoading: isLoadingScore } = useSectionScore(cvId, SectionType.Education);
   const [isCreating, setIsCreating] = useState(false);
   const [editingEducation, setEditingEducation] = useState<EducationResponse | null>(null);
   const [viewingEducation, setViewingEducation] = useState<EducationResponse | null>(null);
@@ -166,6 +170,13 @@ function EducationManager({ cvId, onSuccess }: EducationSectionProps) {
 
   return (
     <div className="space-y-6">
+      {/* AI Evaluation Card */}
+      <AIEvaluationCard
+        sectionScore={sectionScore}
+        sectionType={SectionType.Education}
+        isLoading={isLoadingScore}
+      />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">

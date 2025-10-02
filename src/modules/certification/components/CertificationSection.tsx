@@ -13,6 +13,9 @@ import {
 import { CertificationList } from './CertificationList';
 import { CertificationForm } from './CertificationForm';
 import { CertificationView } from './CertificationView';
+import { AIEvaluationCard } from '@/modules/cv/components/ai-evaluation';
+import { useSectionScore } from '@/modules/cv/hooks/useCVSectionScores';
+import { SectionType } from '@/modules/cv/types/ai-evaluation.types';
 import type {
   CertificationResponse,
   CreateCertificationRequest,
@@ -39,6 +42,7 @@ export function CertificationSection({ cvId, onSuccess }: CertificationSectionPr
   const { data: certifications, isLoading: isLoadingCertifications } = useListCertifications({
     cvId,
   });
+  const { data: sectionScore, isLoading: isLoadingScore } = useSectionScore(cvId, SectionType.Certifications);
   const [isCreating, setIsCreating] = useState(false);
   const [editingCertification, setEditingCertification] = useState<CertificationResponse | null>(
     null
@@ -141,6 +145,13 @@ export function CertificationSection({ cvId, onSuccess }: CertificationSectionPr
 
   return (
     <div className="space-y-6">
+      {/* AI Evaluation Card */}
+      <AIEvaluationCard
+        sectionScore={sectionScore}
+        sectionType={SectionType.Certifications}
+        isLoading={isLoadingScore}
+      />
+
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
