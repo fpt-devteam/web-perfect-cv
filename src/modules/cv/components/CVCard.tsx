@@ -46,7 +46,7 @@ export function CreateCVCard() {
           </CardContent>
         </Card>
       </DialogTrigger>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl w-full max-h-[90vh] overflow-y-auto">
         <DialogHeader className="border-b pb-4">
           <DialogTitle className="text-xl">Create a CV</DialogTitle>
         </DialogHeader>
