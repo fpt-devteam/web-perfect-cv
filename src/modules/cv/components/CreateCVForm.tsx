@@ -1,6 +1,7 @@
 import { DialogClose } from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
+import { Textarea } from '@/shared/components/ui/textarea';
 import { useCreateCV } from '@/modules/cv/hooks/useCreateCV';
 import type { CreateCVRequest } from '@/modules/cv/types/cv.types';
 import { ImportOptions } from '@/modules/cv/components/ImportOption';
@@ -19,12 +20,22 @@ import { useNotification } from '@/shared/hooks/useNotification';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
 
+const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE = MAX_FILE_SIZE_MB * 1024 * 1024;
+
 const formSchema = z.object({
   title: z.string().min(1, { message: 'CV name is required' }),
   jobTitle: z.string().min(1, { message: 'Job title is required' }),
   companyName: z.string().min(1, { message: 'Company name is required' }),
   responsibility: z.string().min(1, { message: 'Responsibility is required' }),
   qualification: z.string().min(1, { message: 'Qualification is required' }),
+  pdfFile: z
+    .instanceof(File, { message: 'Only PDF files are allowed' })
+    .refine(file => file.type === 'application/pdf', { message: 'Only PDF files are allowed' })
+    .refine(file => file.size <= MAX_FILE_SIZE, {
+      message: `File size must be ${MAX_FILE_SIZE_MB}MB or less`,
+    })
+    .optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -41,6 +52,7 @@ export function CreateCVForm() {
       companyName: '',
       responsibility: '',
       qualification: '',
+      pdfFile: undefined,
     },
   });
 
@@ -53,123 +65,150 @@ export function CreateCVForm() {
         responsibility: values.responsibility,
         qualification: values.qualification,
       },
+      pdfFile: values.pdfFile,
     };
 
     createCV(request, {
       onSuccess: () => {
         showSuccess('Your CV has been created successfully');
+        form.reset();
       },
       onError: error => {
         showError(error as AxiosError<BaseError>);
       },
     });
-
-    return true;
   }
 
   return (
     <div className="relative">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-medium text-sm">
-                  CV NAME <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter here..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-8">
+          <div className="grid gap-8 lg:grid-cols-[320px,1fr]">
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-gray-700">
+                      CV NAME <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter here..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-          <ImportOptions />
-
-          <div className="border-t pt-6">
-            <div className="mb-4">
-              <h3 className="font-medium">Job Description <span className="text-red-500">*</span></h3>
+              <FormField
+                control={form.control}
+                name="pdfFile"
+                render={({ field, fieldState }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="text-sm font-medium text-gray-700">
+                      IMPORT YOUR EXISTING CV (PDF)
+                    </FormLabel>
+                    <FormControl>
+                      <ImportOptions
+                        selectedFile={field.value}
+                        onSelectFile={file => field.onChange(file)}
+                        isInvalid={!!fieldState.error}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="jobTitle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm">
-                      JOB TITLE <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. Software Engineer" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-gray-900">
+                  Job Description <span className="text-red-500">*</span>
+                </h3>
+                <p className="mt-1 text-xs text-gray-500">
+                  Provide some details about the role you are targeting so we can tailor your CV accordingly.
+                </p>
+              </div>
 
-              <FormField
-                control={form.control}
-                name="companyName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm">
-                      COMPANY NAME <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. VNG Corporation" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid gap-5 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="jobTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">
+                        JOB TITLE <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. Software Engineer" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="responsibility"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm">
-                      RESPONSIBILITY <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <textarea
-                        placeholder="e.g. Backend engineer responsible for developing scalable web applications..."
-                        className="min-h-[100px] w-full p-2 border rounded-md resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="companyName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-gray-700">
+                        COMPANY NAME <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. VNG Corporation" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="qualification"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium text-sm">
-                      QUALIFICATION <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <textarea
-                        placeholder="e.g. Bachelor Degree. Good at algorithm and data structures..."
-                        className="min-h-[100px] w-full p-2 border rounded-md resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="responsibility"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel className="text-sm font-medium text-gray-700">
+                        RESPONSIBILITY <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="e.g. Backend engineer responsible for developing scalable web applications..."
+                          className="min-h-28"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="qualification"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel className="text-sm font-medium text-gray-700">
+                        QUALIFICATION <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="e.g. Bachelor Degree. Good at algorithm and data structures..."
+                          className="min-h-28"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="border-t pt-6 flex justify-end">
+          <div className="flex justify-end border-t border-gray-100 pt-6">
             <DialogClose asChild>
               <Button type="submit" disabled={isPending}>
                 {isPending ? 'Creating...' : 'Create CV'}

@@ -24,10 +24,24 @@ export const listCVs = async (query: CVListQuery) => {
 };
 
 export const createCV = async (request: CreateCVRequest) => {
+  const formData = new FormData();
+  formData.append('Title', request.title);
+  formData.append('JobDescription.Title', request.jobDescription.title);
+  formData.append('JobDescription.CompanyName', request.jobDescription.companyName);
+  formData.append('JobDescription.Responsibility', request.jobDescription.responsibility);
+  formData.append('JobDescription.Qualification', request.jobDescription.qualification);
+
+  if (request.pdfFile) {
+    formData.append('PdfFile', request.pdfFile);
+  }
+
   const { data } = await authClient<CVResponse>({
     method: 'POST',
     url: CREATE_CV_ENDPOINT,
-    data: request,
+    data: formData,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
   return data;
 };

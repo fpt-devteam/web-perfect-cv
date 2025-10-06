@@ -94,6 +94,7 @@ export type CVContent = {
 export type CreateCVRequest = {
   title: string;
   jobDescription: CreateJobDescriptionRequest;
+  pdfFile?: File;
 };
 
 export type UpdateCVRequest = {
