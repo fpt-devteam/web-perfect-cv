@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
@@ -17,6 +18,7 @@ import {
 } from '@/shared/components/ui/form';
 import { useNotification } from '@/shared/hooks/useNotification';
 import { useNavigate } from '@tanstack/react-router';
+import { useCVData } from '@/modules/cv/hooks';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
 
@@ -47,7 +49,15 @@ interface CreateCVFormProps {
 export function CreateCVForm({ onSuccess }: CreateCVFormProps = {}) {
   const { showSuccess, showError } = useNotification();
   const navigate = useNavigate();
-  const { mutate: createCV, isPending } = useCreateCV();
+  const [createdCVId, setCreatedCVId] = useState<string | null>(null);
+  const { mutate: createCV, isPending: isCreating } = useCreateCV();
+
+  // Poll the created CV for structure completion
+  const { data: cvData } = useCVData(createdCVId || '', {
+    enabled: !!createdCVId
+  });
+
+  const isPending = isCreating || (!!createdCVId && !cvData?.isStructuredDone);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -60,6 +70,18 @@ export function CreateCVForm({ onSuccess }: CreateCVFormProps = {}) {
       pdfFile: undefined,
     },
   });
+
+  // Handle when CV structuring is complete
+  useEffect(() => {
+    if (cvData?.isStructuredDone && createdCVId) {
+      // Show final success message and navigate
+      showSuccess('Your CV has been processed successfully!');
+      form.reset();
+      onSuccess?.(); // Close the dialog
+      navigate({ to: `/dashboard/cvs/${createdCVId}/contact` });
+      setCreatedCVId(null); // Reset state
+    }
+  }, [cvData?.isStructuredDone, createdCVId, showSuccess, form, onSuccess, navigate]);
 
   function onSubmit(values: FormValues) {
     const request: CreateCVRequest = {
@@ -75,11 +97,9 @@ export function CreateCVForm({ onSuccess }: CreateCVFormProps = {}) {
 
     createCV(request, {
       onSuccess: (data) => {
-        showSuccess('Your CV has been created successfully');
-        form.reset();
-        onSuccess?.(); // Close the dialog
-        // Navigate to the new CV's contact page
-        navigate({ to: `/dashboard/cvs/${data.cvId}/contact` });
+        showSuccess('CV created! Processing your content...');
+        setCreatedCVId(data.cvId);
+        // Don't close dialog yet, wait for structuring to complete
       },
       onError: error => {
         console.error('Create CV error:', error);
@@ -94,7 +114,14 @@ export function CreateCVForm({ onSuccess }: CreateCVFormProps = {}) {
         <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-lg">
           <div className="flex flex-col items-center gap-3">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            <span className="text-sm font-medium text-gray-700">Creating your CV...</span>
+            <span className="text-sm font-medium text-gray-700">
+              {isCreating ? 'Creating your CV...' : 'Processing CV content...'}
+            </span>
+            {createdCVId && (
+              <p className="text-xs text-gray-500 text-center max-w-sm">
+                We're analyzing and structuring your CV content. This may take a moment.
+              </p>
+            )}
           </div>
         </div>
       )}

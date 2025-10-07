@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { scoreCVJob, pollJobUntilComplete } from '@/modules/cv/services/scoring.service';
 import { useCVSectionScores } from '@/modules/cv/hooks/useCVSectionScores';
+import { isJobSuccessful, getJobErrorMessage } from '@/modules/cv/utils/job-response.util';
 import type { JobResponse, CVScoringState } from '@/modules/cv/types/job.types';
 
 interface UseCVScoringOptions {
@@ -54,20 +55,30 @@ export function useCVScoring(cvId: string, options: UseCVScoringOptions = {}) {
                         }
                     );
 
-                    // Job completed - update state and refetch scores
+                    // Job completed - check if it was successful
                     setScoringState(prev => ({
                         ...prev,
                         isScoring: false,
                         job: completedJob,
                     }));
 
-                    // Refetch section scores to get the latest data
-                    await refetchSectionScores();
+                    if (isJobSuccessful(completedJob)) {
+                        // Refetch section scores to get the latest data
+                        await refetchSectionScores();
 
-                    // Invalidate related queries
-                    queryClient.invalidateQueries({ queryKey: ['cv-section-scores', cvId] });
+                        // Invalidate related queries
+                        queryClient.invalidateQueries({ queryKey: ['cv-section-scores', cvId] });
 
-                    options.onSuccess?.(completedJob);
+                        options.onSuccess?.(completedJob);
+                    } else {
+                        // Job failed - update error state and call onError
+                        const errorMessage = getJobErrorMessage(completedJob);
+                        setScoringState(prev => ({
+                            ...prev,
+                            error: errorMessage,
+                        }));
+                        options.onError?.(new Error(errorMessage));
+                    }
 
                 } catch (error) {
                     setScoringState(prev => ({

@@ -3,10 +3,11 @@ import type { PaginationQuery } from '@/shared/types/pagination.type';
 
 export type CVResponse = {
   cvId: string;
-  title: string;
-  jobDescription: JobDescription;
-  content: CVContent;
-  lastEditedAt: string;
+  title?: string;
+  jobDescription?: JobDescription;
+  content?: CVContent;
+  lastEditedAt?: string;
+  isStructuredDone: boolean;
 };
 
 export type CVListResponse = {
@@ -25,6 +26,10 @@ export type CVSort = {
   updatedAt: SortOrder | string | null;
 };
 
+export type SectionRubricDictionary = {
+  [key: string]: any; // You can define more specific types based on your rubric structure
+};
+
 export type JobDescription = {
   id: string;
   cvId: string;
@@ -32,6 +37,7 @@ export type JobDescription = {
   companyName: string;
   responsibility: string;
   qualification: string;
+  sectionRubrics?: SectionRubricDictionary;
 };
 
 export type CreateJobDescriptionRequest = {

@@ -49,11 +49,11 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
   const form = useForm<UpdateCVFormValues>({
     resolver: zodResolver(updateCVSchema),
     defaultValues: {
-      title: cv.title,
-      jobTitle: cv.jobDescription.title,
-      companyName: cv.jobDescription.companyName,
-      responsibility: cv.jobDescription.responsibility,
-      qualification: cv.jobDescription.qualification,
+      title: cv.title || '',
+      jobTitle: cv.jobDescription?.title || '',
+      companyName: cv.jobDescription?.companyName || '',
+      responsibility: cv.jobDescription?.responsibility || '',
+      qualification: cv.jobDescription?.qualification || '',
     },
   });
 
@@ -61,11 +61,11 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
   useEffect(() => {
     if (cvDetailData && isOpen) {
       form.reset({
-        title: cvDetailData.title,
-        jobTitle: cvDetailData.jobDescription.title,
-        companyName: cvDetailData.jobDescription.companyName,
-        responsibility: cvDetailData.jobDescription.responsibility,
-        qualification: cvDetailData.jobDescription.qualification,
+        title: cvDetailData.title || '',
+        jobTitle: cvDetailData.jobDescription?.title || '',
+        companyName: cvDetailData.jobDescription?.companyName || '',
+        responsibility: cvDetailData.jobDescription?.responsibility || '',
+        qualification: cvDetailData.jobDescription?.qualification || '',
       });
     }
   }, [cvDetailData, isOpen, form]);

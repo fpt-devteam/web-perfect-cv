@@ -6,6 +6,7 @@ import {
   getAnalysicStatus,
 } from '../services/analysis.service';
 import type { AnalyzeRequest } from '../types/analysic.cv.type';
+import { handleJobResponse } from '../utils/job-response.util';
 import { useNotification } from '@/shared/hooks/useNotification';
 import { AxiosError } from 'axios';
 
@@ -42,12 +43,20 @@ export const useAnalyzeCV = () => {
 
   return useMutation({
     mutationFn: (request: AnalyzeRequest) => analyzeCV(request),
-    onSuccess: () => {
-      showSuccess('CV analysis started successfully!');
-      // Invalidate analysis feedback to trigger refetch
-      queryClient.invalidateQueries({ queryKey: ['analysisFeedback'] });
+    onSuccess: (data) => {
+      // Use utility function to handle job response
+      const result = handleJobResponse(data, 'CV analysis started successfully!', 'Failed to start analysis');
+
+      if (result.success) {
+        showSuccess(result.message);
+        // Invalidate analysis feedback to trigger refetch
+        queryClient.invalidateQueries({ queryKey: ['analysisFeedback'] });
+      } else {
+        showError(result.message);
+      }
     },
     onError: (error: AxiosError<{ message?: string }>) => {
+      // Handle HTTP-level errors (network, server errors, etc.)
       showError(error?.response?.data?.message || 'Failed to start analysis');
     },
   });

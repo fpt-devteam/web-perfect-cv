@@ -1,3 +1,5 @@
+import type { JobResponse } from './job.types';
+
 export type ApiResponse<T> = {
   success: boolean;
   message: string;
@@ -38,7 +40,10 @@ export type AnalysisResubmissionResponse = ApiResponse<AnalysisResubmissionData>
 export type AnalysisInProgressResponse = ApiResponse<AnalysisInProgressData>;
 export type AnalysisCompletedResponse = ApiResponse<AnalysisCompletedData>;
 
-export type AnalyzeResponse =
+export type AnalyzeResponse = JobResponse;
+
+// Legacy types - keeping for backward compatibility
+export type LegacyAnalyzeResponse =
   | AnalysisSubmissionResponse
   | AnalysisResubmissionResponse
   | AnalysisInProgressResponse
