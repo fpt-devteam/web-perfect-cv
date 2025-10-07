@@ -1,5 +1,5 @@
-import { ChangeEvent, forwardRef, useEffect, useRef } from 'react';
-import { ExternalLink, FileUp, X } from 'lucide-react';
+import { type ChangeEvent, forwardRef, useEffect, useRef } from 'react';
+import { FileUp, X } from 'lucide-react';
 
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/utils/cn.util';
@@ -35,14 +35,14 @@ export const ImportOptions = forwardRef<HTMLDivElement, ImportOptionsProps>(
 
     return (
       <div ref={ref} className="space-y-3">
-        <button
+        {/* <button
           disabled
           className="flex items-center gap-2 text-gray-400 font-medium text-sm cursor-not-allowed opacity-50"
           type="button"
         >
           <ExternalLink className="h-4 w-4" />
           IMPORT YOUR CV FROM LINKEDIN
-        </button>
+        </button> */}
 
         <div
           className={cn(

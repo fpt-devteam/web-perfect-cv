@@ -91,9 +91,10 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
       showSuccess('CV updated successfully');
       setIsOpen(false);
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Update CV error:', error);
-      showError('Failed to update CV');
+      const errorMessage = error?.response?.data?.message || error?.message || 'Failed to update CV';
+      showError(errorMessage);
     }
   };
 
@@ -104,8 +105,10 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
       });
       showSuccess('CV deleted successfully');
       setIsOpen(false);
-    } catch {
-      showError('Failed to delete CV');
+    } catch (error: any) {
+      console.error('Delete CV error:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || 'Failed to delete CV';
+      showError(errorMessage);
     }
   };
 
@@ -129,184 +132,199 @@ export function CVActionsModal({ cv, trigger }: CVActionsModalProps) {
       <DialogTrigger asChild onClick={e => e.stopPropagation()}>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="max-w-lg" onClick={e => e.stopPropagation()}>
-        <div className="space-y-6">
-          {/* Edit CV Section */}
-          <div className="space-y-4">
-            {isLoadingCVDetail && (
-              <div className="flex items-center justify-center py-4">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                <span className="ml-2 text-sm text-gray-500">Loading CV details...</span>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        <div className="relative">
+          {(updateCVMutation.isPending || deleteCVMutation.isPending) && (
+            <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-lg">
+              <div className="flex flex-col items-center gap-3">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <span className="text-sm font-medium text-gray-700">
+                  {updateCVMutation.isPending ? 'Updating CV...' : 'Deleting CV...'}
+                </span>
               </div>
-            )}
-            <Form {...form}>
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">CV Title</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Enter CV title"
-                          disabled={updateCVMutation.isPending || isLoadingCVDetail}
-                          onClick={handleInputClick}
-                          onFocus={handleInputClick}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            </div>
+          )}
+          {isLoadingCVDetail && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              <span className="ml-2 text-sm text-gray-500">Loading CV details...</span>
+            </div>
+          )}
+          <Form {...form}>
+            <div className="flex flex-col gap-8">
+              <div className="grid gap-8 lg:grid-cols-[320px,1fr]">
+                <div className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-700">
+                          CV NAME <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder="Enter here..."
+                            disabled={updateCVMutation.isPending || isLoadingCVDetail}
+                            onClick={handleInputClick}
+                            onFocus={handleInputClick}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="jobTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">Job Title</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Enter job title"
-                          disabled={updateCVMutation.isPending || isLoadingCVDetail}
-                          onClick={handleInputClick}
-                          onFocus={handleInputClick}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                </div>
 
-                <FormField
-                  control={form.control}
-                  name="companyName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
-                        Company Name
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          placeholder="Enter company name"
-                          disabled={updateCVMutation.isPending || isLoadingCVDetail}
-                          onClick={handleInputClick}
-                          onFocus={handleInputClick}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+                  <div className="mb-6">
+                    <h3 className="text-base font-semibold text-gray-900">
+                      Job Description <span className="text-red-500">*</span>
+                    </h3>
+                    <p className="mt-1 text-xs text-gray-500">
+                      Update the details about the role you are targeting so we can tailor your CV accordingly.
+                    </p>
+                  </div>
 
-                <FormField
-                  control={form.control}
-                  name="responsibility"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
-                        Responsibility
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder="Enter job responsibilities"
-                          disabled={updateCVMutation.isPending || isLoadingCVDetail}
-                          onClick={handleInputClick}
-                          onFocus={handleInputClick}
-                          className="min-h-[100px] max-h-[150px] resize-none scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <div className="grid gap-5 md:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name="jobTitle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            JOB TITLE <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="e.g. Software Engineer"
+                              disabled={updateCVMutation.isPending || isLoadingCVDetail}
+                              onClick={handleInputClick}
+                              onFocus={handleInputClick}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <FormField
-                  control={form.control}
-                  name="qualification"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
-                        Qualification
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder="Enter required qualifications"
-                          disabled={updateCVMutation.isPending || isLoadingCVDetail}
-                          onClick={handleInputClick}
-                          onFocus={handleInputClick}
-                          className="min-h-[100px] max-h-[150px] resize-none scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    <FormField
+                      control={form.control}
+                      name="companyName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            COMPANY NAME <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="e.g. VNG Corporation"
+                              disabled={updateCVMutation.isPending || isLoadingCVDetail}
+                              onClick={handleInputClick}
+                              onFocus={handleInputClick}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                <div className="flex justify-end gap-2">
+                    <FormField
+                      control={form.control}
+                      name="responsibility"
+                      render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            RESPONSIBILITY <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              {...field}
+                              placeholder="e.g. Backend engineer responsible for developing scalable web applications..."
+                              className="min-h-28"
+                              disabled={updateCVMutation.isPending || isLoadingCVDetail}
+                              onClick={handleInputClick}
+                              onFocus={handleInputClick}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="qualification"
+                      render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            QUALIFICATION <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              {...field}
+                              placeholder="e.g. Bachelor Degree. Good at algorithm and data structures..."
+                              className="min-h-28"
+                              disabled={updateCVMutation.isPending || isLoadingCVDetail}
+                              onClick={handleInputClick}
+                              onFocus={handleInputClick}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-between border-t border-gray-100 pt-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleClose}
+                  disabled={updateCVMutation.isPending || isLoadingCVDetail}
+                >
+                  Cancel
+                </Button>
+                <div className="flex gap-2">
                   <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleClose}
-                    disabled={updateCVMutation.isPending || isLoadingCVDetail}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      console.log('Update button clicked');
-                      const formData = form.getValues();
-                      console.log('Form data:', formData);
-                      if (
-                        formData.title &&
-                        formData.title.trim() &&
-                        formData.jobTitle &&
-                        formData.jobTitle.trim() &&
-                        formData.companyName &&
-                        formData.companyName.trim() &&
-                        formData.responsibility &&
-                        formData.responsibility.trim() &&
-                        formData.qualification &&
-                        formData.qualification.trim()
-                      ) {
-                        handleUpdateCV(formData);
-                      } else {
-                        showError('Please fill in all required fields');
-                      }
-                    }}
+                    type="submit"
+                    onClick={form.handleSubmit(handleUpdateCV)}
                     disabled={updateCVMutation.isPending || isLoadingCVDetail}
                   >
                     {updateCVMutation.isPending ? 'Updating...' : 'Update'}
                   </Button>
                 </div>
               </div>
-            </Form>
-          </div>
+            </div>
+          </Form>
 
           {/* Delete CV Section */}
-          <div className="space-y-4">
-            <p className="text-sm text-gray-600">
-              This action cannot be undone. The CV will be permanently deleted.
-            </p>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={e => {
-                handleButtonClick(e);
-                handleDeleteCV();
-              }}
-              disabled={deleteCVMutation.isPending}
-              className="w-full"
-            >
-              {deleteCVMutation.isPending ? 'Deleting...' : 'Delete CV'}
-            </Button>
+          <div className="border-t border-gray-100 pt-6">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+              <h4 className="text-sm font-medium text-red-800 mb-2">Danger Zone</h4>
+              <p className="text-sm text-red-600 mb-4">
+                This action cannot be undone. The CV will be permanently deleted.
+              </p>
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                onClick={e => {
+                  handleButtonClick(e);
+                  handleDeleteCV();
+                }}
+                disabled={deleteCVMutation.isPending}
+              >
+                {deleteCVMutation.isPending ? 'Deleting...' : 'Delete CV'}
+              </Button>
+            </div>
           </div>
         </div>
       </DialogContent>

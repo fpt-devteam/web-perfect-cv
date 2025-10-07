@@ -1,4 +1,3 @@
-import { DialogClose } from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
@@ -17,6 +16,7 @@ import {
   FormMessage,
 } from '@/shared/components/ui/form';
 import { useNotification } from '@/shared/hooks/useNotification';
+import { useNavigate } from '@tanstack/react-router';
 import type { AxiosError } from 'axios';
 import type { BaseError } from '@/shared/types/error.type';
 
@@ -40,8 +40,13 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function CreateCVForm() {
+interface CreateCVFormProps {
+  onSuccess?: () => void;
+}
+
+export function CreateCVForm({ onSuccess }: CreateCVFormProps = {}) {
   const { showSuccess, showError } = useNotification();
+  const navigate = useNavigate();
   const { mutate: createCV, isPending } = useCreateCV();
 
   const form = useForm<FormValues>({
@@ -69,11 +74,15 @@ export function CreateCVForm() {
     };
 
     createCV(request, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         showSuccess('Your CV has been created successfully');
         form.reset();
+        onSuccess?.(); // Close the dialog
+        // Navigate to the new CV's contact page
+        navigate({ to: `/dashboard/cvs/${data.cvId}/contact` });
       },
       onError: error => {
+        console.error('Create CV error:', error);
         showError(error as AxiosError<BaseError>);
       },
     });
@@ -81,6 +90,14 @@ export function CreateCVForm() {
 
   return (
     <div className="relative">
+      {isPending && (
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-lg">
+          <div className="flex flex-col items-center gap-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <span className="text-sm font-medium text-gray-700">Creating your CV...</span>
+          </div>
+        </div>
+      )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-8">
           <div className="grid gap-8 lg:grid-cols-[320px,1fr]">
@@ -209,11 +226,9 @@ export function CreateCVForm() {
           </div>
 
           <div className="flex justify-end border-t border-gray-100 pt-6">
-            <DialogClose asChild>
-              <Button type="submit" disabled={isPending}>
-                {isPending ? 'Creating...' : 'Create CV'}
-              </Button>
-            </DialogClose>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? 'Creating...' : 'Create CV'}
+            </Button>
           </div>
         </form>
       </Form>

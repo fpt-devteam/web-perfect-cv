@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { MoreVertical, Plus } from 'lucide-react';
 import { formatRelativeTime, formatLocalDateTime } from '@/shared/utils/date.utils';
 import {
@@ -34,8 +35,14 @@ export function CVPreview({ cv }: { readonly cv: CVResponse }) {
 }
 
 export function CreateCVCard() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Card className="border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
           <CardContent className="flex flex-col items-center justify-center h-full p-6">
@@ -51,7 +58,7 @@ export function CreateCVCard() {
           <DialogTitle className="text-xl">Create a CV</DialogTitle>
         </DialogHeader>
         <div className="py-4">
-          <CreateCVForm />
+          <CreateCVForm onSuccess={handleClose} />
         </div>
       </DialogContent>
     </Dialog>
