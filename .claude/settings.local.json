@@ -3,7 +3,10 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(npx tsc:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(dir)",
+      "Bash(dir srcmodules)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

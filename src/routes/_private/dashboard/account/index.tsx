@@ -20,9 +20,37 @@ function ProfilePage() {
 
   return (
     <div className="max-w-6xl mx-auto p-8 bg-[var(--color-card)] rounded-2xl shadow-lg border border-[var(--color-border)]">
-      <h2 className="text-3xl font-bold tex   t-[var(--color-foreground)] mb-4 tracking-wide text-center">
+      <h2 className="text-3xl font-bold text-[var(--color-foreground)] mb-4 tracking-wide text-center">
         Personal Information
       </h2>
+
+      {/* Credit Information */}
+      {(user.totalCredit !== undefined || user.remainingCredit !== undefined || user.usedCredit !== undefined) && (
+        <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-100">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Credit Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {user.remainingCredit !== undefined && (
+              <div className="text-center">
+                <p className="text-2xl font-bold text-green-600">{user.remainingCredit}</p>
+                <p className="text-sm text-gray-600">Remaining Credits</p>
+              </div>
+            )}
+            {user.usedCredit !== undefined && (
+              <div className="text-center">
+                <p className="text-2xl font-bold text-orange-600">{user.usedCredit}</p>
+                <p className="text-sm text-gray-600">Used Credits</p>
+              </div>
+            )}
+            {user.totalCredit !== undefined && (
+              <div className="text-center">
+                <p className="text-2xl font-bold text-blue-600">{user.totalCredit}</p>
+                <p className="text-sm text-gray-600">Total Credits</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-row gap-8">
         {/* Sidebar */}
         <div className="flex flex-col bg-[var(--color-sidebar)] rounded-xl p-6 min-w-[200px] space-y-2 border border-[var(--color-sidebar-border)]">

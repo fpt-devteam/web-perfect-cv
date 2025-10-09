@@ -27,11 +27,14 @@ export function SearchBar() {
 }
 
 export function UpgradeButton() {
+  const navigate = useNavigate();
+
   return (
     <Button
       size="sm"
       variant="outline"
       className="bg-white border-primary text-primary hover:bg-primary/5 hover:text-primary"
+      onClick={() => navigate({ to: '/dashboard/pricing' })}
     >
       UPGRADE
     </Button>
@@ -70,12 +73,35 @@ export function UserProfileMenu() {
         <div className="px-3 py-2">
           <p className="text-sm font-medium">{user?.email}</p>
           <p className="text-xs text-gray-500">
-            Free Plan <span className="text-primary font-medium">Upgrade</span>
+            {user?.remainingCredit !== undefined ? (
+              <>
+                {user.remainingCredit} credits remaining{' '}
+                <span
+                  className="text-primary font-medium cursor-pointer hover:underline"
+                  onClick={() => navigate({ to: '/dashboard/pricing' })}
+                >
+                  Get More
+                </span>
+              </>
+            ) : (
+              <>
+                Free Plan{' '}
+                <span
+                  className="text-primary font-medium cursor-pointer hover:underline"
+                  onClick={() => navigate({ to: '/dashboard/pricing' })}
+                >
+                  Upgrade
+                </span>
+              </>
+            )}
           </p>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => navigate({ to: '/dashboard/account' })}>
           <span className="text-sm">Account</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate({ to: '/dashboard/billing' })}>
+          <span className="text-sm">Billing History</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>

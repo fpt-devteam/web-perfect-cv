@@ -22,6 +22,9 @@ import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordImport } from './routes/_auth/forgot-password'
 import { Route as AuthActivationAccountIndexImport } from './routes/_auth/activation-account/index'
 import { Route as Oauth2ProviderCallbackImport } from './routes/oauth2.$provider.callback'
+import { Route as PrivateDashboardPricingImport } from './routes/_private/dashboard/pricing'
+import { Route as PrivateDashboardPaymentStatusImport } from './routes/_private/dashboard/payment-status'
+import { Route as PrivateDashboardBillingImport } from './routes/_private/dashboard/billing'
 import { Route as AuthActivationAccountTokenImport } from './routes/_auth/activation-account/$token'
 import { Route as PrivateDashboardResignationLetterIndexImport } from './routes/_private/dashboard/resignation-letter/index'
 import { Route as PrivateDashboardCvsIndexImport } from './routes/_private/dashboard/cvs/index'
@@ -102,6 +105,25 @@ const Oauth2ProviderCallbackRoute = Oauth2ProviderCallbackImport.update({
   id: '/oauth2/$provider/callback',
   path: '/oauth2/$provider/callback',
   getParentRoute: () => rootRoute,
+} as any)
+
+const PrivateDashboardPricingRoute = PrivateDashboardPricingImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => PrivateDashboardRoute,
+} as any)
+
+const PrivateDashboardPaymentStatusRoute =
+  PrivateDashboardPaymentStatusImport.update({
+    id: '/payment-status',
+    path: '/payment-status',
+    getParentRoute: () => PrivateDashboardRoute,
+  } as any)
+
+const PrivateDashboardBillingRoute = PrivateDashboardBillingImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => PrivateDashboardRoute,
 } as any)
 
 const AuthActivationAccountTokenRoute = AuthActivationAccountTokenImport.update(
@@ -275,6 +297,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthActivationAccountTokenImport
       parentRoute: typeof AuthImport
     }
+    '/_private/dashboard/billing': {
+      id: '/_private/dashboard/billing'
+      path: '/billing'
+      fullPath: '/dashboard/billing'
+      preLoaderRoute: typeof PrivateDashboardBillingImport
+      parentRoute: typeof PrivateDashboardImport
+    }
+    '/_private/dashboard/payment-status': {
+      id: '/_private/dashboard/payment-status'
+      path: '/payment-status'
+      fullPath: '/dashboard/payment-status'
+      preLoaderRoute: typeof PrivateDashboardPaymentStatusImport
+      parentRoute: typeof PrivateDashboardImport
+    }
+    '/_private/dashboard/pricing': {
+      id: '/_private/dashboard/pricing'
+      path: '/pricing'
+      fullPath: '/dashboard/pricing'
+      preLoaderRoute: typeof PrivateDashboardPricingImport
+      parentRoute: typeof PrivateDashboardImport
+    }
     '/oauth2/$provider/callback': {
       id: '/oauth2/$provider/callback'
       path: '/oauth2/$provider/callback'
@@ -440,6 +483,9 @@ const PrivateDashboardCvsCvIdRouteWithChildren =
   )
 
 interface PrivateDashboardRouteChildren {
+  PrivateDashboardBillingRoute: typeof PrivateDashboardBillingRoute
+  PrivateDashboardPaymentStatusRoute: typeof PrivateDashboardPaymentStatusRoute
+  PrivateDashboardPricingRoute: typeof PrivateDashboardPricingRoute
   PrivateDashboardCvsCvIdRoute: typeof PrivateDashboardCvsCvIdRouteWithChildren
   PrivateDashboardAccountIndexRoute: typeof PrivateDashboardAccountIndexRoute
   PrivateDashboardCoverLetterIndexRoute: typeof PrivateDashboardCoverLetterIndexRoute
@@ -448,6 +494,9 @@ interface PrivateDashboardRouteChildren {
 }
 
 const PrivateDashboardRouteChildren: PrivateDashboardRouteChildren = {
+  PrivateDashboardBillingRoute: PrivateDashboardBillingRoute,
+  PrivateDashboardPaymentStatusRoute: PrivateDashboardPaymentStatusRoute,
+  PrivateDashboardPricingRoute: PrivateDashboardPricingRoute,
   PrivateDashboardCvsCvIdRoute: PrivateDashboardCvsCvIdRouteWithChildren,
   PrivateDashboardAccountIndexRoute: PrivateDashboardAccountIndexRoute,
   PrivateDashboardCoverLetterIndexRoute: PrivateDashboardCoverLetterIndexRoute,
@@ -490,6 +539,9 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof PrivateDashboardRouteWithChildren
   '/forbidden': typeof PublicForbiddenRoute
   '/activation-account/$token': typeof AuthActivationAccountTokenRoute
+  '/dashboard/billing': typeof PrivateDashboardBillingRoute
+  '/dashboard/payment-status': typeof PrivateDashboardPaymentStatusRoute
+  '/dashboard/pricing': typeof PrivateDashboardPricingRoute
   '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
   '/activation-account': typeof AuthActivationAccountIndexRoute
   '/dashboard/cvs/$cvId': typeof PrivateDashboardCvsCvIdRouteWithChildren
@@ -516,6 +568,9 @@ export interface FileRoutesByTo {
   '/dashboard': typeof PrivateDashboardRouteWithChildren
   '/forbidden': typeof PublicForbiddenRoute
   '/activation-account/$token': typeof AuthActivationAccountTokenRoute
+  '/dashboard/billing': typeof PrivateDashboardBillingRoute
+  '/dashboard/payment-status': typeof PrivateDashboardPaymentStatusRoute
+  '/dashboard/pricing': typeof PrivateDashboardPricingRoute
   '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
   '/activation-account': typeof AuthActivationAccountIndexRoute
   '/dashboard/cvs/$cvId': typeof PrivateDashboardCvsCvIdRouteWithChildren
@@ -545,6 +600,9 @@ export interface FileRoutesById {
   '/_private/dashboard': typeof PrivateDashboardRouteWithChildren
   '/_public/forbidden': typeof PublicForbiddenRoute
   '/_auth/activation-account/$token': typeof AuthActivationAccountTokenRoute
+  '/_private/dashboard/billing': typeof PrivateDashboardBillingRoute
+  '/_private/dashboard/payment-status': typeof PrivateDashboardPaymentStatusRoute
+  '/_private/dashboard/pricing': typeof PrivateDashboardPricingRoute
   '/oauth2/$provider/callback': typeof Oauth2ProviderCallbackRoute
   '/_auth/activation-account/': typeof AuthActivationAccountIndexRoute
   '/_private/dashboard/cvs/$cvId': typeof PrivateDashboardCvsCvIdRouteWithChildren
@@ -573,6 +631,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/forbidden'
     | '/activation-account/$token'
+    | '/dashboard/billing'
+    | '/dashboard/payment-status'
+    | '/dashboard/pricing'
     | '/oauth2/$provider/callback'
     | '/activation-account'
     | '/dashboard/cvs/$cvId'
@@ -598,6 +659,9 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/forbidden'
     | '/activation-account/$token'
+    | '/dashboard/billing'
+    | '/dashboard/payment-status'
+    | '/dashboard/pricing'
     | '/oauth2/$provider/callback'
     | '/activation-account'
     | '/dashboard/cvs/$cvId'
@@ -625,6 +689,9 @@ export interface FileRouteTypes {
     | '/_private/dashboard'
     | '/_public/forbidden'
     | '/_auth/activation-account/$token'
+    | '/_private/dashboard/billing'
+    | '/_private/dashboard/payment-status'
+    | '/_private/dashboard/pricing'
     | '/oauth2/$provider/callback'
     | '/_auth/activation-account/'
     | '/_private/dashboard/cvs/$cvId'
@@ -717,6 +784,9 @@ export const routeTree = rootRoute
       "filePath": "_private/dashboard.tsx",
       "parent": "/_private",
       "children": [
+        "/_private/dashboard/billing",
+        "/_private/dashboard/payment-status",
+        "/_private/dashboard/pricing",
         "/_private/dashboard/cvs/$cvId",
         "/_private/dashboard/account/",
         "/_private/dashboard/cover-letter/",
@@ -731,6 +801,18 @@ export const routeTree = rootRoute
     "/_auth/activation-account/$token": {
       "filePath": "_auth/activation-account/$token.tsx",
       "parent": "/_auth"
+    },
+    "/_private/dashboard/billing": {
+      "filePath": "_private/dashboard/billing.tsx",
+      "parent": "/_private/dashboard"
+    },
+    "/_private/dashboard/payment-status": {
+      "filePath": "_private/dashboard/payment-status.tsx",
+      "parent": "/_private/dashboard"
+    },
+    "/_private/dashboard/pricing": {
+      "filePath": "_private/dashboard/pricing.tsx",
+      "parent": "/_private/dashboard"
     },
     "/oauth2/$provider/callback": {
       "filePath": "oauth2.$provider.callback.tsx"

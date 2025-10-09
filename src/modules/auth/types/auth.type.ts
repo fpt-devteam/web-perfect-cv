@@ -40,6 +40,9 @@ export type UserResponse = {
   avatarUrl?: string;
   firstName?: string;
   lastName?: string;
+  totalCredit?: number;
+  usedCredit?: number;
+  remainingCredit?: number;
 };
 
 export type LogoutRequest = {
