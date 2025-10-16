@@ -1,4 +1,13 @@
-import { User2, CreditCard, LayoutDashboard, FileText, Book, ChevronUp } from 'lucide-react';
+import {
+  LayoutDashboard,
+  FileText,
+  Book,
+  ChevronUp,
+  User2,
+  Settings,
+  Bell,
+  CreditCard,
+} from 'lucide-react';
 
 import {
   Sidebar,
@@ -49,37 +58,6 @@ const generalItems: SidebarItemType[] = [
     icon: Book,
   },
 ];
-
-const toolsItems: SidebarItemType[] = [
-  {
-    title: 'My Account',
-    url: '/dashboard/account',
-    icon: User2,
-  },
-  // {
-  //   title: 'Premium Features',
-  //   url: '/dashboard/premium',
-  //   icon: Star,
-  // },
-  {
-    title: 'Billing',
-    url: '/dashboard/billing',
-    icon: CreditCard,
-  },
-];
-
-// const supportItems: SidebarItemType[] = [
-//   {
-//     title: 'Notifications',
-//     url: '/dashboard/notifications',
-//     icon: Bell,
-//   },
-//   {
-//     title: 'Settings',
-//     url: '/dashboard/settings',
-//     icon: Settings,
-//   },
-// ];
 
 function truncateText(text: string | undefined, maxLength: number = 15): string {
   if (!text) return '';
@@ -138,40 +116,9 @@ export function DashboardSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
-          <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-            Tools
-          </div>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {toolsItems.map(item => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className="group transition-all duration-200 hover:bg-primary/10"
-                  >
-                    <Link
-                      to={item.url}
-                      className="group-data-[collapsible=icon]:p-2! flex items-center gap-3 rounded-lg px-4 py-2 justify-between"
-                    >
-                      <div className="flex items-center gap-3">
-                        <item.icon className="h-5 w-5 text-primary" />
-                        <span className="text-sm font-medium">{item.title}</span>
-                      </div>
-                      {item.badge && (
-                        <span className="px-1.5 py-0.5 rounded text-xs bg-purple-100 text-purple-700">
-                          {item.badge}
-                        </span>
-                      )}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
 
+      {/* User Footer */}
       <SidebarFooter className="border-t border-[var(--sidebar-border)] p-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -226,13 +173,23 @@ export function DashboardSidebar() {
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate({ to: '/dashboard/account' })}>
+              <User2 className="mr-2 h-4 w-4" />
               <span className="text-sm">Account</span>
             </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate({ to: '/dashboard/account' })}>
+              <Settings className="mr-2 h-4 w-4" />
+              <span className="text-sm">Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Bell className="mr-2 h-4 w-4" />
+              <span className="text-sm">Notifications</span>
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate({ to: '/dashboard/billing' })}>
-              <span className="text-sm">Billing History</span>
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span className="text-sm">Billing</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem className="text-red-600 focus:text-red-600">
               <LogoutButton />
             </DropdownMenuItem>
           </DropdownMenuContent>
