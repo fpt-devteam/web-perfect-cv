@@ -5,7 +5,13 @@ import { useAuth } from '@/modules/auth/hooks/useAuth';
 import { Spinner } from '@/shared/components/loading/spinner';
 import { Alert, AlertDescription } from '@/shared/components/ui/alert';
 import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card';
 import { AlertCircle, CreditCard, ArrowLeft, ExternalLink } from 'lucide-react';
 
 export const Route = createFileRoute('/_private/dashboard/billing')({
@@ -43,11 +49,14 @@ function BillingPage() {
   }
 
   // Use totalCredit from user profile for total spend, fallback to calculated value
-  const totalSpent = user?.totalCredit || billingHistory?.reduce((sum, record) => {
-    return record.status === 'PAID' ? sum + record.amount : sum;
-  }, 0) || 0;
+  const totalSpent =
+    user?.totalCredit ||
+    billingHistory?.reduce((sum, record) => {
+      return record.status === 'PAID' ? sum + record.amount : sum;
+    }, 0) ||
+    0;
 
-  const paidTransactions = billingHistory?.filter((record) => record.status === 'PAID').length || 0;
+  const paidTransactions = billingHistory?.filter(record => record.status === 'PAID').length || 0;
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -58,9 +67,7 @@ function BillingPage() {
             <CreditCard className="h-8 w-8 text-primary" />
             <h1 className="text-3xl font-bold">Billing History</h1>
           </div>
-          <p className="text-muted-foreground">
-            View and manage your payment history and invoices
-          </p>
+          <p className="text-muted-foreground">View and manage your payment history and invoices</p>
         </div>
         <Button onClick={() => navigate({ to: '/dashboard/pricing' })} variant="outline">
           <ExternalLink className="h-4 w-4 mr-2" />
@@ -74,10 +81,7 @@ function BillingPage() {
           <CardHeader className="pb-3">
             <CardDescription>Total Credits</CardDescription>
             <CardTitle className="text-2xl">
-              {new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-              }).format(totalSpent)}
+              {new Intl.NumberFormat('vi-VN', {}).format(totalSpent)}
             </CardTitle>
           </CardHeader>
         </Card>
