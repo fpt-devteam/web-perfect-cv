@@ -45,6 +45,7 @@ export interface ScoreCVJobOutput {
 }
 
 export interface CVScoringState {
+    isLoading: boolean;
     isScoring: boolean;
     jobId: string | null;
     job: JobResponse | null;

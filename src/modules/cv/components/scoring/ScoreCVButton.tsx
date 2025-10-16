@@ -1,4 +1,3 @@
-import React from 'react';
 import { Brain, Loader2, CheckCircle, XCircle, Clock, Play } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Badge } from '@/shared/components/ui/badge';
@@ -67,7 +66,7 @@ export function ScoreCVButton({ onScore, scoringState, disabled }: ScoreCVButton
         <div className="flex flex-col items-center gap-3">
             <Button
                 onClick={onScore}
-                disabled={disabled || isScoring}
+                disabled={disabled || !!isScoring}
                 size="lg"
                 className="relative overflow-hidden group transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
             >

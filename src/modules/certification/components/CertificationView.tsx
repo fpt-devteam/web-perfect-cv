@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
-import { Award, Calendar, Building2, X } from 'lucide-react';
-import { Button } from '@/shared/components/ui/button';
+import { Award, Calendar, Building2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import type { CertificationResponse } from '@/modules/certification/types/certification.types';
 

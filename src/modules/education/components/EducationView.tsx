@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
-import { GraduationCap, Calendar, Building, MapPin, X } from 'lucide-react';
-import { Button } from '@/shared/components/ui/button';
+import { GraduationCap, Calendar, Building, MapPin } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import { cn } from '@/shared/utils/cn.util';
 import type { EducationResponse } from '@/modules/education/types/education.types';

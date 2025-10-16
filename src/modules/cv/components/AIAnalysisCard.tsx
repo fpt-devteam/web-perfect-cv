@@ -5,13 +5,13 @@ import { Card, CardContent } from '@/shared/components/ui/card';
 import { cn } from '@/shared/utils/cn.util';
 import { AnalyticsModal } from './AnalyticsModal';
 import type { AnalysisData } from '../types/analysis.types';
-import type { CVData } from '../types/cv.types';
+import type { CVResponse } from '../types/cv.types';
 import { useAnalysisFeedback, useAnalyzeCV } from '../hooks/useAnalysis';
 import type { AnalyzeRequest } from '../types/analysic.cv.type';
 import { useAnalyzeIdForCv, getAnalyzeIdForCv, setAnalyzeIdForCv } from '../stores/analyze.store';
 
 interface AIAnalysisCardProps {
-  cvData: CVData;
+  cvData: CVResponse;
 }
 
 export function AIAnalysisCard({ cvData }: AIAnalysisCardProps) {
@@ -24,7 +24,7 @@ export function AIAnalysisCard({ cvData }: AIAnalysisCardProps) {
   const analysisFeedback = useAnalysisFeedback();
   const workerRef = useRef<Worker | null>(null);
 
-  const cvId = cvData?.CVId || '';
+  const cvId = cvData?.cvId || '';
   const [analyzeIdAtom, setAnalyzeIdAtom] = useAnalyzeIdForCv(cvId);
 
   // Helper to start the worker
@@ -94,54 +94,57 @@ export function AIAnalysisCard({ cvData }: AIAnalysisCardProps) {
 
   const handleAnalyze = () => {
     const newCvId = cvId;
+    const content = cvData.content;
+    const jobDesc = cvData.jobDescription;
+
     const analyzeCVRequest: AnalyzeRequest = {
       cvId: newCvId,
-      userId: cvData.UserId,
+      userId: '', // TODO: Get userId from auth context
       reason: 'User requested analysis from preview page',
       cvData: {
-        title: cvData.Title,
+        title: cvData.title || 'Untitled CV',
         contact: {
-          email: cvData.Contacts?.Email || 'example@example.com',
-          phoneNumber: cvData.Contacts?.PhoneNumber || '0911290070',
-          city: cvData.Contacts?.City || 'Hanoi',
-          country: cvData.Contacts?.Country || 'Vietnam',
-          linkedInUrl: cvData.Contacts?.LinkedInUrl || 'https://www.linkedin.com/in/your-profile',
-          gitHubUrl: cvData.Contacts?.GitHubUrl || 'https://github.com/your-profile',
+          email: content?.contact?.email || 'example@example.com',
+          phoneNumber: content?.contact?.phoneNumber || '0911290070',
+          city: content?.contact?.city || 'Hanoi',
+          country: content?.contact?.country || 'Vietnam',
+          linkedInUrl: content?.contact?.linkedInUrl || 'https://www.linkedin.com/in/your-profile',
+          gitHubUrl: content?.contact?.gitHubUrl || 'https://github.com/your-profile',
         },
         summary: {
-          context: cvData.Summary || 'No summary',
+          context: content?.summary?.content || 'No summary',
         },
-        experience: cvData.Experiences?.map(experience => ({
-          jobTitle: experience.JobTitle || 'No job title',
-          company: experience.Organization || 'No company',
-          location: experience.Location || 'No location',
-          startDate: experience.StartDate || '',
-          endDate: experience.EndDate || '',
-          description: experience.Description || 'No description',
-        })),
-        skills: cvData.Skills?.map(skill => ({
-          category: skill.Name || 'No category',
-          items: [skill.Description || 'No description'],
-        })),
-        education: cvData.Educations?.map(education => ({
-          degree: education.Degree || '',
-          organization: education.Organization || 'No organization',
-          fieldOfStudy: education.FieldOfStudy || 'No field of study',
-          startDate: education.StartDate || '2024-01-01',
-          endDate: education.EndDate || '2024-01-01',
-          gpa: education.Gpa || 0,
-        })),
-        projects: cvData.Projects?.map(project => ({
-          title: project.Title || 'No title',
-          description: project.Description || 'No description',
-          link: project.Link || 'https://link-to-your-project',
-          startDate: project.StartDate || '2024-01-01',
-          endDate: project.EndDate || '2024-01-01',
-        })),
+        experience: content?.experiences?.map((experience: any) => ({
+          jobTitle: experience.jobTitle || 'No job title',
+          company: experience.organization || 'No company',
+          location: experience.location || 'No location',
+          startDate: experience.startDate || '',
+          endDate: experience.endDate || '',
+          description: experience.description || 'No description',
+        })) || [],
+        skills: content?.skills?.map((skill: any) => ({
+          category: skill.category || 'No category',
+          items: [skill.content || 'No description'],
+        })) || [],
+        education: content?.educations?.map((education: any) => ({
+          degree: education.degree || '',
+          organization: education.organization || 'No organization',
+          fieldOfStudy: education.fieldOfStudy || 'No field of study',
+          startDate: education.startDate || '2024-01-01',
+          endDate: education.endDate || '2024-01-01',
+          gpa: education.gpa || 0,
+        })) || [],
+        projects: content?.projects?.map((project: any) => ({
+          title: project.title || 'No title',
+          description: project.description || 'No description',
+          link: project.link || 'https://link-to-your-project',
+          startDate: project.startDate || '2024-01-01',
+          endDate: project.endDate || '2024-01-01',
+        })) || [],
       },
       userPreferences: {
-        targetIndustry: cvData.JobDetail?.CompanyName || 'No company name',
-        targetRole: cvData.JobDetail?.JobTitle || 'No job title',
+        targetIndustry: jobDesc?.companyName || 'No company name',
+        targetRole: jobDesc?.title || 'No job title',
         experienceLevel: 'senior' as const,
         focusAreas: ['technical-skills', 'leadership', 'achievements'],
         urgent: false,
@@ -150,7 +153,8 @@ export function AIAnalysisCard({ cvData }: AIAnalysisCardProps) {
     analyzeMutation.mutate(analyzeCVRequest, {
       onSuccess: response => {
         setAnalyzeIdAtom(undefined);
-        setAnalyzeIdForCv(cvId, response.data.analysisId);
+        // The job ID is stored as the analysis ID for polling
+        setAnalyzeIdForCv(cvId, response.id);
         setAnalysicData(undefined);
       },
     });

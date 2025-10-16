@@ -1,5 +1,4 @@
-import React from 'react';
-import { Brain, Trophy, Target, TrendingUp, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
+import { Brain, Target, TrendingUp, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
 import type { CVSectionScoresResponse } from '@/modules/cv/types/ai-evaluation.types';
@@ -123,8 +122,8 @@ export function OverallScoreCard({ scoreData, isLoading }: OverallScoreCardProps
                                 strokeDasharray={`${2 * Math.PI * 50}`}
                                 strokeDashoffset={`${2 * Math.PI * 50 * (1 - scorePercentage / 100)}`}
                                 className={`transition-all duration-1000 ease-out ${scorePercentage >= 80 ? 'text-green-500' :
-                                        scorePercentage >= 60 ? 'text-blue-500' :
-                                            scorePercentage >= 40 ? 'text-yellow-500' : 'text-red-500'
+                                    scorePercentage >= 60 ? 'text-blue-500' :
+                                        scorePercentage >= 40 ? 'text-yellow-500' : 'text-red-500'
                                     }`}
                                 strokeLinecap="round"
                             />

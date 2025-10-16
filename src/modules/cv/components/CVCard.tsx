@@ -91,9 +91,9 @@ export function CVCard({ cv }: { readonly cv: CVResponse }) {
           <CardTitle className="font-medium text-gray-900 truncate block">{cv.title}</CardTitle>
           <CardDescription
             className="text-xs text-gray-500 truncate"
-            title={`Last edited: ${formatLocalDateTime(cv.lastEditedAt)}`}
+            title={cv.lastEditedAt ? `Last edited: ${formatLocalDateTime(cv.lastEditedAt)}` : 'Never edited'}
           >
-            Edited {formatRelativeTime(cv.lastEditedAt)}
+            {cv.lastEditedAt ? `Edited ${formatRelativeTime(cv.lastEditedAt)}` : 'Never edited'}
           </CardDescription>
         </div>
         <CVActionsModal

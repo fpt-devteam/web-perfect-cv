@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { FileText, Download, Eye, BarChart3, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { FileText, Eye, BarChart3, Sparkles } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
 import { Badge } from '@/shared/components/ui/badge';
 import type { CVResponse as CVData } from '@/modules/cv/types/cv.types';
 import { DownloadPDFButton } from '@/modules/cv/components/preview/DownloadPDFButton';
 import { CVPreviewContent } from './CVPreviewContent';
-import { OverallScoreCard, ScoreCVButton } from '@/modules/cv/components/scoring';
+import { OverallScoreCard } from '@/modules/cv/components/scoring';
 import { useCVScoring } from '@/modules/cv/hooks/useCVScoring';
 import { useCVSectionScores } from '@/modules/cv/hooks/useCVSectionScores';
 import { useNotification } from '@/shared/hooks/useNotification';
@@ -27,7 +27,7 @@ export function CVPreview({ cvData }: CVPreviewProps) {
 
     // CV Scoring functionality
     const scoringState = useCVScoring(cvId, {
-        onSuccess: (job) => {
+        onSuccess: () => {
             showSuccess('CV analysis completed successfully!');
             refetchScores(); // Refresh the scores
             setActiveTab('analysis'); // Switch to analysis tab

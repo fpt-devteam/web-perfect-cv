@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Brain, Play, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
@@ -6,7 +6,7 @@ import { Badge } from '@/shared/components/ui/badge';
 import { OverallScoreCard } from './OverallScoreCard';
 import { ScoreCVButton } from './ScoreCVButton';
 import { JobStatus, type CVScoringState } from '@/modules/cv/types/job.types';
-import type { CVSectionScoresResponse } from '@/modules/cv/types/ai-evaluation.types';
+import { SectionType, type CVSectionScoresResponse } from '@/modules/cv/types/ai-evaluation.types';
 
 // Demo data for different scoring states
 const demoScoreData: CVSectionScoresResponse = {
@@ -15,7 +15,7 @@ const demoScoreData: CVSectionScoresResponse = {
         {
             id: 'demo-contact',
             cvId: 'demo-cv-id',
-            sectionType: 'Contact',
+            sectionType: SectionType.Contact,
             sectionScore: {
                 criteriaScores: [
                     {
@@ -35,7 +35,7 @@ const demoScoreData: CVSectionScoresResponse = {
         {
             id: 'demo-experience',
             cvId: 'demo-cv-id',
-            sectionType: 'Experience',
+            sectionType: SectionType.Experience,
             sectionScore: {
                 criteriaScores: [
                     {
@@ -185,7 +185,7 @@ export function CVScoringDemo() {
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-wrap gap-3">
-                        {Object.entries(scoringStates).map(([key, state]) => (
+                        {Object.entries(scoringStates).map(([key]) => (
                             <Button
                                 key={key}
                                 variant={currentState === key ? 'default' : 'outline'}

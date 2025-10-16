@@ -14,6 +14,7 @@ interface UseCVScoringOptions {
 export function useCVScoring(cvId: string, options: UseCVScoringOptions = {}) {
     const queryClient = useQueryClient();
     const [scoringState, setScoringState] = useState<CVScoringState>({
+        isLoading: false,
         isScoring: false,
         jobId: null,
         job: null,
@@ -113,6 +114,7 @@ export function useCVScoring(cvId: string, options: UseCVScoringOptions = {}) {
 
     const resetScoring = useCallback(() => {
         setScoringState({
+            isLoading: false,
             isScoring: false,
             jobId: null,
             job: null,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown, ChevronUp, Brain, CheckCircle, AlertCircle, Info } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import { Badge } from '@/shared/components/ui/badge';
@@ -9,8 +9,8 @@ import { ScoreBar } from './ScoreBar';
 import { CriteriaDetails } from './CriteriaDetails';
 
 interface AIEvaluationCardProps {
-    sectionScore: SectionScore;
-    sectionType: SectionType;
+    sectionScore?: SectionScore;
+    sectionType?: SectionType;
     isLoading?: boolean;
 }
 
@@ -36,7 +36,7 @@ function getScoreLabel(score: number): string {
     return 'Poor';
 }
 
-export function AIEvaluationCard({ sectionScore, sectionType, isLoading }: AIEvaluationCardProps) {
+export function AIEvaluationCard({ sectionScore, isLoading }: AIEvaluationCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     if (isLoading) {

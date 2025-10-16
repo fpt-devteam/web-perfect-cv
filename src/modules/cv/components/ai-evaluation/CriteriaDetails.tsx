@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown, ChevronRight, CheckCircle2, XCircle, Star } from 'lucide-react';
 import { Badge } from '@/shared/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/shared/components/ui/collapsible';

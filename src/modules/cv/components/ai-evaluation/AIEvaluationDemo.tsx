@@ -1,4 +1,3 @@
-import React from 'react';
 import { AIEvaluationCard } from './AIEvaluationCard';
 import { SectionType, type SectionScore } from '@/modules/cv/types/ai-evaluation.types';
 

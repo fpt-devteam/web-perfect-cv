@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
-import { FileText, Calendar, X, ExternalLink } from 'lucide-react';
-import { Button } from '@/shared/components/ui/button';
+import { FileText, Calendar, ExternalLink } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import type { ProjectResponse } from '@/modules/project/types/project.types';
 

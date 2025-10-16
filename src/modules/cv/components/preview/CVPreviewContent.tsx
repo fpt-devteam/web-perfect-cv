@@ -1,8 +1,6 @@
-import { Suspense } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 import { HarvardCVDocument } from '@/modules/cv/components/preview/HarvardCVDocument';
 import type { CVResponse as CVData } from '@/modules/cv/types/cv.types';
-import { DownloadPDFButton } from './DownloadPDFButton';
 
 interface CVPreviewContentProps {
   cvData: CVData;

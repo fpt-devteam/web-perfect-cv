@@ -7,6 +7,7 @@ import type { CVResponse as CVData } from '@/modules/cv/types/cv.types';
 
 interface DownloadPDFButtonProps {
   cvData: CVData;
+  className?: string;
 }
 
 export function DownloadPDFButton({ cvData }: DownloadPDFButtonProps) {
