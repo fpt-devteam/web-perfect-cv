@@ -1,13 +1,4 @@
-import {
-  FileText,
-  Settings,
-  User2,
-  CreditCard,
-  LayoutDashboard,
-  Book,
-  Bell,
-  Star,
-} from 'lucide-react';
+import { User2, CreditCard, LayoutDashboard, FileText, Book } from 'lucide-react';
 
 import {
   Sidebar,
@@ -33,18 +24,18 @@ type SidebarItemType = {
 
 const generalItems: SidebarItemType[] = [
   {
-    title: 'My Dashboard',
+    title: 'CVs',
     url: '/dashboard/cvs',
     icon: LayoutDashboard,
   },
   {
-    title: 'Review CV',
-    url: '/dashboard/review-cv',
+    title: 'Cover Letters',
+    url: '/dashboard/cover-letter',
     icon: FileText,
   },
   {
-    title: 'Sample Library',
-    url: '/dashboard/sample-library',
+    title: 'Resignation Letters',
+    url: '/dashboard/resignation-letter',
     icon: Book,
   },
 ];
@@ -55,11 +46,11 @@ const toolsItems: SidebarItemType[] = [
     url: '/dashboard/account',
     icon: User2,
   },
-  {
-    title: 'Premium Features',
-    url: '/dashboard/premium',
-    icon: Star,
-  },
+  // {
+  //   title: 'Premium Features',
+  //   url: '/dashboard/premium',
+  //   icon: Star,
+  // },
   {
     title: 'Billing',
     url: '/dashboard/billing',
@@ -67,18 +58,18 @@ const toolsItems: SidebarItemType[] = [
   },
 ];
 
-const supportItems: SidebarItemType[] = [
-  {
-    title: 'Notifications',
-    url: '/dashboard/notifications',
-    icon: Bell,
-  },
-  {
-    title: 'Settings',
-    url: '/dashboard/settings',
-    icon: Settings,
-  },
-];
+// const supportItems: SidebarItemType[] = [
+//   {
+//     title: 'Notifications',
+//     url: '/dashboard/notifications',
+//     icon: Bell,
+//   },
+//   {
+//     title: 'Settings',
+//     url: '/dashboard/settings',
+//     icon: Settings,
+//   },
+// ];
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
@@ -161,7 +152,8 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
+        {/* Support group */}
+        {/* <SidebarGroup>
           <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             Support
           </div>
@@ -185,7 +177,7 @@ export function DashboardSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter className="border-t border-[var(--sidebar-border)] pt-4"></SidebarFooter>
     </Sidebar>
