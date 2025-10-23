@@ -9,14 +9,16 @@ export const Route = createFileRoute('/')({ component: LandingPage });
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Navbar />
-      <main className="flex-grow mt-16">
-        <HeroSection />
-        <HowItWorks />
-        <Features />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <div className="min-h-screen flex flex-col bg-white">
+        <Navbar />
+        <main className="flex-grow mt-16">
+          <HeroSection />
+          <HowItWorks />
+          <Features />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
