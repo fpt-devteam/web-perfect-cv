@@ -20,7 +20,6 @@ import { CreateCVForm } from '@/modules/cv/components/CreateCVForm';
 import { CVActionsModal } from '@/modules/cv/components/CVActionsModal';
 import { useNavigate } from '@tanstack/react-router';
 
-
 export function CVPreview({ cv }: { readonly cv: CVResponse }) {
   return (
     <div className="w-full max-w-[80%] bg-white border border-gray-100 shadow-sm p-4 text-xs">
@@ -44,8 +43,8 @@ export function CreateCVCard() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Card className="border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
-          <CardContent className="flex flex-col items-center justify-center h-full p-6">
+        <Card className="border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors h-[250px]">
+          <CardContent className="flex flex-col items-center justify-center h-full p-5">
             <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
               <Plus className="h-8 w-8 text-gray-500" />
             </div>
@@ -82,16 +81,20 @@ export function CVCard({ cv }: { readonly cv: CVResponse }) {
       className="cursor-pointer gap-0 overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow p-0"
     >
       <CardContent className="p-0">
-        <div className="h-[200px] bg-gray-50 flex items-center justify-center p-4">
+        <div className="h-[180px] bg-gray-50 flex items-center justify-center p-4">
           <CVPreview cv={cv} />
         </div>
       </CardContent>
-      <CardFooter className="p-6 flex items-center justify-between">
+      <CardFooter className="p-5 flex items-center justify-between">
         <div className="min-w-0 flex-1">
           <CardTitle className="font-medium text-gray-900 truncate block">{cv.title}</CardTitle>
           <CardDescription
             className="text-xs text-gray-500 truncate"
-            title={cv.lastEditedAt ? `Last edited: ${formatLocalDateTime(cv.lastEditedAt)}` : 'Never edited'}
+            title={
+              cv.lastEditedAt
+                ? `Last edited: ${formatLocalDateTime(cv.lastEditedAt)}`
+                : 'Never edited'
+            }
           >
             {cv.lastEditedAt ? `Edited ${formatRelativeTime(cv.lastEditedAt)}` : 'Never edited'}
           </CardDescription>
@@ -103,6 +106,7 @@ export function CVCard({ cv }: { readonly cv: CVResponse }) {
               className="p-1 rounded-full hover:bg-gray-100"
               data-actions-trigger
               onClick={e => e.stopPropagation()}
+              aria-label="CV actions menu"
             >
               <MoreVertical size={18} className="text-gray-500" />
             </button>

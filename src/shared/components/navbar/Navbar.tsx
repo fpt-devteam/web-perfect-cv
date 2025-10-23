@@ -19,7 +19,7 @@ export function Navbar() {
   const isLoggedIn = !!user;
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-white shadow-md py-6 px-8">
+    <header className="fixed top-0 z-50 w-full bg-white shadow-md py-3 px-8">
       <div className="grid grid-cols-3 items-center">
         <Link to="/" className="flex items-center gap-2 font-display">
           <Logo />

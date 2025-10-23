@@ -28,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate, useLocation } from '@tanstack/react-router';
 import type { LucideIcon } from 'lucide-react';
 import { Logo } from '@/shared/components/logo/Logo';
 import { useAuth } from '@/modules/auth/hooks/useAuth';
@@ -57,6 +57,11 @@ const generalItems: SidebarItemType[] = [
     url: '/dashboard/resignation-letter',
     icon: Book,
   },
+  {
+    title: 'Billing',
+    url: '/dashboard/billing',
+    icon: CreditCard,
+  },
 ];
 
 function truncateText(text: string | undefined, maxLength: number = 15): string {
@@ -67,6 +72,7 @@ function truncateText(text: string | undefined, maxLength: number = 15): string 
 
 export function DashboardSidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
   const userInitials = user?.email ? user.email.slice(0, 2).toUpperCase() : 'CV';
 
@@ -78,7 +84,7 @@ export function DashboardSidebar() {
     >
       <SidebarHeader
         onClick={() => navigate({ to: '/dashboard/cvs' })}
-        className="flex items-center justify-center cursor-pointer pb-6 pt-6"
+        className="flex items-center justify-center cursor-pointer pb-4 pt-4"
       >
         <Logo />
       </SidebarHeader>
@@ -90,29 +96,40 @@ export function DashboardSidebar() {
           </div>
           <SidebarGroupContent>
             <SidebarMenu>
-              {generalItems.map(item => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className="group transition-all duration-200 hover:bg-primary/10"
-                  >
-                    <Link
-                      to={item.url}
-                      className="group-data-[collapsible=icon]:p-2! flex items-center gap-3 rounded-lg px-4 py-2 justify-between"
+              {generalItems.map(item => {
+                const isActive = location.pathname.startsWith(item.url);
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      className={`group transition-all duration-200 hover:bg-primary/10 ${
+                        isActive ? 'bg-primary/15' : ''
+                      }`}
                     >
-                      <div className="flex items-center gap-3">
-                        <item.icon className="h-5 w-5 text-primary" />
-                        <span className="text-sm font-medium">{item.title}</span>
-                      </div>
-                      {item.badge && (
-                        <span className="px-1.5 py-0.5 rounded text-xs bg-gray-100 text-gray-700">
-                          {item.badge}
-                        </span>
-                      )}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                      <Link
+                        to={item.url}
+                        className="group-data-[collapsible=icon]:p-2! flex items-center gap-3 rounded-lg px-4 py-2 justify-between"
+                      >
+                        <div className="flex items-center gap-3">
+                          <item.icon
+                            className={`h-5 w-5 ${isActive ? 'text-primary' : 'text-primary/70'}`}
+                          />
+                          <span
+                            className={`text-sm font-medium ${isActive ? 'text-primary font-semibold' : ''}`}
+                          >
+                            {item.title}
+                          </span>
+                        </div>
+                        {item.badge && (
+                          <span className="px-1.5 py-0.5 rounded text-xs bg-gray-100 text-gray-700">
+                            {item.badge}
+                          </span>
+                        )}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -183,10 +200,6 @@ export function DashboardSidebar() {
             <DropdownMenuItem>
               <Bell className="mr-2 h-4 w-4" />
               <span className="text-sm">Notifications</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate({ to: '/dashboard/billing' })}>
-              <CreditCard className="mr-2 h-4 w-4" />
-              <span className="text-sm">Billing</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-600 focus:text-red-600">

@@ -49,7 +49,7 @@ export function AnalysisSidebar({
   };
 
   const handleAnalyze = () => {
-    // Note: This is a simplified version for the sidebar. 
+    // Note: This is a simplified version for the sidebar.
     // A complete implementation would need cvData and userPreferences
     analyzeMutation.mutate({
       cvId,

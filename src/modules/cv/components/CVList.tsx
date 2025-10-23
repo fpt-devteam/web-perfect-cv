@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, FileText } from 'lucide-react';
 import { useListCVs } from '@/modules/cv/hooks/useListCV';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 
@@ -57,11 +57,24 @@ export function CVList() {
   // Show loading skeleton for initial load
   if (isLoading && !data) {
     return (
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="py-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <FileText className="h-8 w-8 text-primary" />
+              <h1 className="text-2xl font-bold">My CVs</h1>
+            </div>
+            <p className="text-muted-foreground">
+              Create, manage, and optimize your professional CVs
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CreateCVCard />
           {[1, 2, 3, 4, 5].map(i => (
-            <Skeleton key={i} className="h-[280px] rounded-lg" />
+            <Skeleton key={i} className="h-[250px] rounded-lg" />
           ))}
         </div>
       </div>
@@ -71,8 +84,21 @@ export function CVList() {
   // Show error state
   if (error) {
     return (
-      <div className="p-6">
-        <div className="text-center py-8">
+      <div className="py-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <FileText className="h-8 w-8 text-primary" />
+              <h1 className="text-2xl font-bold">My CVs</h1>
+            </div>
+            <p className="text-muted-foreground">
+              Create, manage, and optimize your professional CVs
+            </p>
+          </div>
+        </div>
+
+        <div className="text-center py-6">
           <div className="text-red-500 mb-4">
             <svg
               className="w-12 h-12 mx-auto"
@@ -96,9 +122,22 @@ export function CVList() {
   }
 
   return (
-    <div className="p-6">
+    <div className="py-6 space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <FileText className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold">My CVs</h1>
+          </div>
+          <p className="text-muted-foreground">
+            Create, manage, and optimize your professional CVs
+          </p>
+        </div>
+      </div>
+
       {/* Search and Sort Controls */}
-      <div className="mb-6 flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
@@ -129,7 +168,7 @@ export function CVList() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <CreateCVCard />
         {data?.items.length === 0 && debouncedSearchTerm ? (
           <div className="col-span-full text-center py-12">
@@ -148,7 +187,7 @@ export function CVList() {
 
       {/* Pagination Controls */}
       {data && data.total > ITEMS_PER_PAGE && (
-        <div className="mt-8 flex flex-col items-center space-y-4">
+        <div className="mt-3 flex flex-col items-center space-y-2">
           <PaginationInfo
             currentPage={currentPage}
             totalItems={data.total}

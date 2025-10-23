@@ -19,8 +19,8 @@ function ProfilePage() {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-6xl mx-auto p-8 bg-[var(--color-card)] rounded-2xl shadow-lg border border-[var(--color-border)]">
-      <h2 className="text-3xl font-bold text-[var(--color-foreground)] mb-4 tracking-wide text-center">
+    <div className="max-w-6xl mx-auto py-6 px-6 bg-[var(--color-card)] rounded-2xl shadow-lg border border-[var(--color-border)]">
+      <h2 className="text-2xl font-bold text-[var(--color-foreground)] mb-4 tracking-wide text-center">
         Personal Information
       </h2>
 

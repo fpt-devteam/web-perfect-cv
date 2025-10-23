@@ -59,13 +59,13 @@ function BillingPage() {
   const paidTransactions = billingHistory?.filter(record => record.status === 'PAID').length || 0;
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="py-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-3 mb-2">
             <CreditCard className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">Billing History</h1>
+            <h1 className="text-2xl font-bold">Billing History</h1>
           </div>
           <p className="text-muted-foreground">View and manage your payment history and invoices</p>
         </div>
