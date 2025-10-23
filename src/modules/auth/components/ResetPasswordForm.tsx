@@ -61,9 +61,9 @@ const ResetPasswordForm: React.FC = () => {
   return (
     <div className="space-y-6">
       {success && (
-        <Alert className="border-green-200 bg-green-50">
-          <CheckCircle className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-green-800">
+        <Alert className="border-green-300 bg-green-50">
+          <CheckCircle className="h-4 w-4 text-green-700" />
+          <AlertDescription className="text-green-900 font-medium">
             Password updated successfully!
           </AlertDescription>
         </Alert>

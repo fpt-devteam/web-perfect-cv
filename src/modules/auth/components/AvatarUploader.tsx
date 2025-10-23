@@ -139,9 +139,9 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ initialAvatarUrl, onUpl
       )}
 
       {success && (
-        <Alert className="w-full max-w-[300px] border-green-200 bg-green-50">
-          <CheckCircle className="h-4 w-4 text-green-600" />
-          <AlertDescription className="text-sm text-green-800">
+        <Alert className="w-full max-w-[300px] border-green-300 bg-green-50">
+          <CheckCircle className="h-4 w-4 text-green-700" />
+          <AlertDescription className="text-sm text-green-900 font-medium">
             Avatar updated successfully!
           </AlertDescription>
         </Alert>
