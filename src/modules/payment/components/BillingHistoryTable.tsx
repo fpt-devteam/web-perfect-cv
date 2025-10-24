@@ -76,32 +76,28 @@ export function BillingHistoryTable({ billingHistory, onViewDetails }: BillingHi
         <TableHeader>
           <TableRow>
             <TableHead>Date</TableHead>
-            <TableHead>Package</TableHead>
+            {/* <TableHead>Package</TableHead> */}
             <TableHead>Order Code</TableHead>
             <TableHead>Amount</TableHead>
-            <TableHead>Payment Method</TableHead>
+            {/* <TableHead>Payment Method</TableHead> */}
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {billingHistory.map((record) => (
+          {billingHistory.map(record => (
             <TableRow key={record.id}>
               <TableCell className="font-medium">
                 {formatDate(record.transactionDate || record.createdAt)}
               </TableCell>
-              <TableCell>{record.packageName}</TableCell>
+              {/* <TableCell>{record.packageName}</TableCell> */}
               <TableCell>
-                <code className="text-xs bg-gray-100 px-2 py-1 rounded">
-                  {record.orderCode}
-                </code>
+                <code className="text-xs bg-gray-100 px-2 py-1 rounded">{record.id}</code>
               </TableCell>
-              <TableCell className="font-semibold">
-                {formatPrice(record.amount, record.currency)}
-              </TableCell>
-              <TableCell>
+              <TableCell className="font-semibold">{formatPrice(record.amount, 'VND')}</TableCell>
+              {/* <TableCell>
                 <span className="text-sm text-muted-foreground">{record.paymentMethod}</span>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <Badge variant={getStatusBadgeVariant(record.status)}>
                   {getStatusLabel(record.status)}
