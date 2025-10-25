@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useBillingHistory } from '@/modules/payment/hooks';
 import { BillingHistoryTable } from '@/modules/payment/components/BillingHistoryTable';
-import { useAuth } from '@/modules/auth/hooks/useAuth';
+import { useGetMe } from '@/modules/auth/hooks/useGetMe';
 import { Spinner } from '@/shared/components/loading/spinner';
 import { Alert, AlertDescription } from '@/shared/components/ui/alert';
 import { Button } from '@/shared/components/ui/button';
@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_private/dashboard/billing')({
 });
 
 function BillingPage() {
-  const { user } = useAuth();
+  const { data: user } = useGetMe();
   const navigate = useNavigate();
   const { data: billingHistory, isLoading, error } = useBillingHistory(user?.id || '', !!user?.id);
 

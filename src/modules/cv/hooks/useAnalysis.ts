@@ -9,6 +9,7 @@ import type { AnalyzeRequest } from '../types/analysic.cv.type';
 import { handleJobResponse } from '../utils/job-response.util';
 import { useNotification } from '@/shared/hooks/useNotification';
 import { AxiosError } from 'axios';
+import { genGetMeKey } from '@/modules/auth/hooks/useGetMe';
 
 /**
  * Hook to fetch analysis feedback
@@ -25,11 +26,30 @@ import { AxiosError } from 'axios';
 
 export const useAnalysisFeedback = () => {
   const queryClient = useQueryClient();
+  const { showError } = useNotification();
 
   return useMutation({
     mutationFn: (analysisId: string) => getAnalysisFeedback(analysisId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['analysisFeedback'] });
+      // Also invalidate user data to get updated token/credit information
+      queryClient.invalidateQueries({ queryKey: genGetMeKey() });
+    },
+    onError: (error: AxiosError<{ message?: string; error?: string }>) => {
+      const backendMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        'Failed to fetch analysis feedback';
+
+      console.error('Analysis feedback error:', {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        data: error?.response?.data,
+        message: error?.message,
+      });
+
+      showError(backendMessage);
     },
   });
 };
@@ -43,21 +63,40 @@ export const useAnalyzeCV = () => {
 
   return useMutation({
     mutationFn: (request: AnalyzeRequest) => analyzeCV(request),
-    onSuccess: (data) => {
+    onSuccess: data => {
       // Use utility function to handle job response
-      const result = handleJobResponse(data, 'CV analysis started successfully!', 'Failed to start analysis');
+      const result = handleJobResponse(
+        data,
+        'CV analysis started successfully!',
+        'Failed to start analysis'
+      );
 
       if (result.success) {
         showSuccess(result.message);
         // Invalidate analysis feedback to trigger refetch
         queryClient.invalidateQueries({ queryKey: ['analysisFeedback'] });
+        // Also invalidate user data to get updated token/credit information
+        queryClient.invalidateQueries({ queryKey: genGetMeKey() });
       } else {
         showError(result.message);
       }
     },
-    onError: (error: AxiosError<{ message?: string }>) => {
-      // Handle HTTP-level errors (network, server errors, etc.)
-      showError(error?.response?.data?.message || 'Failed to start analysis');
+    onError: (error: AxiosError<{ message?: string; error?: string; details?: unknown }>) => {
+      // Extract the most detailed error message available
+      const backendMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        'Failed to start analysis';
+
+      console.error('Analysis error:', {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        data: error?.response?.data,
+        message: error?.message,
+      });
+
+      showError(backendMessage);
     },
   });
 };
@@ -91,9 +130,24 @@ export const useApplySuggestion = () => {
       showSuccess('Suggestion marked as applied!');
       // Invalidate analysis feedback to update UI
       queryClient.invalidateQueries({ queryKey: ['analysisFeedback', variables.analysisId] });
+      // Also invalidate user data to get updated token/credit information
+      queryClient.invalidateQueries({ queryKey: genGetMeKey() });
     },
-    onError: (error: AxiosError<{ message?: string }>) => {
-      showError(error?.response?.data?.message || 'Failed to apply suggestion');
+    onError: (error: AxiosError<{ message?: string; error?: string }>) => {
+      const backendMessage =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        'Failed to apply suggestion';
+
+      console.error('Apply suggestion error:', {
+        status: error?.response?.status,
+        statusText: error?.response?.statusText,
+        data: error?.response?.data,
+        message: error?.message,
+      });
+
+      showError(backendMessage);
     },
   });
 };

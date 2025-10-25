@@ -31,7 +31,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avat
 import { Link, useNavigate, useLocation } from '@tanstack/react-router';
 import type { LucideIcon } from 'lucide-react';
 import { Logo } from '@/shared/components/logo/Logo';
-import { useAuth } from '@/modules/auth/hooks/useAuth';
+import { useGetMe } from '@/modules/auth/hooks/useGetMe';
 import { LogoutButton } from '@/modules/auth/components/LogoutButton';
 
 type SidebarItemType = {
@@ -73,7 +73,7 @@ function truncateText(text: string | undefined, maxLength: number = 15): string 
 export function DashboardSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { data: user } = useGetMe();
   const userInitials = user?.email ? user.email.slice(0, 2).toUpperCase() : 'CV';
 
   return (
