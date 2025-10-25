@@ -1,6 +1,7 @@
 # Payment Module Implementation Guide
 
-This document provides a comprehensive guide to the payment module implementation in the Perfect CV frontend application.
+This document provides a comprehensive guide to the payment module implementation in the Perfect CV frontend application.'
+
 
 ## Overview
 
